@@ -1,7 +1,13 @@
+import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { RootStackParamList } from '../routes';
 
-const HistorialScreen: React.FC = () => {
+
+type HistorialScreenProps = StackScreenProps<RootStackParamList, 'HistorialScreen'>;
+const HistorialScreen = ({ navigation } : HistorialScreenProps) => {
+
+
     return (
         <View style={styles.container}>
             <Text>Historial Screen</Text>

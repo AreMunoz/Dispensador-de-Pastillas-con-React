@@ -1,21 +1,27 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../routes';
 
-const GestionarPlanConsumo: React.FC = () => {
-    const navigation = useNavigation();
-    const route = useRoute(); // Obtener la ruta de navegación
-    
+type GestionarPlanConsumoProps = StackScreenProps<RootStackParamList, 'GestionarPlanConsumo'>;
+
+const GestionarPlanConsumo = ({ navigation,route }: GestionarPlanConsumoProps) => {    
     // Función para manejar la acción
     const handleAction = (action: string) => {
         if (action === 'crear') {
             // Realizar la lógica para crear un plan de consumo
+            navigation.navigate('FormScreenCrearPM');
         } else if (action === 'modificar') {
             // Realizar la lógica para modificar un plan de consumo
         } else if (action === 'consultar') {
             // Realizar la lógica para consultar un plan de consumo
+            navigation.navigate('ConsultarPC_Screen');
         } else if (action === 'eliminar') {
             // Realizar la lógica para eliminar un plan de consumo
+        } else if (action === 'HistorialTab') {
+            // Realizar la lógica para ir a la pantalla de HistorialTab
+            navigation.navigate('AccionesHardwareScreen');
         }
     };
   
@@ -28,6 +34,8 @@ const GestionarPlanConsumo: React.FC = () => {
           <Button title="Modificar Plan de consumo" onPress={() => handleAction('modificar')} />
           <Button title="Consultar Plan de consumo" onPress={() => handleAction('consultar')} />
           <Button title="Eliminar Plan de consumo" onPress={() => handleAction('eliminar')} />
+          <Button title="HomeTab" onPress={() => handleAction('HomeScreen')} />
+          <Button title='HistorialTab' onPress={() => handleAction('HistorialTab')}/>
         </View>
       </View>
     );

@@ -1,15 +1,43 @@
 import React from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../routes';
 
-const FormScreenCrearPM: React.FC = () => {
-    const { control, handleSubmit } = useForm();
+//stackScreenProps es un tipo de react-navigation que nos permite acceder a las propiedades de la navegación
+type FormScreenCrearPMProps = StackScreenProps<RootStackParamList, 'FormScreenCrearPM'>;
 
-    const onSubmit = (data: any) => {
+//iniciamos forms
+interface Formulario {
+    medicamento: string;
+    dosis: string;
+    frecuencia: string;
+    fechaInicio: string;
+}
+/* 
+interface IFormInput {
+    medicamento: string;
+    dosis: string;
+    frecuencia: string;
+    fechaInicio: string;
+}
+*/
+
+const FormScreenCrearPM =( { navigation, route }: FormScreenCrearPMProps) => {
+
+    const { control, handleSubmit } = useForm<Formulario>({
+        defaultValues: {
+            medicamento: '',
+            dosis: '',
+            frecuencia: '',
+            fechaInicio: '',
+        },
+    });
+
+    const onSubmit: SubmitHandler<Formulario> = (data) => {
         console.log(data);
-        // Aquí podemos realizar acciones con los datos del formulario, como enviarlos a un servidor
-    };
-
+        // Here you can perform actions with the form
+    }
     return (
         <View style={styles.container}>
             <Text>Formulario</Text>

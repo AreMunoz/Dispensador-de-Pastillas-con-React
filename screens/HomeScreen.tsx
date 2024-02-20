@@ -1,15 +1,20 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../routes';
 
-const HomeScreen: React.FC = () => {
+
+type HomeScreenProps = StackScreenProps<RootStackParamList, 'HomeScreen'>;
+
+const HomeScreen = ({ navigation } : HomeScreenProps) => {
     return (
         <View style={styles.container}>
             <Text>Home Screen</Text>
             <Text>Acciones del Dispensador de Pastillas</Text>
             <View style={styles.buttonContainer}>
-                <Button title="Gestionar Plan de Comsumo" onPress={() => console.log('Presionado Opción 1')} />
-                <Button title="Vincular Dispensador" onPress={() => console.log('Presionado Opción 2')} />
-                <Button title="Consulta Historial de Consumo" onPress={() => console.log('Presionado Opción 3')} />
+                <Button title="Gestionar Plan de Comsumo" onPress={() => {navigation.navigate("GestionarPlanConsumo")}}/>
+                <Button title="Vincular Dispensador" onPress={() => {navigation.navigate("VincularDispScreen")}} />
+                <Button title="Consulta Historial de Consumo" onPress={() => {navigation.navigate("HistorialScreen")}} />
             </View>
         </View>
     );

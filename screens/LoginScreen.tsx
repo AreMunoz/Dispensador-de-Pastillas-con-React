@@ -2,21 +2,24 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
+import type { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../routes';
 
 interface FormData {
   username: string;
   password: string;
 }
 
-const LoginScreen: React.FC = () => {
+type LoginScreenProps = StackScreenProps<RootStackParamList, 'Login'>;
+
+const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const { control, handleSubmit } = useForm<FormData>();
   //funciones de vaidacion de usuario
-  const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const onSubmit = (data: FormData) => {
-    if (email === "") {
+    /* if (email === "") {
         Alert.alert("Error", "El correo electrónico es requerido");
         return;
       }
@@ -35,8 +38,8 @@ const LoginScreen: React.FC = () => {
         Alert.alert("Error", "El correo electrónico es inválido");
         return;
       }
-  
-      //navigation.navigate("Profile", { usuario: "Luis" });
+   */
+      navigation.navigate("HomeScreen");
     // Aquí son las acciones con los datos del formulario, como autenticar al usuario, etc.
   };
 
