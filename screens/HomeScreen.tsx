@@ -10,6 +10,7 @@ const HomeScreen = ({ navigation } : HomeScreenProps) => {
     return (
         <View style={styles.container}>
             <Text>Home Screen</Text>
+            <Text>Bienvenido estás en la pantalla 1</Text>
             <Text>Acciones del Dispensador de Pastillas</Text>
             <View style={styles.buttonContainer}>
                 <Button title="Gestionar Plan de Comsumo" onPress={() => {navigation.navigate("GestionarPlanConsumo")}}/>

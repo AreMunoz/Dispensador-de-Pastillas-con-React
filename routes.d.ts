@@ -7,6 +7,11 @@ export type RootStackParamList = {
     AccionesHardwareScreen: undefined;
     VincularDispScreen: undefined;
     ConsultarPC_Screen: undefined;
+    EliminarPC_Screen: undefined;
+    SignInScreen: undefined;
+    BottomTabProps: undefined;
+
+    
 };
 
 export type RootTapParamList = {

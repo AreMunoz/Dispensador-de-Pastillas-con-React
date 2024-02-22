@@ -11,6 +11,8 @@ const HistorialScreen = ({ navigation } : HistorialScreenProps) => {
     return (
         <View style={styles.container}>
             <Text>Historial Screen</Text>
+            <Text>Acá ira un filtro para le historial</Text>
+            <Text>Acá ira una tabla con nombre del medicamento, fecha, hora, dosificado o no dosificado</Text>
             {/* pantalla de historial que se trae de la bd */}
         </View>
     );

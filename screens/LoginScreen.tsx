@@ -5,15 +5,18 @@ import { useNavigation } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../routes';
 
+
+
 interface FormData {
   username: string;
   password: string;
 }
 
-type LoginScreenProps = StackScreenProps<RootStackParamList, 'Login'>;
 
+type LoginScreenProps = StackScreenProps<RootStackParamList, 'Login'>;
 const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const { control, handleSubmit } = useForm<FormData>();
+
   //funciones de vaidacion de usuario
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -82,6 +85,8 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
         defaultValue=""
       />
       <Button title="Login" onPress={handleSubmit(onSubmit)} />
+
+      <Button title="Registrarse" onPress={() => navigation.navigate('SignInScreen')} />
     </View>
   );
 };
