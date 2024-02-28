@@ -32,7 +32,7 @@ const GestionarPlanConsumo = ({ navigation,route }: GestionarPlanConsumoProps) =
   
     return (
       <View style={styles.container}>
-        <Text>Plan de Consumo Screen</Text>
+        <Text>Elige una opcion del menú para interactuar con tus Planes de Consumo</Text>
         <View style={styles.buttonContainer}>
             {/* así se pone un comentario aqui */}
           <Button title="Crear Plan de consumo" onPress={() => handleAction('crear')} />

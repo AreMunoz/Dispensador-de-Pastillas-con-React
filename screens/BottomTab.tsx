@@ -2,71 +2,62 @@ import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { BottomTabScreenProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { RootStackParamList, RootTapParamList } from '../routes';
-import  HomeScreen  from './HomeScreen';
-import  HistorialScreen  from './HistorialScreen';
 import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../routes';
+import { RootTapParamList } from '../routes';
+import { Feather, Ionicons, FontAwesome5 ,Entypo } from "@expo/vector-icons"
+import HomeSection from './tabs/HomeTab';
 
 
-type BottomTabProps = StackScreenProps<RootStackParamList, 'BottomTabProps'>;
-
-const Tab = createBottomTabNavigator<RootTapParamList>();
-export const BottomTab = ({ navigation, route }: BottomTabProps) => {
-    return (
-        <Tab.Navigator>
-            <Tab.Screen name="HomeTab" component={HomeScreen} />
-            <Tab.Screen name="HistorialTab" component={HistorialScreen} />
-        </Tab.Navigator>
-    );
-}
-
-const styles = StyleSheet.create({
-    container: {
-        borderTopWidth: 1,
-        borderTopColor: '#ccc',
-        backgroundColor: '#fff',
-    },
-});
-export default BottomTab;
-//type AccionesHardwareProps = StackScreenProps<RootStackParamList, 'AccionesHardwareScreen'>;
+type HomeScreenProps = BottomTabScreenProps<RootTapParamList, 'HomeTab'>;
 
 
-/*
-function HomeScreen({}: HomeScreenProps) {
+function HomeTab({ navigation, route}: HomeScreenProps) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Home</Text>
+        <HomeSection onPress={() => console.log("HOli")}/>
       </View>
     );
   }
 
-  function HistorialScreen() {
+  function HistorialTab() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Historial</Text>
       </View>
     );
-    }
+  }
+
+  function DispositivoTab() {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Dispositivo</Text>
+      </View>
+    );
+  }
+  function MasInfo() {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Dispositivo</Text>
+      </View>
+    );
+  }
 
   const Tab = createBottomTabNavigator<RootTapParamList>();
-  export const BottonTab = () => {
+function BottomTab() {
     return (
-        <Tab.Navigator>
-            <Tab.Screen name="HomeTab" component={HomeScreen} />
-            <Tab.Screen name="HistorialTab" component={HistorialScreen} />
+        
+        <Tab.Navigator initialRouteName='HistorialTab' screenOptions={{
+          tabBarActiveTintColor: "#65B741"
+        }}>
+          <Tab.Screen name="HomeTab" component={HomeTab} options={{tabBarIcon: ({ size, color}) => <Feather name='home' size={size} color={color}/>}}/>
+          <Tab.Screen name="HistorialTab" component={HistorialTab} options={{tabBarIcon: ({ size, color}) => <FontAwesome5 name='history' size={size} color={color}/>}} />
+          <Tab.Screen name="DispositivoTab" component={DispositivoTab} options={{tabBarIcon: ({ size, color}) => <Ionicons name='hardware-chip-outline' size={size} color={color}/>}} />
+          <Tab.Screen name="MasInfo" component={MasInfo} options={{tabBarIcon: ({size, color}) => <Entypo name='dots-three-horizontal' size={size} color={color}/>}}/>
         </Tab.Navigator>
     );
-  }*/
+  }
 
-// function AccionesHardwareScreen() {
-//     return (
-        
-//         <Tab.Navigator initialRouteName='HistorialTab'>
-//           <Tab.Screen name="HomeTab" component={HomeScreen} />
-//           <Tab.Screen name="HistorialTab" component={HistorialScreen} />
-//         </Tab.Navigator>
-//     );
-//   }
-
-//export default AccionesHardwareScreen;
+export default BottomTab;
 

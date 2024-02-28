@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
@@ -42,7 +42,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
         return;
       }
    */
-      navigation.navigate("HomeScreen");
+    navigation.navigate("HomeScreen");
     // Aquí son las acciones con los datos del formulario, como autenticar al usuario, etc.
   };
 
@@ -84,8 +84,9 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
         name="password"
         defaultValue=""
       />
-      <Button title="Login" onPress={handleSubmit(onSubmit)} />
-
+      <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
+        <Text style={styles.buttonText}>LOGIN sdjfskjfd</Text>
+      </TouchableOpacity>
       <Button title="Registrarse" onPress={() => navigation.navigate('SignInScreen')} />
     </View>
   );
@@ -104,6 +105,21 @@ const styles = StyleSheet.create({
     margin: 10,
     width: '80%',
   },
+  button: {
+    borderRadius: 5,
+    width: '80%',
+    backgroundColor: '#FEFBF6',
+    padding: 20,
+    borderWidth: 5,
+    borderColor: '#0C359E',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+
+  },
+  buttonText: {
+    fontFamily: "Montserrat-Regular"
+  }
+
 });
 
 export default LoginScreen;

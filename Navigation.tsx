@@ -8,13 +8,21 @@ import GestionarPlanConsumo from './screens/GestionarPlanConsumo';
 import FormScreenCrearPM from './screens/FormScreenCrearPM';
 import HistorialScreen from './screens/HistorialScreen';
 //import AccionesHardwareScreen from './screens/tab';
+//import HomeTab from './screens/tabs';
 import VincularDispScreen from './screens/VincularDispScreen';
 import ConsultarPC_Screen from './screens/ConsultarPC_Screen';
 import SignInScreen from './screens/SignInScreen'
-import BottomTab from './screens/BottomTab';
+
+
 
 //<Stack.Screen name="AccionesHardwareScreen" component={AccionesHardwareScreen} />
+//<Stack.Screen name="HomeTab" component={HomeTab} />
+
+
+
 import EliminarPC_Screen from './screens/EliminarPC_Screen';
+import HomeSection from './screens/tabs/HomeTab';
+import BottomTab from './screens/BottomTab';
 const Stack = createStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
@@ -22,7 +30,7 @@ const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator >
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="HomeScreen" component={BottomTab} />
         <Stack.Screen name="GestionarPlanConsumo" component={GestionarPlanConsumo} />
         <Stack.Screen name="FormScreenCrearPM" component={FormScreenCrearPM} />
         <Stack.Screen name="HistorialScreen" component={HistorialScreen} />
