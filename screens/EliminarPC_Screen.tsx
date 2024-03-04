@@ -56,7 +56,9 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
     },
     buttonEliminar: { backgroundColor: colors.Red.light, },
-    buttonRegresar: { backgroundColor: colors.Blue.dark, },
+    buttonRegresar: { 
+        backgroundColor: colors.Blue.dark,
+    },
 
     buttonText: {
         color: 'white',

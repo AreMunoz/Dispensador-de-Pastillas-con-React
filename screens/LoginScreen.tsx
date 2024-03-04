@@ -55,7 +55,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
         <RNText style={styles.title} >Dispensador de Pastillas</RNText>
       </View>
       
-      <CustomText style={{ textDecorationStyle: 'dashed', fontSize: 42, alignItems: 'flex-start'}}>Usuario:</CustomText>
+      <CustomText>Usuario:</CustomText>
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
@@ -93,11 +93,11 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
         name="password"
         defaultValue=""
       />
-      <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
+      <TouchableOpacity style={[styles.button, styles.buttonLogin]} onPress={handleSubmit(onSubmit)}>
         <CustomText>Iniciar Sesión</CustomText>
       </TouchableOpacity>
       <CustomText>¿No tienes cuenta?</CustomText>
-      <TouchableOpacity style={styles.buttonOp2} onPress={() => navigation.navigate('SignInScreen')}>
+      <TouchableOpacity style={[styles.button, styles.buttonCreateAccount ]} onPress={() => navigation.navigate('SignInScreen')}>
         <CustomText>Crear Cuenta</CustomText>
       </TouchableOpacity>
 
@@ -108,13 +108,13 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
 const styles = StyleSheet.create({
   title: {
     fontFamily: "Montserrat-Bold",
-    fontSize: 32,
+    fontSize: 28,
     marginBottom: 20,
   },
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    marginLeft: 20,
   },
   input: {
     borderWidth: 1,
@@ -122,18 +122,17 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
     width: '90%',
+    textAlign: 'justify',
   },
   button: {
-    backgroundColor: '#354f92',
     padding: 10,
     margin: 10,
     marginBottom: 40,
-    borderRadius: 5,
+    borderRadius: 10,
     width: '90%',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-
   },
   buttonText: {
     color: 'red',
@@ -141,16 +140,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  buttonOp2: {
-    backgroundColor: 'white',
-    borderColor: '#354f92',
-    padding: 10,
-    margin: 10,
-    borderRadius: 5,
-    width: '90%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+  buttonLogin: {
+    backgroundColor: colors.Blue.cyan,
+  },
+  buttonCreateAccount: {
+    backgroundColor: 'white', 
+        borderColor: colors.Blue.cyan,
+        borderWidth: 4
   },
 
 });

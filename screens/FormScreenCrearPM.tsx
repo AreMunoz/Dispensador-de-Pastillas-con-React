@@ -42,7 +42,7 @@ const FormScreenCrearPM =( { navigation, route }: FormScreenCrearPMProps) => {
     return (
         <View style={styles.container}>
             <Text>Llena los datos del formulario de acuerdo a la receta medica para crear el plan de consumo</Text>
-            <View>
+            <View style={{marginTop: 20}}>
             <Text>Medicamento:</Text>
             <Controller
                 control={control}
@@ -107,7 +107,7 @@ const FormScreenCrearPM =( { navigation, route }: FormScreenCrearPMProps) => {
            
 
             <TouchableOpacity style={[styles.button, styles.buttonCrearPC]} onPress={() => console.log('se debe de crear el plan de consumo')}>
-                <FontAwesome name="check-square-o" size={24} color="black" />
+                <FontAwesome name="check-square-o" size={24} color="white" />
                 <Text style={styles.buttonText}>Crear Plan de Consumo</Text>
             </TouchableOpacity>
 
@@ -130,9 +130,11 @@ const styles = StyleSheet.create({
     input: {
         borderWidth: 1,
         borderColor: 'gray',
+        backgroundColor: 'white',
+        borderRadius: 5,
         padding: 10,
         margin: 10,
-        width: '80%',
+        width: 350,
     },
     button: {
         backgroundColor: colors.Orange.dark,
