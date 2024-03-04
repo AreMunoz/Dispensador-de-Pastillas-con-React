@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Alert, TouchableOpacity, Text as RNText } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../routes';
-
+import CustomText from './src/ui/Text';
+import colors from './src/colors';
+import { customStyles } from './src/ui/Text';
 
 
 interface FormData {
@@ -44,14 +46,20 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
    */
     navigation.navigate("HomeScreen");
     // Aquí son las acciones con los datos del formulario, como autenticar al usuario, etc.
+    //
   };
 
   return (
     <View style={styles.container}>
-      <Text>Login</Text>
+      <View>
+        <RNText style={styles.title} >Dispensador de Pastillas</RNText>
+      </View>
+      
+      <CustomText style={{ textDecorationStyle: 'dashed', fontSize: 42, alignItems: 'flex-start'}}>Usuario:</CustomText>
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
+
           <TextInput
             style={styles.input}
             onBlur={onBlur}
@@ -66,6 +74,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
         name="username"
         defaultValue=""
       />
+      <CustomText>Contraseña:</CustomText>
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
@@ -85,14 +94,23 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
         defaultValue=""
       />
       <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.buttonText}>LOGIN sdjfskjfd</Text>
+        <CustomText>Iniciar Sesión</CustomText>
       </TouchableOpacity>
-      <Button title="Registrarse" onPress={() => navigation.navigate('SignInScreen')} />
+      <CustomText>¿No tienes cuenta?</CustomText>
+      <TouchableOpacity style={styles.buttonOp2} onPress={() => navigation.navigate('SignInScreen')}>
+        <CustomText>Crear Cuenta</CustomText>
+      </TouchableOpacity>
+
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  title: {
+    fontFamily: "Montserrat-Bold",
+    fontSize: 32,
+    marginBottom: 20,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -103,22 +121,37 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     padding: 10,
     margin: 10,
-    width: '80%',
+    width: '90%',
   },
   button: {
+    backgroundColor: '#354f92',
+    padding: 10,
+    margin: 10,
+    marginBottom: 40,
     borderRadius: 5,
-    width: '80%',
-    backgroundColor: '#FEFBF6',
-    padding: 20,
-    borderWidth: 5,
-    borderColor: '#0C359E',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    width: '90%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
 
   },
   buttonText: {
-    fontFamily: "Montserrat-Regular"
-  }
+    color: 'red',
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  buttonOp2: {
+    backgroundColor: 'white',
+    borderColor: '#354f92',
+    padding: 10,
+    margin: 10,
+    borderRadius: 5,
+    width: '90%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 
 });
 

@@ -1,8 +1,11 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../routes';
+import { AntDesign, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
+import colors from './src/colors';
+
 //<Button title="HomeTab" onPress={() => handleAction('HomeScreen')} />
 //<Button title='HistorialTab' onPress={() => handleAction('HistorialTab')}/>
 
@@ -10,7 +13,7 @@ import { RootStackParamList } from '../routes';
 
 type GestionarPlanConsumoProps = StackScreenProps<RootStackParamList, 'GestionarPlanConsumo'>;
 
-const GestionarPlanConsumo = ({ navigation,route }: GestionarPlanConsumoProps) => {    
+const GestionarPlanConsumo = ({ navigation, route }: GestionarPlanConsumoProps) => {
     // Función para manejar la acción
     const handleAction = (action: string) => {
         if (action === 'crear') {
@@ -29,22 +32,43 @@ const GestionarPlanConsumo = ({ navigation,route }: GestionarPlanConsumoProps) =
             navigation.navigate('AccionesHardwareScreen');
         }
     };
-  
+
     return (
-      <View style={styles.container}>
-        <Text>Elige una opcion del menú para interactuar con tus Planes de Consumo</Text>
-        <View style={styles.buttonContainer}>
-            {/* así se pone un comentario aqui */}
-          <Button title="Crear Plan de consumo" onPress={() => handleAction('crear')} />
-          <Button title="Modificar Plan de consumo" onPress={() => handleAction('modificar')} />
-          <Button title="Consultar Plan de consumo" onPress={() => handleAction('consultar')} />
-          <Button title="Eliminar Plan de consumo" onPress={() => handleAction('eliminar')} />
-          
+        <View style={styles.container}>
+            <Text>Elige una opcion del menú para interactuar con tus Planes de Consumo</Text>
+            <View style={styles.buttonContainer}>
+                {/* así se pone un comentario aqui */}
+
+                <TouchableOpacity style={[styles.buttonManual, styles.color1Button]} onPress={() => handleAction('crear')}>
+                    <AntDesign name="plussquareo" size={24} color="white" />
+                    <Text style={styles.buttonText}>Crear nuevo Plan de Consumo</Text>
+                </TouchableOpacity>
+
+
+                <TouchableOpacity style={[styles.buttonManual, styles.color2Button]} onPress={() => handleAction('modificar')}>
+                    <FontAwesome name="edit" size={24} color="white" />
+                    <Text style={styles.buttonText}>Editar Plan de Consumo</Text>
+                </TouchableOpacity>
+
+
+
+                <TouchableOpacity style={[styles.buttonManual, styles.color3Button]} onPress={() => handleAction('consultar')}>
+                    <FontAwesome5 name="eye" size={24} color="white" />
+                    <Text style={styles.buttonText}>Consultar Plan de Consumo</Text>
+                </TouchableOpacity>
+
+
+                <TouchableOpacity style={[styles.buttonManual, styles.color4Button]} onPress={() => handleAction('eliminar')}>
+                    <FontAwesome name="trash-o" size={24} color="white" />
+                    <Text style={styles.buttonText}>Eliminar Plan de Consumo</Text>
+                </TouchableOpacity>
+
+
+            </View>
         </View>
-      </View>
     );
-  };
-  
+};
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -54,6 +78,34 @@ const styles = StyleSheet.create({
     buttonContainer: {
         marginTop: 20,
     },
+    buttonManual: {
+        backgroundColor: 'green',
+        padding: 20,
+        width: 350,
+        margin: 10,
+        borderRadius: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+    },
+    color1Button: {
+        backgroundColor: colors.Orange.dark,
+    },
+    color2Button: {
+        backgroundColor: colors.Blue.dark,
+    },
+    color3Button: {
+        backgroundColor: colors.Lila.main,
+    },
+    color4Button: {
+        backgroundColor: colors.Red.light,
+    },
+
+    buttonText: {
+        color: 'white',
+        fontSize: 18,
+        marginLeft: 10
+    }
 });
 
 export default GestionarPlanConsumo;
