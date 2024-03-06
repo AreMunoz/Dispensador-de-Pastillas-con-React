@@ -51,7 +51,7 @@ const GestionarPlanConsumo = ({ navigation, route }: GestionarPlanConsumoProps) 
 
                 <TouchableOpacity style={[styles.buttonManual, styles.color2Button]} onPress={() => handleAction('modificar')}>
                     <FontAwesome name="edit" size={24} color="white" />
-                    <Text style={styles.buttonText}>Editar Plan de Consumo</Text>
+                    <Text style={styles.buttonText}>Modificar Plan de Consumo</Text>
                 </TouchableOpacity>
 
 

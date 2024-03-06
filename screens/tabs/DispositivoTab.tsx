@@ -21,7 +21,11 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
 
     return (
         <View style={styles.container}>
-            <Text style={{color:'green' }}>Vincular Dispositivo</Text>
+
+            <View>
+                <Text style={styles.title} >Vincular Dispositivo</Text>
+            </View>
+
             <View style={styles.buttonContainer}>
                 <Text>Ingrese el ID de la cabina a vincular</Text>
                 <Controller
@@ -46,15 +50,15 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
                 </View>
 
                 <View style={styles.alertContainer}>
-                <View style={styles.tituloContainer}>
-                    <Text style={styles.tituloTexto}>Estado del Dispensador</Text>
+                    <View style={styles.tituloContainer}>
+                        <Text style={styles.tituloTexto}>Estado del Dispensador</Text>
+                    </View>
+                    <View>
+                        <Text>Cabina 1:</Text>
+                        <Text>Cabina 2: </Text>
+                        <Text>Cabina 3:</Text>
+                    </View>
                 </View>
-                <View>
-                    <Text>Cabina 1:</Text>
-                    <Text>Cabina 2: </Text>
-                    <Text>Cabina 3:</Text>
-                </View>
-            </View>
 
 
             </View>
@@ -70,6 +74,11 @@ const styles = StyleSheet.create({
         width: '90%',
         alignItems: 'center',
 
+    },
+    title: {
+        fontFamily: "Montserrat-Bold",
+        fontSize: 24,
+        marginBottom: 20,
     },
     buttonContainer: {
         marginBottom: 20,

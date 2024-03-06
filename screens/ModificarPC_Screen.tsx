@@ -42,6 +42,10 @@ const ModificarPC_Screen =( { navigation, route }: ModificarProps) => {
     }
     return (
         <View style={styles.container}>
+            <View>
+            <Text style={styles.title} >Modificar Plan de Consumo</Text>
+            </View>
+
             
             <View>
             <Text>Eliga el Plan de Consumo a Editar:</Text>
@@ -138,6 +142,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    title: {
+        fontFamily: "Montserrat-Bold",
+        fontSize: 24,
+        marginBottom: 20,
     },
     input: {
         borderWidth: 1,

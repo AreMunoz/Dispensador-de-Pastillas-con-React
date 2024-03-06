@@ -20,7 +20,6 @@ type HistorialSectionProps = BottomTabScreenProps<RootTapParamList, 'HistorialTa
 function HomeTab({ navigation, route }: HomeScreenProps) {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home</Text>
       <HomeSection onPress={() => console.log("funciona home tab")} />
     </View>
   );
@@ -29,7 +28,6 @@ function HomeTab({ navigation, route }: HomeScreenProps) {
 function HistorialTab({ navigation, route }: HistorialSectionProps) {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Historial</Text>
       <HistorialSection onPress={() => console.log("funciona historial tab")} />
     </View>
   );
@@ -38,7 +36,6 @@ function HistorialTab({ navigation, route }: HistorialSectionProps) {
 function DispositivoSection({ navigation, route }: DispositivoTabProps) {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Dispositivo</Text>
       <DispositivoTab onPress={() => console.log("funciona el tab del dipositivo")} />
     </View>
   );
@@ -46,7 +43,6 @@ function DispositivoSection({ navigation, route }: DispositivoTabProps) {
 function MasInfoSection({ navigation, route }: MasInfoSectionProps) {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Màs Info</Text>
       <MasInfo onPress={() => console.log("funciona mas info")} />
     </View>
   );
