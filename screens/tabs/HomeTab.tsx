@@ -22,19 +22,20 @@ const HomeSection = ({ onPress }: HomeSectionProps) => {
                 <Text style={styles.buttonText} >Gestionar Plan de Consumo</Text>
             </TouchableOpacity>
 
-            <View style={styles.titleAlert}><Text>Alertas:</Text></View>
+            <View>
+                <Text style={styles.subtitle}>Alertas:</Text>
+            </View>
 
 
 
             <View style={[styles.boxAlertContainer, styles.boxNextMedicine]}>
                 <View style={[styles.tituloContainer, styles.titleNextMedicine]}>
-                    <Text style={styles.tituloTexto}>Proximo Medicamento</Text>
+                    <Text style={styles.tituloTexto}>Próximo medicamento:</Text>
                 </View>
-                <View>
-                    <Text></Text>
+                <View style={{padding:5, paddingTop: 20}}>
+                    
                     <Text>Medicamento:</Text>
-                </View>
-                <View>
+                    <Text>Fecha:</Text>
                     <Text>Hora:</Text>
                 </View>
             </View>
@@ -47,14 +48,11 @@ const HomeSection = ({ onPress }: HomeSectionProps) => {
 
             <View style={[styles.boxAlertContainer, styles.boxNewTime]}>
                 <View style={[styles.tituloContainer, styles.titleNewTime]}>
-                    <Text style={styles.tituloTexto}>Medicamento No Consumido</Text>
+                    <Text style={styles.tituloTexto}>Medicamento No Consumido:</Text>
                 </View>
-                <View>
-                    <Text></Text>
+                <View style={{padding:5, paddingTop: 20}}>
                     <Text>Medicamento:</Text>
-                </View>
-                <View>
-                    <Text>Se reprogramarà para la siguiente hora:</Text>
+                    <Text>Se reprograma para la siguiente hora:</Text>
                 </View>
             </View>
 
@@ -69,6 +67,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: 400,
+        backgroundColor: 'white',
     },
     button: {
         backgroundColor: colors.Orange.dark,
@@ -82,15 +81,16 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'white',
-        fontWeight: 'bold',
         marginLeft: 20,
-        fontSize: 20,
+        fontSize: 22,
     },
 
-    titleAlert: {
+    subtitle: {
+        fontFamily: "Montserrat-Bold",
+        fontSize: 22,
+        marginTop: 20,
         marginBottom: 50,
-        fontSize: 36,
-        fontFamily: 'Montserrat-Bold',
+
     },
     line: {
         borderBlockColor: colors.Red.light,
@@ -128,9 +128,10 @@ const styles = StyleSheet.create({
         margin: 5,
         marginTop: 10,
         marginBottom: 25,
-        height: 100,
+        height: 'auto',
         width: '90%',
         borderRadius: 10,
+        backgroundColor: 'white',
     },
     boxNextMedicine: {
         borderColor: colors.Blue.dark,
@@ -144,6 +145,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
         alignSelf: 'center',
+        fontSize: 18,
     },
 });
 

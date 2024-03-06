@@ -16,7 +16,7 @@ const colors = {
         advertencia: "#FF0000",
     },
     Grey:{
-        light: "D9D9D9",
+        light: "#B0A695",
     },
     Orange:{
         dark: "#fba834",

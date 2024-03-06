@@ -5,8 +5,9 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../routes';
 import { FontAwesome, Ionicons} from '@expo/vector-icons';
 import colors from './src/colors';
+import { Picker } from '@react-native-picker/picker';
 //stackScreenProps es un tipo de react-navigation que nos permite acceder a las propiedades de la navegación
-type FormScreenCrearPMProps = StackScreenProps<RootStackParamList, 'FormScreenCrearPM'>;
+type ModificarProps = StackScreenProps<RootStackParamList, 'ModificarPC_Screen'>;
 
 //iniciamos forms
 interface Formulario {
@@ -24,7 +25,7 @@ interface IFormInput {
 }
 */
 
-const FormScreenCrearPM =( { navigation, route }: FormScreenCrearPMProps) => {
+const ModificarPC_Screen =( { navigation, route }: ModificarProps) => {
 
     const { control, handleSubmit } = useForm<Formulario>({
         defaultValues: {
@@ -37,11 +38,22 @@ const FormScreenCrearPM =( { navigation, route }: FormScreenCrearPMProps) => {
 
     const onSubmit: SubmitHandler<Formulario> = (data) => {
         console.log(data);
-        // Here you can perform actions with the form
+        // acciones a realizar al enviar el formulario
     }
     return (
         <View style={styles.container}>
-            <Text>Llena los datos del formulario de acuerdo a la receta medica para crear el plan de consumo</Text>
+            
+            <View>
+            <Text>Eliga el Plan de Consumo a Editar:</Text>
+                <Picker>
+                    <Picker.Item label="Plan de Consumo 1" value="Plan de Consumo 1" />
+                    <Picker.Item label="Plan de Consumo 2" value="Plan de Consumo 2" />
+                    <Picker.Item label="Plan de Consumo 3" value="Plan de Consumo 3" />
+                </Picker>
+            </View>
+
+
+            <Text>Llena los datos del formulario para editar el plan de consumo</Text>
             <View style={{marginTop: 20}}>
             <Text>Medicamento:</Text>
             <Controller
@@ -67,7 +79,7 @@ const FormScreenCrearPM =( { navigation, route }: FormScreenCrearPMProps) => {
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}
-                        placeholder="Ingrese la dosis "
+                        placeholder="Indique el numero de pastillas a dosificar Ej. 1,2,3... "
                     />
                 )}
                 name="dosis"
@@ -82,7 +94,7 @@ const FormScreenCrearPM =( { navigation, route }: FormScreenCrearPMProps) => {
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}
-                        placeholder="Indique la frecuencia de consumo en horas"
+                        placeholder="Indique el numero de horas Ej: 1, 1.5, 2, 2.5, 6, 8, 12, 24"
                     />
                 )}
                 name="frecuencia"
@@ -106,9 +118,9 @@ const FormScreenCrearPM =( { navigation, route }: FormScreenCrearPMProps) => {
             </View>
            
 
-            <TouchableOpacity style={[styles.button, styles.buttonCrearPC]} onPress={() => console.log('se debe de crear el plan de consumo')}>
+            <TouchableOpacity style={[styles.button, styles.buttonActualizarPC]} onPress={() => console.log('se debe de actualizar el plan de consumo')}>
                 <FontAwesome name="check-square-o" size={24} color="white" />
-                <Text style={styles.buttonText}>Crear Plan de Consumo</Text>
+                <Text style={styles.buttonText}>Actualizar Plan de Consumo</Text>
             </TouchableOpacity>
 
 
@@ -156,9 +168,9 @@ const styles = StyleSheet.create({
     buttonRegresar: {
         backgroundColor: colors.Blue.dark,
     },
-    buttonCrearPC: {
-        backgroundColor: colors.Orange.dark,
+    buttonActualizarPC: {
+        backgroundColor: colors.Lila.main,
     },
 });
 
-export default FormScreenCrearPM;
+export default ModificarPC_Screen;

@@ -7,17 +7,10 @@ import { RootStackParamList } from './routes';
 import GestionarPlanConsumo from './screens/GestionarPlanConsumo';
 import FormScreenCrearPM from './screens/FormScreenCrearPM';
 import HistorialScreen from './screens/HistorialScreen';
-//import AccionesHardwareScreen from './screens/tab';
-//import HomeTab from './screens/tabs';
 import VincularDispScreen from './screens/VincularDispScreen';
 import ConsultarPC_Screen from './screens/ConsultarPC_Screen';
 import SignInScreen from './screens/SignInScreen'
-
-
-
-//<Stack.Screen name="AccionesHardwareScreen" component={AccionesHardwareScreen} />
-//<Stack.Screen name="HomeTab" component={HomeTab} />
-
+import ModificarPC_Screen from './screens/ModificarPC_Screen';
 
 
 import EliminarPC_Screen from './screens/EliminarPC_Screen';
@@ -39,6 +32,7 @@ const Navigation = () => {
         <Stack.Screen name="ConsultarPC_Screen" component={ConsultarPC_Screen} />
         <Stack.Screen name="EliminarPC_Screen" component={EliminarPC_Screen} />
         <Stack.Screen name="SignInScreen" component={SignInScreen} />
+        <Stack.Screen name="ModificarPC_Screen" component={ModificarPC_Screen} />
 
       </Stack.Navigator>
       

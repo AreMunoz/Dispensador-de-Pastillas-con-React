@@ -4,7 +4,7 @@ import { Text, StyleSheet, TextProps } from "react-native";
 const customStyles = StyleSheet.create ({
     text:{
         fontFamily: 'Montserrat-Regular',
-        fontSize: 18,
+        fontSize: 20,
         color: "black",
     }
 });

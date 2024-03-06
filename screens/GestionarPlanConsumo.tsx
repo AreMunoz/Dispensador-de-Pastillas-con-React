@@ -21,6 +21,7 @@ const GestionarPlanConsumo = ({ navigation, route }: GestionarPlanConsumoProps) 
             navigation.navigate('FormScreenCrearPM');
         } else if (action === 'modificar') {
             // Realizar la lógica para modificar un plan de consumo
+            navigation.navigate('ModificarPC_Screen');
         } else if (action === 'consultar') {
             // Realizar la lógica para consultar un plan de consumo
             navigation.navigate('ConsultarPC_Screen');
@@ -35,6 +36,9 @@ const GestionarPlanConsumo = ({ navigation, route }: GestionarPlanConsumoProps) 
 
     return (
         <View style={styles.container}>
+            <View>
+                <Text style={styles.title} >Plan de Consumo</Text>
+            </View>
             <Text>Elige una opcion del menú para interactuar con tus Planes de Consumo</Text>
             <View style={styles.buttonContainer}>
                 {/* así se pone un comentario aqui */}
@@ -74,6 +78,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    title: {
+        fontFamily: "Montserrat-Bold",
+        fontSize: 28,
+        marginBottom: 20,
     },
     buttonContainer: {
         marginTop: 20,

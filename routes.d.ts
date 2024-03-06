@@ -10,7 +10,7 @@ export type RootStackParamList = {
     HomeScreen: undefined;
     HistorialScreen: undefined;
     VincularDispScreen: undefined;
-
+    ModificarPC_Screen: undefined;
     
 };
 
