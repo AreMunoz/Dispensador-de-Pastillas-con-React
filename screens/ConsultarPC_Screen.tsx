@@ -1,11 +1,21 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { RootStackParamList } from '../routes';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import colors from './src/colors';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { Picker } from '@react-native-picker/picker';
+import axios from 'axios';
+
+type GetConsultarPlanDeConsumoResponse = {
+    id: number,
+    dosis: number;
+    fechaDeFin: string;
+    fechaDeInicio: string;
+    frecuencia: number;
+    nombreDeMedicamento: string;
+}
 
 
 type ConsultarPCScreenProps = StackScreenProps<RootStackParamList, 'ConsultarPC_Screen'>;
@@ -13,6 +23,78 @@ type ConsultarPCScreenProps = StackScreenProps<RootStackParamList, 'ConsultarPC_
 //StackScreenProps que propiedades de navegacion espera recibir una pantalla
 const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
 
+    const [data, setData] = useState<GetConsultarPlanDeConsumoResponse[]>([]);
+    const [selected, setSelected] = useState<GetConsultarPlanDeConsumoResponse>();
+    const [selectedValue, setSelectedValue] = useState<number>();
+
+    useEffect(() => {
+        // Usando Fetch
+        /* fetch("http://localhost:8080/api/planesDeConsumo")
+            .then((response) => {
+                return response.json()
+            })
+            .then((json) => {
+                setData(json)
+            })
+            .catch((error) => console.error(error)) */
+        // Ejemplo POST con Fetch
+        /* fetch('http://localhost:8080/api/planesDeConsumo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: 1, nombre: 'Plan de Consumo 1', dosis: '2 pastillas', frecuencia: 'cada 8 horas', fechaInicio: '2021-10-01', fechaTermino: '2021-10-15' })
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Error en la peticion')
+                }
+
+                return response.json()
+            })
+            .then((json) => {
+                console.log(json)
+            })
+            .catch((error) => console.error(error)) */
+        
+        // Usando Axios
+        axios.get<GetConsultarPlanDeConsumoResponse[]>('http://localhost:8080/api/planesDeConsumo')
+            .then((response) => {
+                setData(response.data)
+            })
+            .catch((error) => console.error(error))
+        
+        // Ejejmplo POST con Axios
+        /* axios.post('http://localhost:8080/api/planesDeConsumo', {
+            id: 1,
+            nombre: 'Plan de Consumo 1',
+            dosis: '2 pastillas',
+            frecuencia: 'cada 8 horas',
+            fechaInicio: '2021-10-01',
+            fechaTermino: '2021-10-15'
+        }).then((response) => {
+            // Status 400 - 500 se hace el throw automatico
+            console.log(response.data)
+        }).catch((error) => console.error(error)) */
+    }, [])
+
+    useEffect(() => {
+        // Js hay false y falsy
+        // hay true y truthy
+
+        // JS null -> false
+        if (selectedValue) {
+            console.log({selectedValue, tipo: typeof selectedValue})
+            const selectedId = parseInt(selectedValue.toString())
+
+            const selected = data.find((item) => item.id == selectedId)
+
+            console.log(selected)
+
+            if (selected)
+                setSelected(selected)
+        }
+    }, [selectedValue]);
 
     return (
         <View style={styles.container}>
@@ -24,10 +106,13 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
             
             <View>
             <Text>Selecione el Plan de Consumo a consultar:</Text>
-                <Picker>
-                    <Picker.Item label="Plan de Consumo 1" value="Plan de Consumo 1" />
-                    <Picker.Item label="Plan de Consumo 2" value="Plan de Consumo 2" />
-                    <Picker.Item label="Plan de Consumo 3" value="Plan de Consumo 3" />
+                <Picker
+                    selectedValue={selectedValue}
+                    onValueChange={(itemValue) => setSelectedValue(itemValue)}
+                >
+                    {data.map((item) => 
+                        <Picker.Item key={item.id} label={item.nombreDeMedicamento} value={item.id} />
+                    )}
                 </Picker>
             </View>
                 
@@ -41,12 +126,12 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
 
                 <View style={styles.infoConteiner}>
                     
-                    <Text>ID Plan de Consumo:</Text>
-                    <Text>Nombre del Medicamento:</Text>
-                    <Text>Dosis:</Text>
-                    <Text>Frecuencia:</Text>
-                    <Text>Fecha de Inicio:</Text>
-                    <Text>Fecha de Termino:</Text>
+                    <Text>ID Plan de Consumo: {selected?.id}</Text>
+                    <Text>Nombre del Medicamento: {selected?.nombreDeMedicamento}</Text>
+                    <Text>Dosis: {selected?.dosis}</Text>
+                    <Text>Frecuencia: {selected?.frecuencia}</Text>
+                    <Text>Fecha de Inicio: {selected?.fechaDeInicio}</Text>
+                    <Text>Fecha de Termino: {selected?.fechaDeFin}</Text>
                 </View>
             
 
