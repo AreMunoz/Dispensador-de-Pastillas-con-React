@@ -68,6 +68,15 @@ const GestionarPlanConsumo = ({ navigation, route }: GestionarPlanConsumoProps) 
                 </TouchableOpacity>
 
 
+
+                <TouchableOpacity style={[styles.buttonManual, styles.color4Button]} onPress={() => handleAction('eliminar')}>
+                    <FontAwesome name="trash-o" size={24} color="white" />
+                    <Text style={styles.buttonText}>Plan de consumo expres </Text>
+                </TouchableOpacity>
+
+                
+
+
             </View>
         </View>
     );

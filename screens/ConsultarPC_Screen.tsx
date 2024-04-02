@@ -117,7 +117,7 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
             </View>
                 
 
-                <TouchableOpacity style={styles.buttonConsultar}>
+                <TouchableOpacity style={[styles. formatoButton, styles.buttonConsultar]}>
                     <FontAwesome5 name="eye" size={18} color={'white'} />
                     <Text style={styles.buttonText}>Consultar</Text>
                 </TouchableOpacity>
@@ -135,9 +135,13 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
                 </View>
             
 
+                <TouchableOpacity style={[styles.formatoButton, styles.deleteButton]} onPress={() => console.log('eleiminando plan de consumo')}>
+                    <Text style={styles.buttonText}>Eliminiar Plan de Consumo</Text>
+                </TouchableOpacity>
 
+            
 
-            <TouchableOpacity style={styles.buttonRegresar}>
+            <TouchableOpacity style={[styles.formatoButton, styles.buttonRegresar]}>
                 <Ionicons name="return-up-back" size={24} color={'white'} />
                 <Text style={styles.buttonText}>Regresar</Text>
             </TouchableOpacity>
@@ -176,18 +180,7 @@ const styles = StyleSheet.create({
         borderColor: colors.Grey.light,
         borderWidth: 2,
     },
-    buttonRegresar: {
-        padding: 20,
-        width: '80%',
-        margin: 10,
-        marginTop: 20,
-        borderRadius: 10,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        backgroundColor: colors.Blue.dark,
-    },
-    buttonConsultar: {
+    formatoButton: {
         padding: 10,
         paddingLeft: 30,
         width: '80%',
@@ -199,7 +192,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         gap: 10,
+    },
+    buttonRegresar: {
+        backgroundColor: colors.Blue.dark,
+    },
+    buttonConsultar: {
         backgroundColor: colors.Green.light,
+    },
+    deleteButton: {
+        backgroundColor: colors.Red.light,
     },
     buttonText: {
         color: 'white',

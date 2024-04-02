@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList, RootTapParamList } from '../../routes';
@@ -30,7 +30,7 @@ const HistorialSection = ({ onPress }: HistorialSectionProps) => {
                 <Text style={styles.subtitle}>Último medicamento consumido:</Text>
             </View>
 
-
+            
             <View style={styles.boxAlertContainer}>
                 <View>
                     <Text>Medicamento:</Text>
