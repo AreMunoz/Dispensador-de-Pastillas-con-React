@@ -34,9 +34,9 @@ const HomeSection = ({ onPress }: HomeSectionProps) => {
                 </View>
                 <View style={{padding:5, paddingTop: 20}}>
                     
-                    <Text>Medicamento:</Text>
-                    <Text>Fecha:</Text>
-                    <Text>Hora:</Text>
+                    <Text style={styles.textFormat}>Medicamento:</Text>
+                    <Text style={styles.textFormat}>Fecha:</Text>
+                    <Text style={styles.textFormat}>Hora:</Text>
                 </View>
             </View>
 
@@ -51,8 +51,8 @@ const HomeSection = ({ onPress }: HomeSectionProps) => {
                     <Text style={styles.tituloTexto}>Medicamento No Consumido:</Text>
                 </View>
                 <View style={{padding:5, paddingTop: 20}}>
-                    <Text>Medicamento:</Text>
-                    <Text>Se reprograma para la siguiente hora:</Text>
+                    <Text style={styles.textFormat}>Medicamento:</Text>
+                    <Text style={styles.textFormat}>Se reprograma para la siguiente hora:</Text>
                 </View>
             </View>
 
@@ -146,6 +146,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         alignSelf: 'center',
         fontSize: 18,
+    },
+    textFormat: {
+        fontFamily: 'Montserrat-Regular',
+        fontSize: 14,
     },
 });
 

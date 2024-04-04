@@ -3,7 +3,7 @@ import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../routes';
-import { AntDesign, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import colors from './src/colors';
 
 //<Button title="HomeTab" onPress={() => handleAction('HomeScreen')} />
@@ -31,6 +31,9 @@ const GestionarPlanConsumo = ({ navigation, route }: GestionarPlanConsumoProps) 
         } else if (action === 'HistorialTab') {
             // Realizar la lógica para ir a la pantalla de HistorialTab
             navigation.navigate('AccionesHardwareScreen');
+        }else if (action === 'express') {
+            // Realizar la lógica para ir a la pantalla de HistorialTab
+            navigation.navigate('ExpressPC_Screen');
         }
     };
 
@@ -69,8 +72,8 @@ const GestionarPlanConsumo = ({ navigation, route }: GestionarPlanConsumoProps) 
 
 
 
-                <TouchableOpacity style={[styles.buttonManual, styles.color4Button]} onPress={() => handleAction('eliminar')}>
-                    <FontAwesome name="trash-o" size={24} color="white" />
+                <TouchableOpacity style={[styles.buttonManual, styles.color5Button]} onPress={() => handleAction('express')}>
+                    <MaterialIcons name="autorenew" size={24} color="white" />
                     <Text style={styles.buttonText}>Plan de consumo expres </Text>
                 </TouchableOpacity>
 
@@ -87,6 +90,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: colors.BG.light,
     },
     title: {
         fontFamily: "Montserrat-Bold",
@@ -118,7 +122,9 @@ const styles = StyleSheet.create({
     color4Button: {
         backgroundColor: colors.Red.light,
     },
-
+    color5Button: {
+        backgroundColor: colors.Green.light,
+    },
     buttonText: {
         color: 'white',
         fontSize: 18,

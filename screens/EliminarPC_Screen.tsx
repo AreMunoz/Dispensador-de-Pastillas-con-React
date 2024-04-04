@@ -50,7 +50,7 @@ const EliminarPC_Screen = ({ navigation } : EliminarPCScreenProps) => {
                 <Text style={styles.buttonText}>Eliminar Plan de Consumo</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[styles.button, styles.buttonRegresar]}>
+            <TouchableOpacity style={[styles.button, styles.buttonRegresar]} onPress={() => navigation.navigate('GestionarPlanConsumo' as never)}>
                 <Ionicons name="return-up-back" size={24} color={'white'} />
                 <Text style={styles.buttonText}>Regresar</Text>
             </TouchableOpacity>

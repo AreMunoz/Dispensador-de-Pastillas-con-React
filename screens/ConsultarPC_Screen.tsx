@@ -141,7 +141,7 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
 
             
 
-            <TouchableOpacity style={[styles.formatoButton, styles.buttonRegresar]}>
+            <TouchableOpacity style={[styles.formatoButton, styles.buttonRegresar]} onPress={() => navigation.navigate('GestionarPlanConsumo' as never)}>
                 <Ionicons name="return-up-back" size={24} color={'white'} />
                 <Text style={styles.buttonText}>Regresar</Text>
             </TouchableOpacity>

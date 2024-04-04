@@ -1,70 +1,79 @@
-import React from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList, RootTapParamList } from '../../routes';
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import colors from '../src/colors';
-import { Ionicons, MaterialIcons, Entypo } from '@expo/vector-icons';
+import React from "react";
+import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList, RootTapParamList } from "../../routes";
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import colors from "../src/colors";
+import { Ionicons, MaterialIcons, Entypo } from "@expo/vector-icons";
 
 type MasInfoSectionProps = {
-    onPress: () => void
-}
+  onPress: () => void;
+};
 
 const MasInfoSection = ({ onPress }: MasInfoSectionProps) => {
-    return (
-        <View style={styles.container}>
-            <View style={styles.buttonContainer}>
-                <Ionicons name="person-circle-outline" size={100} color="black" />
-                <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 10, color: 'grey' }}>Nombre de Usuario</Text>
-            </View>
+  return (
+    <View style={styles.container}>
+      <View style={styles.buttonContainer}>
+        <Ionicons name="person-circle-outline" size={100} color="black" />
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            marginTop: 10,
+            color: "grey",
+          }}
+        >
+          Nombre de Usuario
+        </Text>
+      </View>
 
+      <TouchableOpacity style={[styles.button, styles.buttonExit]}>
+        <MaterialIcons name="exit-to-app" size={24} color="white" />
+        <Text style={[styles.buttonText, styles.textFormat]}>Salir</Text>
+      </TouchableOpacity>
 
-            <TouchableOpacity style={[styles.button, styles.buttonExit]}>
-                <MaterialIcons name="exit-to-app" size={24} color="white" />
-                <Text style={styles.buttonText}>Salir</Text>
-            </TouchableOpacity>
-
-
-
-            <TouchableOpacity style={[styles.button, styles.buttonManual]}>
-                <Entypo name="open-book" size={24} color="white" />
-                <Text style={styles.buttonText}>Manual de Usuario</Text>
-            </TouchableOpacity>
-
-
-        </View>
-    );
+      <TouchableOpacity style={[styles.button, styles.buttonManual]}>
+        <Entypo name="open-book" size={24} color="white" />
+        <Text style={[styles.buttonText, styles.textFormat]}>
+          Manual de Usuario
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+    width: "100%",
+    alignItems: "center",
+    backgroundColor: colors.BG.light,
+  },
+  buttonContainer: {
+    marginBottom: 20,
+    alignItems: "center",
+  },
+  button: {
+    padding: 20,
+    width: "90%",
+    margin: 10,
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  buttonExit: { backgroundColor: colors.Red.light },
+  buttonManual: { backgroundColor: colors.Blue.dark },
 
-    container: {
-        flex: 1,
-        padding: 10,
-        width: '90%',
-        alignItems: 'center',
-  
-    },
-    buttonContainer: {
-        marginBottom: 20,
-        alignItems: 'center',
-    },
-    button: {
-        padding: 20,
-        width: '90%',
-        margin: 10,
-        borderRadius: 10,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-    },
-    buttonExit: {  backgroundColor: colors.Red.light, },
-    buttonManual: { backgroundColor: colors.Blue.dark, },
-    
-    buttonText: {
-        color: 'white',
-        fontSize: 18,
-        marginLeft: 10
-    }
+  buttonText: {
+    color: "white",
+    fontSize: 18,
+    marginLeft: 10,
+  },
+  textFormat: {
+    fontFamily: "Montserrat-Regular",
+    fontSize: 16,
+  },
 });
 export default MasInfoSection;

@@ -1,4 +1,8 @@
 const colors = {
+    BG:{
+        light: "#ffffff",
+        dark: "#000000",
+    },
     Blue: {
       dark: "#354F92",
       cyan: "#3DC5F5",
@@ -20,6 +24,7 @@ const colors = {
     },
     Orange:{
         dark: "#fba834",
+        light: "#FFE3BB",
     },
   };
 

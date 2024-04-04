@@ -13,6 +13,7 @@ import SignInScreen from './screens/SignInScreen'
 import ModificarPC_Screen from './screens/ModificarPC_Screen';
 import EliminarPC_Screen from './screens/EliminarPC_Screen';
 import BottomTab from './screens/BottomTab';
+import ExpressPC_Screen from './screens/ExpressPC_Screen';
 const Stack = createStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
@@ -28,6 +29,7 @@ const Navigation = () => {
         <Stack.Screen name="EliminarPC_Screen" component={EliminarPC_Screen} />
         <Stack.Screen name="SignInScreen" component={SignInScreen} />
         <Stack.Screen name="ModificarPC_Screen" component={ModificarPC_Screen} />
+        <Stack.Screen name="ExpressPC_Screen" component={ExpressPC_Screen} />
 
       </Stack.Navigator>
       

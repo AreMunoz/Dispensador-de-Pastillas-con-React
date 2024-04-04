@@ -33,10 +33,10 @@ const HistorialSection = ({ onPress }: HistorialSectionProps) => {
             
             <View style={styles.boxAlertContainer}>
                 <View>
-                    <Text>Medicamento:</Text>
-                    <Text>Hora:</Text>
-                    <Text>Fecha:</Text>
-                    <Text>Estado:</Text>
+                    <Text style={styles.textFormat}>Medicamento:</Text>
+                    <Text style={styles.textFormat}>Hora:</Text>
+                    <Text style={styles.textFormat}>Fecha:</Text>
+                    <Text style={styles.textFormat}>Estado:</Text>
                 </View>
             </View>
 
@@ -87,6 +87,10 @@ const styles = StyleSheet.create({
         borderColor: colors.Orange.dark,
         borderWidth: 3,
     },
+    textFormat: {
+        fontFamily: "Montserrat-Regular",
+        fontSize: 14,
+      },
 });
 
 export default HistorialSection;
