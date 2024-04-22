@@ -17,7 +17,7 @@ const HomeSection = ({ onPress }: HomeSectionProps) => {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('GestionarPlanConsumo' as never)}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('PlanDeConsumoTab' as never)}>
                 <Ionicons name="calendar" size={32} color="white" />
                 <Text style={styles.buttonText} >Gestionar Plan de Consumo</Text>
             </TouchableOpacity>
@@ -114,13 +114,13 @@ const styles = StyleSheet.create({
         fontSize: 32,
     },
     titleNextMedicine: {
-        backgroundColor: colors.Blue.dark,
-        borderColor: colors.Blue.dark,
+        backgroundColor: colors.Alert.green,
+        borderColor: colors.Alert.green,
     },
 
     titleNewTime: {
-        backgroundColor: colors.Lila.main,
-        borderColor: colors.Lila.main,
+        backgroundColor: colors.Alert.red,
+        borderColor: colors.Alert.red,
     },
     boxAlertContainer: {
         borderWidth: 3,
@@ -134,10 +134,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     boxNextMedicine: {
-        borderColor: colors.Blue.dark,
+        borderColor: colors.Alert.green,
     },
     boxNewTime: {
-        borderColor: colors.Lila.main,
+        borderColor: colors.Alert.red,
         marginTop: 60,
     },  
     

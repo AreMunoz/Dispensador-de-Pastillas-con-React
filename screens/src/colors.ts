@@ -1,4 +1,10 @@
 const colors = {
+  Alert: {
+    red: "#FF0000",
+    green: "#20B109",
+    yellow:"#FFB534",
+  },
+
     BG:{
         light: "#ffffff",
         dark: "#000000",

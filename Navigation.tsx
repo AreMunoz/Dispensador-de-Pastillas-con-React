@@ -2,7 +2,6 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './screens/LoginScreen';
-import HomeScreen from './screens/HomeScreen';
 import { RootStackParamList } from './routes';
 import GestionarPlanConsumo from './screens/GestionarPlanConsumo';
 import FormScreenCrearPM from './screens/FormScreenCrearPM';

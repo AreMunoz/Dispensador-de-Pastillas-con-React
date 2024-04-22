@@ -20,4 +20,5 @@ export type RootTapParamList = {
     HistorialTab: undefined;
     DispositivoTab: undefined;
     MasInfo: undefined;
+    PlanDeConsumoTab: undefined;
 }
