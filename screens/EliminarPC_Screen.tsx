@@ -1,10 +1,11 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { RootStackParamList } from '../routes';
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import colors from './src/colors';
+import { CustomButton } from './components/CustomButton';
 
 type EliminarPCScreenProps = StackScreenProps<RootStackParamList, 'EliminarPC_Screen'>;
 
@@ -12,105 +13,78 @@ const EliminarPC_Screen = ({ navigation } : EliminarPCScreenProps) => {
 
 
     return (
-        <View style={styles.container}>
-            <View>
-            <Text style={styles.title} >Eliminar Plan de Consumo</Text>
+        <TouchableWithoutFeedback onPress={navigation.goBack}>
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalOrder}>
+              <Feather
+                name="alert-triangle"
+                size={48}
+                color="#273abe"
+              />
+              <Text
+                style={[ styles.title,
+                  {
+                    textAlign: "justify",
+                    color: colors.Blue.dark,
+                  },
+                ]}
+              >
+                ¿Eliminar Plan de Consumo?
+              </Text>
+              <Text
+                style={[styles.Subtitle, { textAlign: "center" }]}
+              >
+                ¿Estás seguro de querer eliminar este plan de consumo? Ten en
+                cuenta que no podrás recuperarlo una vez se haya eliminado
+              </Text>
+  
+              <CustomButton
+                theme='fill'
+                text="Cancelar"
+                onPress={navigation.goBack}
+              />
+              <CustomButton
+                theme="outline"
+                text="Eliminar"
+              />
             </View>
-
-
-
-            <View>
-            <Text>Eliga el Plan de Consumo a Eliminar:</Text>
-                <Picker>
-                    <Picker.Item label="Plan de Consumo 1" value="Plan de Consumo 1" />
-                    <Picker.Item label="Plan de Consumo 2" value="Plan de Consumo 2" />
-                    <Picker.Item label="Plan de Consumo 3" value="Plan de Consumo 3" />
-                </Picker>
-            </View>
-
-
-                <Text>Detalles del Plan de Consumo:</Text>
-
-                <View style={styles.infoConteiner}>
-                    
-                    <Text>ID Plan de Consumo:</Text>
-                    <Text>Nombre del Medicamento:</Text>
-                    <Text>Dosis:</Text>
-                    <Text>Frecuencia:</Text>
-                    <Text>Fecha de Inicio:</Text>
-                    <Text>Fecha de Termino:</Text>
-                </View>
-
-
-
-           
-
-            <TouchableOpacity style={[styles.button, styles.buttonEliminar]}>
-            <FontAwesome name="trash-o" size={24} color="white" />
-                <Text style={styles.buttonText}>Eliminar Plan de Consumo</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={[styles.button, styles.buttonRegresar]} onPress={() => navigation.navigate('GestionarPlanConsumo' as never)}>
-                <Ionicons name="return-up-back" size={24} color={'white'} />
-                <Text style={styles.buttonText}>Regresar</Text>
-            </TouchableOpacity>
-
-            
-            
+          </View>
         </View>
+      </TouchableWithoutFeedback>
     );
 };
 
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+    modalBackground: {
+      flexGrow: 1,
+      backgroundColor: "rgba(0,0,0,0.45)",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    modalContainer: {
+      backgroundColor: "#fff",
+      padding: 16,
+      borderRadius: 12,
+      width: "85%",
+      columnGap: 8,
+    },
+    modalOrder: {
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 16,
     },
     title: {
-        fontFamily: "Montserrat-Bold",
-        fontSize: 24,
-        marginBottom: 20,
+      fontFamily: "Montserrat-Bold",
+      fontSize: 19,
     },
-    buttonContainer: {
-        marginBottom: 20,
-        alignItems: 'center',
+    Subtitle: {
+      fontFamily: "Montserrat-Regular",
+      fontSize: 16,
     },
-    infoConteiner: {
-        padding: 10,
-        width: '90%',
-        height: 'auto',
-        margin: 10,
-        marginTop: 20,
-        borderRadius: 10,
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start',
-        backgroundColor: 'white',
-        borderColor: colors.Grey.light,
-        borderWidth: 2,
-    },
-    button: {
-        padding: 20,
-        width: '90%',
-        margin: 10,
-        borderRadius: 10,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-    },
-    buttonEliminar: { backgroundColor: colors.Red.light, },
-    buttonRegresar: { 
-        backgroundColor: colors.Blue.dark,
-    },
-
-    buttonText: {
-        color: 'white',
-        fontSize: 18,
-        marginLeft: 10
-    },
-});
+  });
 
 export default EliminarPC_Screen;

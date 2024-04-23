@@ -42,7 +42,7 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.title}>Plan de Consumo Express</Text>
+        <Text style={styles.title}>Plan de consumo bajo demanda</Text>
       </View>
 
       <View style={styles.alert}>
@@ -64,7 +64,7 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
           onPress={() => handleAction("crear")}
         >
           <AntDesign name="plussquareo" size={24} color="white" />
-          <Text style={styles.buttonText}>Accion 1</Text>
+          <Text style={styles.buttonText}>Plan de consumo 1</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -73,6 +73,14 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
         >
           <FontAwesome name="edit" size={24} color="white" />
           <Text style={styles.buttonText}>Accion 2</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.buttonManual, styles.color1Button]}
+          onPress={() => handleAction("crear")}
+        >
+          <AntDesign name="plussquareo" size={24} color="white" />
+          <Text style={styles.buttonText}>Plan de consumo 1</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -89,6 +97,8 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat-Bold",
     fontSize: 28,
     marginBottom: 20,
+    textAlign: 'center',
+
   },
   buttonContainer: {
     marginTop: 20,

@@ -2,7 +2,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { RootStackParamList } from "../routes";
-import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { Ionicons, FontAwesome5, FontAwesome } from "@expo/vector-icons";
 import colors from "./src/colors";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { Picker } from "@react-native-picker/picker";
@@ -107,7 +107,7 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
       </View>
 
       <View>
-        <Text>Seleccione el Plan de Consumo a consultar:</Text>
+        <Text style={[styles.Subtitle]}>Seleccione el Plan de Consumo:</Text>
         <Picker
           selectedValue={selectedValue}
           onValueChange={(itemValue) => setSelectedValue(itemValue)}
@@ -122,66 +122,82 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
         </Picker>
       </View>
 
-      <TouchableOpacity style={[styles.formatoButton, styles.buttonConsultar]}>
-        <FontAwesome5 name="eye" size={18} color={"white"} />
+      <TouchableOpacity style={[styles.formatoButton, styles.buttonConsultar ]}>
+        <FontAwesome5 name="eye" size={28} color={"white"} />
         <Text style={styles.buttonText}>Consultar</Text>
       </TouchableOpacity>
 
-      <Text>Detalles del Plan de Consumo:</Text>
+      <View style={[styles.infoConteiner]}>
+        <Text style={[styles.SubtitleH3]}>Detalles del plan de consumo:</Text>
+        <View style={[styles.info]}>
+          <Text style={[styles.Subtitle]}>ID Plan de Consumo:</Text>
+          <Text style={[styles.respuestaCard, styles.respuestaText]}>
+            {selected?.id}
+          </Text>
+        </View>
+        <View style={[styles.info]}>
+          <Text style={[styles.Subtitle]}>Nombre del medicamento:</Text>
+          <Text style={[styles.respuestaCard, styles.respuestaText]}>
+            medicamento X {selected?.nombreDeMedicamento}
+          </Text>
+        </View>
+        <View style={styles.box}>
+          <View style={[styles.column, { flex: 1 }]}>
+            <Text style={[styles.Subtitle]}>Frecuencia:</Text>
+            <Text style={[styles.respuestaCard, styles.respuestaText]}>
+              {selected?.frecuencia} 24 horas
+            </Text>
+          </View>
+          <View style={[styles.column, { flex: 1 }]}>
+            <Text style={[styles.Subtitle]}>Dosis:</Text>
+            <Text style={[styles.respuestaCard, styles.respuestaText]}>
+              {" "}
+              1 al día {selected?.dosis}
+            </Text>
+          </View>
+        </View>
 
-      <View style={styles.infoConteiner}>
-        <Text>ID Plan de Consumo: {selected?.id}</Text>
-        <Text>Nombre del Medicamento: {selected?.nombreDeMedicamento}</Text>
-        <Text>Dosis: {selected?.dosis}</Text>
-        <Text>Frecuencia: {selected?.frecuencia}</Text>
-        <Text>Fecha de Inicio: {selected?.fechaDeInicio}</Text>
-        <Text>Fecha de Termino: {selected?.fechaDeFin}</Text>
+        <View style={styles.box}>
+          <View style={[styles.column, { flex: 1 }]}>
+            <Text style={[styles.Subtitle]}>Fecha de Inicio:</Text>
+            <Text style={[styles.respuestaCard, styles.respuestaText]}>
+              {" "}
+              14/14/2024{selected?.fechaDeInicio}
+            </Text>
+          </View>
+          <View style={[styles.column, { flex: 1 }]}>
+            <Text style={[styles.Subtitle]}>Fecha de Fin:</Text>
+            <Text style={[styles.respuestaCard, styles.respuestaText]}>
+              {" "}
+              30/30/2030{selected?.fechaDeFin}
+            </Text>
+          </View>
+        </View>
 
-        <CustomButton
-          text="Modificar Plan de Consumo"
-          onPress={() => navigation.navigate("ModificarPC_Screen" as never)}
-          theme="fill"
-          style={styles.formatoButton}
-          icono={<FontAwesome5 name="edit" size={18} color={"#000000"} />}
-        />
-
-        <TouchableOpacity
-          style={[styles.deleteButton]}
-          onPress={() => console.log("eliminando plan de consumo")}
-        >
-          <FontAwesome5 name="trash" size={18} color={"white"} />
-          <Text style={styles.buttonText}>Eliminar Plan de Consumo</Text>
-        </TouchableOpacity>
+        <View style={[styles.boxButtons]}>
+          <TouchableOpacity
+            style={[styles.styleButton, { backgroundColor: "#354F92" }]}
+            onPress={() => navigation.navigate("ModificarPC_Screen" as never)}
+          >
+            <FontAwesome name="edit" size={24} color="white" />
+            <Text style={styles.buttonText}>Modificar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.styleButton, { backgroundColor: "#FF0000" }]}
+            onPress={() => navigation.navigate("EliminarPC_Screen" as never)}
+          >
+            <FontAwesome5 name="trash" size={20} color={"white"} />
+            <Text style={styles.buttonText}>Eliminar</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <CustomButton
-        text="Regresar"
-        onPress={() => navigation.navigate("ModificarPC_Screen" as never)}
         theme="outline"
-        style={styles.formatoButton}
-        icono={<Ionicons name="return-up-back" size={18} color={"#000000"} />}
-      />
-
-      <CustomButton
-        text="sdkjfskdfjl"
-        onPress={() => navigation.navigate("ModificarPC_Screen" as never)}
-        theme="outline"
-        style={styles.formatoButton}
-      />
-
-      <CustomButton
         text="Regresar"
-        onPress={() => navigation.navigate("ModificarPC_Screen" as never)}
-        theme="fill"
-        style={styles.formatoButton}
+        icono={<Ionicons name="return-up-back" size={28} color={"#354F92"} />}
+        onPress={navigation.goBack}
       />
-      <TouchableOpacity
-        style={[styles.formatoButton, styles.buttonRegresar]}
-        onPress={() => navigation.navigate("GestionarPlanConsumo" as never)}
-      >
-        <Ionicons name="return-up-back" size={24} color={"white"} />
-        <Text style={styles.buttonText}>Regresar</Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -192,48 +208,64 @@ const styles = StyleSheet.create({
     padding: 10,
     width: "100%",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    backgroundColor: "white",
   },
   title: {
     fontFamily: "Montserrat-Bold",
     fontSize: 24,
     marginBottom: 20,
   },
+  Subtitle: {
+    fontFamily: "Montserrat-Regular",
+    fontSize: 16,
+  },
+  SubtitleH3: {
+    textAlign: "center",
+    width: "100%",
+    marginBottom: 10,
+    fontSize: 14,
+    fontFamily: "Montserrat-Bold",
+  },
   infoConteiner: {
     padding: 10,
-    width: "90%",
+    width: "95%",
     height: "auto",
     margin: 10,
     marginTop: 20,
+    marginBottom: 30,
     borderRadius: 10,
     flexDirection: "column",
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    backgroundColor: "white",
-    borderColor: colors.Grey.light,
-    borderWidth: 2,
+    backgroundColor: colors.Orange.light,
+  },
+  info: {
+    padding: 5,
+    width: "100%",
+    height: "auto",
+    borderRadius: 10,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
   formatoButton: {
     padding: 10,
     paddingLeft: 30,
-    width: "100%",
+    width: "90%",
     height: 50,
     margin: 10,
-    marginTop: 20,
+    marginTop: 10,
     borderRadius: 10,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     gap: 10,
   },
-  buttonRegresar: {
-    backgroundColor: colors.Blue.dark,
-  },
   buttonConsultar: {
-    backgroundColor: colors.Green.light,
+    backgroundColor: colors.Orange.dark,
   },
-  deleteButton: {
-    backgroundColor: colors.Red.light,
+  styleButton: {
     borderRadius: 10,
     flexDirection: "row",
     alignItems: "center",
@@ -246,6 +278,43 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginLeft: 10,
   },
+  box: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: 8,
+    marginTop: 4,
+    marginBottom: 16,
+  },
+  boxButtons: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
+    marginTop: 0,
+  },
+  column: {
+    flex: 1,
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "flex-start",
+  },
+  respuestaText: {
+    fontSize: 14,
+    fontFamily: "Montserrat-Bold",
+    color: colors.Grey.light,
+  },
+  respuestaCard: {
+    marginTop: 8,
+    justifyContent: "center",
+    alignContent: "center",
+    textAlign: "center",
+    textAlignVertical: "center",
+    alignSelf: "center",
+    backgroundColor: "white",
+    width: "100%",
+    borderRadius: 8,
+    overflow: "hidden",
+  },
+ 
 });
 
 export default ConsultarPC_Screen;

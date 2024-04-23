@@ -23,7 +23,7 @@ const PlanDeConsumoTabScreen = ({ onPress }: PCSectionProps) => {
       <View>
         <Text style={styles.title}>Plan de Consumo</Text>
       </View>
-      <Text>
+      <Text style={[styles.Subtitle, {width:"90%", textAlign: "center"}]}>
         Elige una opción para interactuar con tus Planes de Consumo
       </Text>
       <View style={styles.buttonContainer}>
@@ -52,13 +52,6 @@ const PlanDeConsumoTabScreen = ({ onPress }: PCSectionProps) => {
           <Text style={styles.buttonText}>Consultar Plan de Consumo</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.buttonManual, styles.color4Button]}
-          onPress={() => navigation.navigate("EliminarPC_Screen" as never)}
-        >
-          <FontAwesome name="trash-o" size={24} color="white" />
-          <Text style={styles.buttonText}>Eliminar Plan de Consumo</Text>
-        </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.buttonManual, styles.color5Button]}
@@ -78,11 +71,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: colors.BG.light,
+    width:"100%",
   },
   title: {
     fontFamily: "Montserrat-Bold",
     fontSize: 28,
     marginBottom: 20,
+  },
+  Subtitle: {
+    fontFamily: "Montserrat-Regular",
+    fontSize: 16,
   },
   buttonContainer: {
     marginTop: 20,
@@ -103,10 +101,10 @@ const styles = StyleSheet.create({
   color2Button: {
     backgroundColor: colors.Blue.dark,
   },
-  color3Button: {
+  color4Button: {
     backgroundColor: colors.Lila.main,
   },
-  color4Button: {
+  color3Button: {
     backgroundColor: colors.Red.light,
   },
   color5Button: {

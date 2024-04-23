@@ -12,8 +12,13 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList, RootTapParamList } from "../../routes";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import colors from "../src/colors";
-import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  MaterialIcons,
+  MaterialCommunityIcons,
+  Feather,
+} from "@expo/vector-icons";
 
+import { Ionicons } from "@expo/vector-icons";
 type DispositivoTabProps = {
   onPress: () => void;
 };
@@ -69,9 +74,20 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
             <Text style={styles.tituloTexto}>Estado del Dispensador</Text>
           </View>
           <View>
-            <Text style={styles.textFormat}>Cabina 1:</Text>
-            <Text style={styles.textFormat}>Cabina 2:</Text>
-            <Text style={styles.textFormat}>Cabina 3:</Text>
+            <View style={styles.card}>
+              <Feather name="inbox" size={24} color="black" />
+              <Text style={styles.textFormat}>Cabina 1:</Text>
+            </View>
+
+            <View style={styles.card}>
+              <Feather name="inbox" size={24} color="black" />
+              <Text style={styles.textFormat}>Cabina 2:</Text>
+            </View>
+
+            <View style={styles.card}>
+              <Feather name="inbox" size={24} color="black" />
+              <Text style={styles.textFormat}>Cabina 3:</Text>
+            </View>
           </View>
         </View>
 
@@ -107,8 +123,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
-    width: "90%",
+    width: "100%",
     alignItems: "center",
+    backgroundColor: "white",
   },
   title: {
     fontFamily: "Montserrat-Bold",
@@ -188,5 +205,6 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat-Regular",
     fontSize: 14,
   },
+  card: { flexDirection: "row", gap: 16, marginBottom: 4 },
 });
 export default DispositivoTab;
