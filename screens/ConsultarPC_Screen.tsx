@@ -62,7 +62,7 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
     // Usando Axios
     axios
       .get<GetConsultarPlanDeConsumoResponse[]>(
-        "http://localhost:8080/api/planesDeConsumo"
+        "http://localhost:8080/planesDeConsumo/"
       )
       .then((response) => {
         setData(response.data);
@@ -122,7 +122,7 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
         </Picker>
       </View>
 
-      <TouchableOpacity style={[styles.formatoButton, styles.buttonConsultar ]}>
+      <TouchableOpacity style={[styles.formatoButton, styles.buttonConsultar]}>
         <FontAwesome5 name="eye" size={28} color={"white"} />
         <Text style={styles.buttonText}>Consultar</Text>
       </TouchableOpacity>
@@ -138,21 +138,20 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
         <View style={[styles.info]}>
           <Text style={[styles.Subtitle]}>Nombre del medicamento:</Text>
           <Text style={[styles.respuestaCard, styles.respuestaText]}>
-            medicamento X {selected?.nombreDeMedicamento}
+            {selected?.nombreDeMedicamento}
           </Text>
         </View>
         <View style={styles.box}>
           <View style={[styles.column, { flex: 1 }]}>
             <Text style={[styles.Subtitle]}>Frecuencia:</Text>
             <Text style={[styles.respuestaCard, styles.respuestaText]}>
-              {selected?.frecuencia} 24 horas
+              {selected?.frecuencia}
             </Text>
           </View>
           <View style={[styles.column, { flex: 1 }]}>
             <Text style={[styles.Subtitle]}>Dosis:</Text>
             <Text style={[styles.respuestaCard, styles.respuestaText]}>
-              {" "}
-              1 al día {selected?.dosis}
+              {selected?.dosis}
             </Text>
           </View>
         </View>
@@ -161,15 +160,13 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
           <View style={[styles.column, { flex: 1 }]}>
             <Text style={[styles.Subtitle]}>Fecha de Inicio:</Text>
             <Text style={[styles.respuestaCard, styles.respuestaText]}>
-              {" "}
-              14/14/2024{selected?.fechaDeInicio}
+              {selected?.fechaDeInicio}
             </Text>
           </View>
           <View style={[styles.column, { flex: 1 }]}>
             <Text style={[styles.Subtitle]}>Fecha de Fin:</Text>
             <Text style={[styles.respuestaCard, styles.respuestaText]}>
-              {" "}
-              30/30/2030{selected?.fechaDeFin}
+              {selected?.fechaDeFin}
             </Text>
           </View>
         </View>
@@ -183,7 +180,7 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
             <Text style={styles.buttonText}>Modificar</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.styleButton, { backgroundColor: "#FF0000" }]}
+            style={[styles.styleButton, { backgroundColor: "#E72929" }]}
             onPress={() => navigation.navigate("EliminarPC_Screen" as never)}
           >
             <FontAwesome5 name="trash" size={20} color={"white"} />
@@ -314,7 +311,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: "hidden",
   },
- 
 });
 
 export default ConsultarPC_Screen;

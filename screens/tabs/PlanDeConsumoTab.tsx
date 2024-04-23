@@ -45,7 +45,7 @@ const PlanDeConsumoTabScreen = ({ onPress }: PCSectionProps) => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.buttonManual, styles.color3Button]}
+          style={[styles.buttonManual, styles.color5Button]}
           onPress={() => navigation.navigate("ConsultarPC_Screen" as never)}
         >
           <FontAwesome5 name="eye" size={24} color="white" />
@@ -54,11 +54,11 @@ const PlanDeConsumoTabScreen = ({ onPress }: PCSectionProps) => {
 
 
         <TouchableOpacity
-          style={[styles.buttonManual, styles.color5Button]}
+          style={[styles.buttonManual, styles.color3Button]}
           onPress={() => navigation.navigate("ExpressPC_Screen" as never)}
         >
           <MaterialIcons name="autorenew" size={24} color="white" />
-          <Text style={styles.buttonText}>Plan de consumo expres </Text>
+          <Text style={styles.buttonText}>Plan de consumo bajo demanda </Text>
         </TouchableOpacity>
       </View>
     </View>

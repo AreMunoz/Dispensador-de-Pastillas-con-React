@@ -12,6 +12,7 @@ export type RootStackParamList = {
     VincularDispScreen: undefined;
     ModificarPC_Screen: undefined;
     ExpressPC_Screen: undefined;
+    DispensarPC_BajoDemanda: undefined;
     
 };
 

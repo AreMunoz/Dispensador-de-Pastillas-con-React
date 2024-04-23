@@ -7,6 +7,7 @@ import {
   AntDesign,
   FontAwesome,
   MaterialCommunityIcons,
+  MaterialIcons,
 } from "@expo/vector-icons";
 import colors from "./src/colors";
 
@@ -20,7 +21,6 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
   const handleAction = (action: string) => {
     if (action === "crear") {
       // Realizar la lógica para crear un plan de consumo
-      navigation.navigate("FormScreenCrearPM");
     } else if (action === "modificar") {
       // Realizar la lógica para modificar un plan de consumo
       navigation.navigate("ModificarPC_Screen");
@@ -48,39 +48,41 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
       <View style={styles.alert}>
         <MaterialCommunityIcons
           name="alert-rhombus-outline"
-          size={24}
+          size={32}
           color="#fba834"
         />
-        <Text>
-          Pon una advertencia para saber cuando debe de consumir este plan de
-          consumo
-        </Text>
+        <View style={{ width: "80%" }}>
+          <Text style={styles.textFormat}>
+            El plan de consumo bajo demanda debe ser utilizado solamente en caso
+            de emergencia
+          </Text>
+        </View>
       </View>
       <View style={styles.buttonContainer}>
-       
-
         <TouchableOpacity
           style={[styles.buttonManual, styles.color1Button]}
-          onPress={() => handleAction("crear")}
+          onPress={() => navigation.navigate("DispensarPC_BajoDemanda" as never)}
         >
-          <AntDesign name="plussquareo" size={24} color="white" />
+          <MaterialIcons name="crisis-alert" size={24} color="white" />
           <Text style={styles.buttonText}>Plan de consumo 1</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.buttonManual, styles.color2Button]}
-          onPress={() => handleAction("modificar")}
+          onPress={() => navigation.navigate("DispensarPC_BajoDemanda" as never)}
         >
-          <FontAwesome name="edit" size={24} color="white" />
-          <Text style={styles.buttonText}>Accion 2</Text>
+          <MaterialIcons name="crisis-alert" size={24} color="white" />
+          <Text style={styles.buttonText}>Plan de Consumo 2</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.buttonManual, styles.color1Button]}
-          onPress={() => handleAction("crear")}
+          style={[styles.buttonManual, styles.color4Button]}
+          onPress={() =>
+            navigation.navigate("DispensarPC_BajoDemanda" as never)
+          }
         >
-          <AntDesign name="plussquareo" size={24} color="white" />
-          <Text style={styles.buttonText}>Plan de consumo 1</Text>
+          <MaterialIcons name="crisis-alert" size={24} color="white" />
+          <Text style={styles.buttonText}>Plan de consumo 3</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -92,13 +94,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: colors.BG.light,
   },
   title: {
     fontFamily: "Montserrat-Bold",
     fontSize: 28,
     marginBottom: 20,
-    textAlign: 'center',
-
+    textAlign: "center",
+  },
+  textFormat: {
+    fontFamily: "Montserrat-Regular",
+    fontSize: 14,
+    textAlign: "center",
   },
   buttonContainer: {
     marginTop: 20,
@@ -140,7 +147,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     margin: 20,
-    width: 'auto',
+    width: "90%",
     gap: 20,
     flexDirection: "row",
     alignItems: "center",
