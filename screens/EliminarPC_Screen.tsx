@@ -40,12 +40,12 @@ const EliminarPC_Screen = ({ navigation } : EliminarPCScreenProps) => {
               </Text>
   
               <CustomButton
-                theme='fill'
+                theme='outline'
                 text="Cancelar"
                 onPress={navigation.goBack}
               />
               <CustomButton
-                theme="outline"
+                theme="fill"
                 text="Eliminar"
               />
             </View>
