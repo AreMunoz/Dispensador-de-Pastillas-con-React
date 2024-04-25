@@ -4,19 +4,21 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { RootStackParamList } from "../routes";
 import { Ionicons, FontAwesome5, FontAwesome } from "@expo/vector-icons";
 import colors from "./src/colors";
-import { Colors } from "react-native/Libraries/NewAppScreen";
 import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import { CustomButton } from "./components/CustomButton";
-
-type GetConsultarPlanDeConsumoResponse = {
+import { API } from "./services/const";
+import { PlanDeConsumoResponse } from "./metodosService";
+/**
+ type GetConsultarPlanDeConsumoResponse = {
   id: number;
   dosis: number;
   fechaDeFin: string;
   fechaDeInicio: string;
   frecuencia: number;
-  nombreDeMedicamento: string;
+  nombreMedicamento: string;
 };
+ */
 
 type ConsultarPCScreenProps = StackScreenProps<
   RootStackParamList,
@@ -25,10 +27,14 @@ type ConsultarPCScreenProps = StackScreenProps<
 //StackScreenProps es un tipo proporcionado por la biblioteca de navegación React Navigation
 //StackScreenProps que propiedades de navegacion espera recibir una pantalla
 const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
+  const [data, setData] = useState<PlanDeConsumoResponse[]>([]);
+  const [selected, setSelected] = useState<PlanDeConsumoResponse>();
+  const [selectedValue, setSelectedValue] = useState<string|null>(null);
+  /*
   const [data, setData] = useState<GetConsultarPlanDeConsumoResponse[]>([]);
   const [selected, setSelected] = useState<GetConsultarPlanDeConsumoResponse>();
   const [selectedValue, setSelectedValue] = useState<number>();
-
+*/
   useEffect(() => {
     // Usando Fetch
     /* fetch("http://localhost:8080/api/planesDeConsumo")
@@ -60,11 +66,9 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
             .catch((error) => console.error(error)) */
 
     // Usando Axios
-    axios
-      .get<GetConsultarPlanDeConsumoResponse[]>(
-        "http://localhost:8080/planesDeConsumo/"
-      )
+    API.get<PlanDeConsumoResponse[]>("/planesDeConsumo/todos")
       .then((response) => {
+        console.log({ data: response.data });
         setData(response.data);
       })
       .catch((error) => console.error(error));
@@ -84,15 +88,15 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
   }, []);
 
   useEffect(() => {
+    console.log({ selectedValue });
     // Js hay false y falsy
     // hay true y truthy
 
     // JS null -> false
     if (selectedValue) {
       console.log({ selectedValue, tipo: typeof selectedValue });
-      const selectedId = parseInt(selectedValue.toString());
 
-      const selected = data.find((item) => item.id == selectedId);
+      const selected = data.find((item) => item.idPlanDeConsumo == selectedValue);
 
       console.log(selected);
 
@@ -110,13 +114,17 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
         <Text style={[styles.Subtitle]}>Seleccione el Plan de Consumo:</Text>
         <Picker
           selectedValue={selectedValue}
-          onValueChange={(itemValue) => setSelectedValue(itemValue)}
+          onValueChange={(itemValue) => {
+            console.log({ itemValue });
+            setSelectedValue(itemValue)
+          }}
         >
+          <Picker.Item label="Seleccione un Plan de Consumo" value={null} />
           {data.map((item) => (
             <Picker.Item
-              key={item.id}
-              label={item.nombreDeMedicamento}
-              value={item.id}
+              key={`PC-${item.idPlanDeConsumo}`}
+              label={item.nombreMedicamento}
+              value={item.idPlanDeConsumo}
             />
           ))}
         </Picker>
@@ -132,13 +140,13 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
         <View style={[styles.info]}>
           <Text style={[styles.Subtitle]}>ID Plan de Consumo:</Text>
           <Text style={[styles.respuestaCard, styles.respuestaText]}>
-            {selected?.id}
+            {selected?.idPlanDeConsumo}
           </Text>
         </View>
         <View style={[styles.info]}>
           <Text style={[styles.Subtitle]}>Nombre del medicamento:</Text>
           <Text style={[styles.respuestaCard, styles.respuestaText]}>
-            {selected?.nombreDeMedicamento}
+            {selected?.nombreMedicamento}
           </Text>
         </View>
         <View style={styles.box}>
@@ -160,13 +168,13 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
           <View style={[styles.column, { flex: 1 }]}>
             <Text style={[styles.Subtitle]}>Fecha de Inicio:</Text>
             <Text style={[styles.respuestaCard, styles.respuestaText]}>
-              {selected?.fechaDeInicio}
+              {selected?.fechaInicio}
             </Text>
           </View>
           <View style={[styles.column, { flex: 1 }]}>
             <Text style={[styles.Subtitle]}>Fecha de Fin:</Text>
             <Text style={[styles.respuestaCard, styles.respuestaText]}>
-              {selected?.fechaDeFin}
+              {selected?.fechaFin}
             </Text>
           </View>
         </View>

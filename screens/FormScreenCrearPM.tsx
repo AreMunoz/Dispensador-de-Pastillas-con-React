@@ -13,30 +13,26 @@ import { RootStackParamList } from "../routes";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import colors from "./src/colors";
 import { CustomButton } from "./components/CustomButton";
+import { useCreatePlanConsumo } from "./metodosService";
 //stackScreenProps es un tipo de react-navigation que nos permite acceder a las propiedades de la navegación
 type FormScreenCrearPMProps = StackScreenProps<
   RootStackParamList,
   "FormScreenCrearPM"
 >;
 
-//iniciamos forms
-interface Formulario {
+
+type Formulario = {
   medicamento: string;
   dosis: string;
   frecuencia: string;
   fechaInicio: string;
 }
-/* 
-interface IFormInput {
-    medicamento: string;
-    dosis: string;
-    frecuencia: string;
-    fechaInicio: string;
-}
-*/
+
+
 
 const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
-  const { control, handleSubmit } = useForm<Formulario>({
+  const {mutateAsync, isPending} = useCreatePlanConsumo();
+  const { control, handleSubmit, getValues } = useForm<Formulario>({
     defaultValues: {
       medicamento: "",
       dosis: "",
@@ -46,15 +42,31 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
   });
 
   const onSubmit: SubmitHandler<Formulario> = (data) => {
-    console.log(data);
-    // Here you can perform actions with the form
+    if (data.medicamento === "undefined") return;
+      mutateAsync({
+        nombreMedicamento: data.medicamento,
+        dosis: data.dosis,
+        frecuencia: data.frecuencia,
+        fechaInicio: data.fechaInicio,
+      }).then(() => {
+        alert("Plan de consumo creado correctamente en el servidor");
+    })
+      .catch((e) => {
+        console.error(e);
+      });
   };
+
+
+
   return (
     <View style={styles.container}>
       <View>
         <Text style={styles.title}>Crear Plan de Consumo</Text>
       </View>
 
+
+    <View>
+    </View>
       <Text>
         Llena los datos del formulario de acuerdo a la receta medica para crear
         el plan de consumo
@@ -66,10 +78,11 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               style={styles.input}
+              placeholder="Ingrese el nombre del Medicamento"
+              keyboardType="default"
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              placeholder="Ingrese el nombre del Medicamento"
             />
           )}
           name="medicamento"
@@ -81,10 +94,11 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               style={styles.input}
+              value={value}
               onBlur={onBlur}
               onChangeText={onChange}
-              value={value}
               placeholder="Ingrese la dosis "
+              keyboardType="numeric"
             />
           )}
           name="dosis"
@@ -97,7 +111,10 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
             <TextInput
               style={styles.input}
               value={value}
+              onBlur={onBlur}
+              onChangeText={onChange}
               placeholder="Indique la frecuencia de consumo en horas"
+              keyboardType="numeric"
             />
           )}
           name="frecuencia"
@@ -109,10 +126,11 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               style={styles.input}
+              value={value}
               onBlur={onBlur}
               onChangeText={onChange}
-              value={value}
               placeholder="Ingrese partir de qué día"
+              keyboardType="numeric"
             />
           )}
           name="fechaInicio"
@@ -122,7 +140,7 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
 
       <TouchableOpacity
         style={[styles.button, styles.buttonCrearPC]}
-        onPress={() => console.log("se debe de crear el plan de consumo")}
+        onPress={handleSubmit(onSubmit)}
       >
         <FontAwesome name="check-square-o" size={24} color="white" />
         <Text style={styles.buttonText}>Crear Plan de Consumo</Text>
@@ -184,3 +202,6 @@ const styles = StyleSheet.create({
 });
 
 export default FormScreenCrearPM;
+function mutateAsync(data: Formulario) {
+  throw new Error("Function not implemented.");
+}
