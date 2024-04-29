@@ -9,6 +9,7 @@ import axios from "axios";
 import { CustomButton } from "./components/CustomButton";
 import { API } from "./services/const";
 import { PlanDeConsumoResponse } from "./metodosService";
+import { ScrollView } from "react-native-gesture-handler";
 /**
  type GetConsultarPlanDeConsumoResponse = {
   id: number;
@@ -109,7 +110,7 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
       <View>
         <Text style={styles.title}>Consultar Plan de Consumo</Text>
       </View>
-
+      <ScrollView>
       <View>
         <Text style={[styles.Subtitle]}>Seleccione el Plan de Consumo:</Text>
         <Picker
@@ -159,7 +160,7 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
           <View style={[styles.column, { flex: 1 }]}>
             <Text style={[styles.Subtitle]}>Dosis:</Text>
             <Text style={[styles.respuestaCard, styles.respuestaText]}>
-              {selected?.dosis}
+              {selected?.dosis} comprimido(s)
             </Text>
           </View>
         </View>
@@ -203,6 +204,8 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
         icono={<Ionicons name="return-up-back" size={28} color={"#354F92"} />}
         onPress={navigation.goBack}
       />
+
+</ScrollView>
     </View>
   );
 };

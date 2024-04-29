@@ -13,6 +13,7 @@ export type RootStackParamList = {
     ModificarPC_Screen: undefined;
     ExpressPC_Screen: undefined;
     DispensarPC_BajoDemanda: undefined;
+    VaciarCabina: undefined;
     
 };
 

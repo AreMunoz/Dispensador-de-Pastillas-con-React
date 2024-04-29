@@ -1,24 +1,22 @@
-import { StackScreenProps } from "@react-navigation/stack";
-import React from "react";
-import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { RootStackParamList } from "../routes";
-import { Feather } from "@expo/vector-icons";
+import { StackScreenProps } from "@react-navigation/stack";
+import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import colors from "./src/colors";
+import { Picker } from "@react-native-picker/picker";
 import { CustomButton } from "./components/CustomButton";
-import { deletePlanDeConsumo } from "./metodosService";
 
-type EliminarPCScreenProps = StackScreenProps<
+type VaciarCabinaScreenProps = StackScreenProps<
   RootStackParamList,
-  "EliminarPC_Screen"
+  "VaciarCabina"
 >;
-
-const EliminarPC_Screen = ({ navigation }: EliminarPCScreenProps) => {
+const VaciarCabina = ({ navigation }: VaciarCabinaScreenProps) => {
   return (
-    <TouchableWithoutFeedback onPress={navigation.goBack}>
+    <TouchableWithoutFeedback
+      onPress={navigation.goBack}
+    >
       <View style={styles.modalBackground}>
         <View style={styles.modalContainer}>
           <View style={styles.modalOrder}>
-            <Feather name="alert-triangle" size={48} color="#273abe" />
             <Text
               style={[
                 styles.title,
@@ -28,29 +26,32 @@ const EliminarPC_Screen = ({ navigation }: EliminarPCScreenProps) => {
                 },
               ]}
             >
-              ¿Eliminar Plan de Consumo?
-            </Text>
-            <Text style={[styles.Subtitle, { textAlign: "center" }]}>
-              ¿Estás seguro de querer eliminar este plan de consumo? Ten en
-              cuenta que no podrás recuperarlo una vez se haya eliminado
             </Text>
 
-            <CustomButton
-              theme="outline"
-              text="Cancelar"
-              onPress={navigation.goBack}
+            <Text style={[styles.Subtitle, { textAlign: "center" }]}>
+              Selecione la cabina a vaciar
+            </Text>
+            <Picker 
             />
-            <CustomButton
-              theme="fill"
-              text="Eliminar"
-              onPress={() => deletePlanDeConsumo}
-            />
+            <Text style={[styles.Subtitle, { textAlign: "center" }]}>
+              Al confirmar se empezara el proceso de vaciado
+            </Text>
           </View>
         </View>
+          <CustomButton
+            theme="outline"
+            text="Cancelar"
+            onPress={navigation.goBack}/>
+          <CustomButton
+            theme="fill"
+            text="Vaciar"
+            onPress={() => console.log("Vaciando cabina")}
+          />
       </View>
     </TouchableWithoutFeedback>
   );
 };
+
 
 const styles = StyleSheet.create({
   modalBackground: {
@@ -81,5 +82,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
-export default EliminarPC_Screen;
+export default VaciarCabina;

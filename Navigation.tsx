@@ -14,6 +14,7 @@ import EliminarPC_Screen from './screens/EliminarPC_Screen';
 import BottomTab from './screens/BottomTab';
 import ExpressPC_Screen from './screens/ExpressPC_Screen';
 import DispensarPC_BajoDemanda from './screens/DispensarPC_BajoDemanda';
+import VaciarCabina from './screens/VaciarCabina';
 const Stack = createStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
@@ -31,6 +32,7 @@ const Navigation = () => {
         <Stack.Screen name="ModificarPC_Screen" component={ModificarPC_Screen} />
         <Stack.Screen name="ExpressPC_Screen" component={ExpressPC_Screen} />
         <Stack.Screen name="DispensarPC_BajoDemanda" component={DispensarPC_BajoDemanda}/>
+        <Stack.Screen name="VaciarCabina" component={VaciarCabina}/>
 
       </Stack.Navigator>
       

@@ -56,7 +56,7 @@ const HomeSection = ({ onPress }: HomeSectionProps) => {
 
       <View style={[styles.boxAlertContainer, styles.boxNewTime]}>
         <View style={[styles.tituloContainer, styles.titleNewTime]}>
-          <Text style={styles.tituloTexto}>Medicamento No Consumido:</Text>
+          <Text adjustsFontSizeToFit style={styles.tituloTexto}>Medicamento No Consumido:</Text>
         </View>
         <View style={{ padding: 5, paddingTop: 20 }}>
         <View style={styles.card}>
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    width: 400,
+    width: "100%",
     backgroundColor: "white",
   },
   button: {
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
 
   subtitle: {
     fontFamily: "Montserrat-Bold",
-    fontSize: 22,
+    fontSize: 18,
     marginTop: 20,
     marginBottom: 50,
   },
@@ -119,9 +119,7 @@ const styles = StyleSheet.create({
     top: -35,
     alignSelf: "center",
     borderRadius: 5,
-    width: "80%",
-    fontFamily: "Montserrat-Regular",
-    fontSize: 32,
+    width: "90%",
   },
   titleNextMedicine: {
     backgroundColor: colors.Alert.green,
@@ -155,7 +153,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     alignSelf: "center",
-    fontSize: 18,
+    fontSize: 16,
   },
   textFormat: {
     fontFamily: "Montserrat-Regular",

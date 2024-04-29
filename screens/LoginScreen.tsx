@@ -55,7 +55,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
         <RNText style={styles.title} >Dispensador de Pastillas</RNText>
       </View>
       
-      <CustomText>Usuario:</CustomText>
+      <CustomText style={{textAlign: 'left'}}>Usuario:</CustomText>
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
@@ -114,7 +114,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    marginLeft: 20,
+    alignItems: 'center',
+    backgroundColor: colors.BG.light,
+    width: '100%',
   },
   input: {
     borderWidth: 1,

@@ -61,3 +61,28 @@ export const useGetPlanesDeConsumo = (id: string) => {
     initialData: [],
   });
 };
+    export type PlanDeConsumoDelete = {
+      idPlanDeConsumo: string;
+      nombreMedicamento: string;
+      frecuencia: string;
+      dosis: string;
+      fechaInicio: string;
+      fechaFin: string;
+    };
+
+//DELETE Plan de Consumo
+export const deletePlanDeConsumo = async (idPlanDeConsumo : string) => {
+  try {
+    const { data } = await API.delete(`/planesDeConsumo/eliminar/${idPlanDeConsumo}`);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export const useDeletePlanConsumo = () => {
+  return useMutation({
+    mutationKey: ["planesDeConsumo"],
+    mutationFn: postPlanConsumo,
+  });
+};

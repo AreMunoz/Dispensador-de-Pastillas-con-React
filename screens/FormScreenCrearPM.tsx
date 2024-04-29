@@ -6,6 +6,8 @@ import {
   Button,
   StyleSheet,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -14,24 +16,22 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import colors from "./src/colors";
 import { CustomButton } from "./components/CustomButton";
 import { useCreatePlanConsumo } from "./metodosService";
+import { ScrollView } from "react-native-gesture-handler";
 //stackScreenProps es un tipo de react-navigation que nos permite acceder a las propiedades de la navegación
 type FormScreenCrearPMProps = StackScreenProps<
   RootStackParamList,
   "FormScreenCrearPM"
 >;
 
-
 type Formulario = {
   medicamento: string;
   dosis: string;
   frecuencia: string;
   fechaInicio: string;
-}
-
-
+};
 
 const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
-  const {mutateAsync, isPending} = useCreatePlanConsumo();
+  const { mutateAsync, isPending } = useCreatePlanConsumo();
   const { control, handleSubmit, getValues } = useForm<Formulario>({
     defaultValues: {
       medicamento: "",
@@ -43,118 +43,135 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
 
   const onSubmit: SubmitHandler<Formulario> = (data) => {
     if (data.medicamento === "undefined") return;
-      mutateAsync({
-        nombreMedicamento: data.medicamento,
-        dosis: data.dosis,
-        frecuencia: data.frecuencia,
-        fechaInicio: data.fechaInicio,
-      }).then(() => {
-        alert("Plan de consumo creado correctamente en el servidor");
+    mutateAsync({
+      nombreMedicamento: data.medicamento,
+      dosis: data.dosis,
+      frecuencia: data.frecuencia,
+      fechaInicio: data.fechaInicio,
     })
+      .then(() => {
+        alert("Plan de consumo creado correctamente en el servidor");
+      })
       .catch((e) => {
         console.error(e);
       });
   };
 
-
-
   return (
-    <View style={styles.container}>
-      <View>
-        <Text style={styles.title}>Crear Plan de Consumo</Text>
-      </View>
-
-
-    <View>
-    </View>
-      <Text>
-        Llena los datos del formulario de acuerdo a la receta medica para crear
-        el plan de consumo
-      </Text>
-      <View style={{ marginTop: 20 }}>
-        <Text>Medicamento:</Text>
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.input}
-              placeholder="Ingrese el nombre del Medicamento"
-              keyboardType="default"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-          name="medicamento"
-          defaultValue=""
-        />
-        <Text>Dosis:</Text>
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.input}
-              value={value}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              placeholder="Ingrese la dosis "
-              keyboardType="numeric"
-            />
-          )}
-          name="dosis"
-          defaultValue=""
-        />
-        <Text>Frecuencia:</Text>
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.input}
-              value={value}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              placeholder="Indique la frecuencia de consumo en horas"
-              keyboardType="numeric"
-            />
-          )}
-          name="frecuencia"
-          defaultValue=""
-        />
-        <Text>A partir de que día:</Text>
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.input}
-              value={value}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              placeholder="Ingrese partir de qué día"
-              keyboardType="numeric"
-            />
-          )}
-          name="fechaInicio"
-          defaultValue=""
-        />
-      </View>
-
-      <TouchableOpacity
-        style={[styles.button, styles.buttonCrearPC]}
-        onPress={handleSubmit(onSubmit)}
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        keyboardShouldPersistTaps="handled"
       >
-        <FontAwesome name="check-square-o" size={24} color="white" />
-        <Text style={styles.buttonText}>Crear Plan de Consumo</Text>
-      </TouchableOpacity>
+        <View>
+          <Text style={styles.title}>Crear Plan de Consumo</Text>
+        </View>
 
-      <View style={{ width: "90%" }}>
-        <CustomButton
-          theme="outline"
-          text="Regresar"
-          icono={<Ionicons name="return-up-back" size={28} color={"#354F92"} />}
-          onPress={navigation.goBack}
-        />
-      </View>
-    </View>
+        <View></View>
+
+        <View style={{ width: "80%" }}>
+          <Text>
+            Llena los datos del formulario de acuerdo a la receta medica para
+            crear el plan de consumo
+          </Text>
+        </View>
+        <View style={{ marginTop: 20 }}>
+          <Text>Medicamento:</Text>
+          <Controller
+            control={control}
+            rules={{ required: { value: true, message: "Campo requerido" } }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.input}
+                placeholder="Ingrese el nombre del Medicamento"
+                keyboardType="default"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            name="medicamento"
+            defaultValue=""
+          />
+          <Text>Dosis:</Text>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.input}
+                value={value}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                placeholder="Ingrese la dosis "
+                keyboardType="numeric"
+              />
+            )}
+            name="dosis"
+            defaultValue=""
+          />
+          <Text>Frecuencia:</Text>
+          <Controller
+            control={control}
+            rules={{ required: { value: true, message: "Campo requerido" } }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.input}
+                value={value}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                placeholder="Indique la frecuencia de consumo en horas"
+                keyboardType="numeric"
+              />
+            )}
+            name="frecuencia"
+            defaultValue=""
+          />
+          <Text>A partir de que día:</Text>
+          <Controller
+            control={control}
+            rules={{ required: { value: true, message: "Campo requerido" } }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.input}
+                value={value}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                placeholder="Ingrese partir de qué día"
+                keyboardType="numeric"
+              />
+            )}
+            name="fechaInicio"
+            defaultValue=""
+          />
+        </View>
+
+        <TouchableOpacity
+          style={[styles.button, styles.buttonCrearPC]}
+          onPress={handleSubmit(onSubmit)}
+        >
+          <FontAwesome name="check-square-o" size={24} color="white" />
+          <Text style={styles.buttonText}>Crear Plan de Consumo</Text>
+        </TouchableOpacity>
+
+        <View style={{ width: "90%" }}>
+          <CustomButton
+            theme="outline"
+            text="Regresar"
+            icono={
+              <Ionicons name="return-up-back" size={28} color={"#354F92"} />
+            }
+            onPress={navigation.goBack}
+          />
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

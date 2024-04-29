@@ -19,6 +19,7 @@ import {
 } from "@expo/vector-icons";
 
 import { Ionicons } from "@expo/vector-icons";
+import VaciarCabina from "../VaciarCabina";
 type DispositivoTabProps = {
   onPress: () => void;
 };
@@ -93,7 +94,6 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
 
         <TouchableOpacity
           style={[styles.buttonManual, styles.color1Button]}
-          onPress={() => console.log("vaciar cabina...")}
         >
           <MaterialCommunityIcons
             name="hand-coin-outline"
