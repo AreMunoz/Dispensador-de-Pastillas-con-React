@@ -1,6 +1,6 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { RootStackParamList } from "../routes";
 import { Ionicons, FontAwesome5, FontAwesome } from "@expo/vector-icons";
 import colors from "./src/colors";
@@ -105,6 +105,28 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
     }
   }, [selectedValue]);
 
+  const handleEliminarPlan = async () => {
+    if (selectedValue) {
+      try {
+        // Realizar la solicitud DELETE a la ruta de eliminación
+        const response = await axios.delete(`/planesDeConsumo/eliminar/$idPlan=${selectedValue}`);
+
+        // Verificar si la solicitud fue exitosa (código de estado 200)
+        if (response.status === 200) {
+          Alert.alert("Éxito", "Plan de consumo eliminado exitosamente");
+        } else {
+          Alert.alert("Error", "Hubo un error al eliminar el plan de consumo");
+        }
+      } catch (error) {
+        // Manejar errores de red o del servidor
+        console.error("Error al eliminar el plan de consumo:", error);
+        Alert.alert("Error", "Hubo un error al eliminar el plan de consumo");
+      }
+    } else {
+      Alert.alert("Error", "Debe seleccionar un Plan de Consumo antes de eliminar");
+    }
+  };
+  
   return (
     <View style={styles.container}>
       <View>
@@ -190,7 +212,7 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.styleButton, { backgroundColor: "#E72929" }]}
-            onPress={() => navigation.navigate("EliminarPC_Screen" as never)}
+            onPress={handleEliminarPlan} 
           >
             <FontAwesome5 name="trash" size={20} color={"white"} />
             <Text style={styles.buttonText}>Eliminar</Text>

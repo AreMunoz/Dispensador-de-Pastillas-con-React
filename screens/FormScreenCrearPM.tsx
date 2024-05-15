@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from "react-native";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -32,7 +33,7 @@ type Formulario = {
 
 const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
   const { mutateAsync, isPending } = useCreatePlanConsumo();
-  const { control, handleSubmit, getValues } = useForm<Formulario>({
+  const { control, handleSubmit, getValues, formState: { errors }, trigger  } = useForm<Formulario>({
     defaultValues: {
       medicamento: "",
       dosis: "",
@@ -41,21 +42,45 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
     },
   });
 
-  const onSubmit: SubmitHandler<Formulario> = (data) => {
-    if (data.medicamento === "undefined") return;
-    mutateAsync({
-      nombreMedicamento: data.medicamento,
-      dosis: data.dosis,
-      frecuencia: data.frecuencia,
-      fechaInicio: data.fechaInicio,
-    })
-      .then(() => {
-        alert("Plan de consumo creado correctamente en el servidor");
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+  const [touchedFields, setTouchedFields] = useState<{ [key: string]: boolean }>({
+    medicamento: false,
+    dosis: false,
+    frecuencia: false,
+    fechaInicio: false,
+  });
+  const handleFieldTouched = (fieldName: string) => {
+    setTouchedFields({
+      ...touchedFields,
+      [fieldName]: true,
+    });
   };
+  
+  const onSubmit: SubmitHandler<Formulario> = async (data) => {
+    const isValid = await trigger();
+    if (isValid) {
+      try {
+        await mutateAsync({
+          nombreMedicamento: data.medicamento,
+          dosis: data.dosis,
+          frecuencia: data.frecuencia,
+          fechaInicio: data.fechaInicio,
+        });
+        Alert.alert(
+          "Plan de consumo creado correctamente en el servidor SDDSDSDSD",
+          "",
+          [{ text: "OK", onPress: () => navigation.navigate("ExpressPC_Screen" as never) }],
+          { cancelable: false }
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      Alert.alert("Por favor, complete todos los campos del formulario.");
+    }
+  };
+  
+    
+  
 
   return (
     <KeyboardAvoidingView
@@ -88,14 +113,17 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
             control={control}
             rules={{ required: { value: true, message: "Campo requerido" } }}
             render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.input}
-                placeholder="Ingrese el nombre del Medicamento"
-                keyboardType="default"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
+              <>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Ingrese el nombre del Medicamento"
+                  keyboardType="default"
+                  onBlur={() => { onBlur(); handleFieldTouched('medicamento') }}
+                  onChangeText={onChange}
+                  value={value}
+                />
+                {touchedFields.medicamento && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
+              </>
             )}
             name="medicamento"
             defaultValue=""
@@ -103,15 +131,19 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
           <Text>Dosis:</Text>
           <Controller
             control={control}
+            rules={{ required: { value: true, message: "Campo requerido" } }}
             render={({ field: { onChange, onBlur, value } }) => (
+              <>
               <TextInput
                 style={styles.input}
                 value={value}
-                onBlur={onBlur}
+                onBlur={() => { onBlur(); handleFieldTouched('dosis') }}
                 onChangeText={onChange}
-                placeholder="Ingrese en número de comprimidos"
+                placeholder="Número de comprimidos a despachar"
                 keyboardType="numeric"
               />
+              {touchedFields.frecuencia && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
+            </>
             )}
             name="dosis"
             defaultValue=""
@@ -121,14 +153,17 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
             control={control}
             rules={{ required: { value: true, message: "Campo requerido" } }}
             render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.input}
-                value={value}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                placeholder="Indique la frecuencia de consumo en horas"
-                keyboardType="numeric"
-              />
+              <>
+                <TextInput
+                  style={styles.input}
+                  value={value}
+                  onBlur={() => { onBlur(); handleFieldTouched('frecuencia') }}
+                  onChangeText={onChange}
+                  placeholder="Indique la frecuencia de consumo en horas"
+                  keyboardType="numeric"
+                />
+                {touchedFields.frecuencia && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
+              </>
             )}
             name="frecuencia"
             defaultValue=""
@@ -138,14 +173,18 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
             control={control}
             rules={{ required: { value: true, message: "Campo requerido" } }}
             render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.input}
-                value={value}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                placeholder="Ingrese partir de qué día"
-                keyboardType="numeric"
-              />
+              <>
+                <TextInput
+                  style={styles.input}
+                  value={value}
+                  onBlur={() => { onBlur(); handleFieldTouched('fechaInicio') }}
+                  onChangeText={onChange}
+                  placeholder="Ingrese partir de qué día"
+                  keyboardType="numeric"
+                />
+                {touchedFields.fechaInicio && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
+              </>
+
             )}
             name="fechaInicio"
             defaultValue=""
@@ -215,6 +254,11 @@ const styles = StyleSheet.create({
   },
   buttonCrearPC: {
     backgroundColor: colors.Orange.dark,
+  },
+  errorText: {
+    color: "red",
+    fontSize: 12,
+    marginLeft: 10,
   },
 });
 

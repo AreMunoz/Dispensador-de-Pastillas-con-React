@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -15,8 +16,9 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import colors from "./src/colors";
 import { Picker } from "@react-native-picker/picker";
 import { CustomButton } from "./components/CustomButton";
-import { PlanDeConsumoResponse } from "./metodosService";
+import { PlanDeConsumoResponse, planesDeConsumo, useUpdatePlanConsumo } from "./metodosService";
 import { API } from "./services/const";
+import axios from "axios";
 
 type ModificarProps = StackScreenProps<
   RootStackParamList,
@@ -34,6 +36,13 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
   const [data, setData] = useState<PlanDeConsumoResponse[]>([]);
   const [selected, setSelected] = useState<PlanDeConsumoResponse>();
   const [selectedValue, setSelectedValue] = useState<string|null>(null);
+  const [updatedPlan, setUpdatedPlan] = useState<planesDeConsumo>({
+    nombreMedicamento: "",
+    frecuencia: "",
+    dosis: "",
+    fechaInicio: "",
+  });
+  const updatePlanMutation = useUpdatePlanConsumo(); // Utilizar el hook useUpdatePlanConsumo
 
   useEffect(() => {
     API.get<PlanDeConsumoResponse[]>("/planesDeConsumo/todos")
@@ -53,6 +62,48 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
       if (selected) setSelected(selected);
     }
   }, [selectedValue]);
+
+  const handleUpdatePlan = async () => {
+    if (selectedValue) {
+      try {
+        await updatePlanMutation.mutateAsync({ id: selectedValue, updatedPlanConsumo: updatedPlan });
+        Alert.alert("Éxito", "Plan de consumo actualizado correctamente");
+      } catch (error) {
+        Alert.alert("Error", "Hubo un error al actualizar el plan de consumo");
+      }
+    } else {
+      Alert.alert("Error", "Debe seleccionar un Plan de Consumo antes de actualizar");
+    }
+  };
+  
+  // Función para manejar la modificación del plan de consumo
+  const handleModificarPlan = async () => {
+    if (selectedValue) {
+      try {
+        // Construir el cuerpo de la solicitud con los datos actualizados
+        const requestBody = {
+          id: selectedValue,
+          updatedPlanConsumo: updatedPlan
+        };
+  
+        // Realizar la solicitud PUT a la ruta de modificación
+        const response = await axios.put(`/registrar/$idPlan=${selectedValue}`, requestBody);
+  
+        // Verificar si la solicitud fue exitosa (código de estado 200)
+        if (response.status === 200) {
+          Alert.alert("Éxito", "Plan de consumo modificado exitosamente");
+        } else {
+          Alert.alert("Error", "Hubo un error al modificar el plan de consumo");
+        }
+      } catch (error) {
+        // Manejar errores de red o del servidor
+        console.error("Error al modificar el plan de consumo:", error);
+        Alert.alert("Error", "Hubo un error al modificar el plan de consumo");
+      }
+    } else {
+      Alert.alert("Error", "Debe seleccionar un Plan de Consumo antes de modificar");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -79,12 +130,6 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
           ))}
         </Picker>
       </View>
-
-      <TouchableOpacity style={[styles.formatoButton, styles.buttonConsultar]}>
-        <FontAwesome name="eye" size={28} color={"white"} />
-        <TextInput style={styles.buttonText}>Consultar</TextInput>
-      </TouchableOpacity>
-
       <View style={[styles.infoConteiner]}>
         <TextInput style={[styles.SubtitleH3]}>Detalles del plan de consumo:</TextInput>
         <View style={[styles.info]}>
@@ -132,17 +177,17 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
         <View style={[styles.boxButtons]}>
           <TouchableOpacity
             style={[styles.styleButton, { backgroundColor: "#354F92" }]}
-            onPress={() => navigation.navigate("ModificarPC_Screen" as never)}
+            onPress={handleModificarPlan}
           >
             <FontAwesome name="edit" size={24} color="white" />
-            <TextInput style={styles.buttonText}>Modificar</TextInput>
+            <Text style={styles.buttonText}>Modificar</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.styleButton, { backgroundColor: "#E72929" }]}
             onPress={() => navigation.navigate("EliminarPC_Screen" as never)}
           >
             <FontAwesome name="trash" size={20} color={"white"} />
-            <TextInput style={styles.buttonText}>Eliminar</TextInput>
+            <Text style={styles.buttonText}>Eliminar</Text>
           </TouchableOpacity>
         </View>
       </View>
