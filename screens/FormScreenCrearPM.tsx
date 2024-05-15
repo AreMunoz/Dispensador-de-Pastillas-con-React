@@ -109,7 +109,7 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}
-                placeholder="Ingrese la dosis "
+                placeholder="Ingrese en número de comprimidos"
                 keyboardType="numeric"
               />
             )}
