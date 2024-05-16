@@ -34,19 +34,19 @@ const DispensarPC_BajoDemanda = ({ navigation }: DispensarBajoDemandaProps) => {
         <Text style={[styles.title, { textAlign: "center" }]}>Datos</Text>
         <Text style={styles.Subtitle}>Medicamento:</Text>
         <Text style={[styles.respuestaCard, styles.respuestaText]}>
-          sdfjhsdf
+          Paracetamol
         </Text>
         <View style={styles.box}>
           <View style={[styles.column, { flex: 1 }]}>
             <Text style={[styles.Subtitle]}>Fecha de Inicio:</Text>
             <Text style={[styles.respuestaCard, styles.respuestaText]}>
-              sdfhjsdf
+              02/05/2024
             </Text>
           </View>
           <View style={[styles.column, { flex: 1 }]}>
             <Text style={[styles.Subtitle]}>Fecha de Fin:</Text>
             <Text style={[styles.respuestaCard, styles.respuestaText]}>
-              sdfjhsdf
+            20/05/2024
             </Text>
           </View>
         </View>
@@ -54,13 +54,13 @@ const DispensarPC_BajoDemanda = ({ navigation }: DispensarBajoDemandaProps) => {
           <View style={[styles.column, { flex: 1 }]}>
             <Text style={[styles.Subtitle]}>Dosis:</Text>
             <Text style={[styles.respuestaCard, styles.respuestaText]}>
-              comprimido(s)
+              1 comprimido(s)
             </Text>
           </View>
           <View style={[styles.column, { flex: 1 }]}>
             <Text style={[styles.Subtitle]}>Fecha dispensada:</Text>
             <Text style={[styles.respuestaCard, styles.respuestaText]}>
-              sdfjhsdf
+              02/05/2024
             </Text>
           </View>
         </View>

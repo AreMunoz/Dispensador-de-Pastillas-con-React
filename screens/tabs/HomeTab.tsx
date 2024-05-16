@@ -30,22 +30,22 @@ const HomeSection = ({ onPress }: HomeSectionProps) => {
 
       <View style={[styles.boxAlertContainer, styles.boxNextMedicine]}>
         <View style={[styles.tituloContainer, styles.titleNextMedicine]}>
-          <Text style={styles.tituloTexto}>Próximo medicamento:</Text>
+          <Text style={styles.tituloTexto}>Próximo medicamento: </Text>
         </View>
         <View style={{ padding: 5, paddingTop: 20 }}>
           <View style={styles.card}>
             <AntDesign name="medicinebox" size={24} color="black" />
-            <Text style={styles.textFormat}>Medicamento:</Text>
+            <Text style={styles.textFormat}>Medicamento: Paracetamol </Text>
           </View>
           
           <View style={styles.card}>
           <Fontisto name="date" size={24} color="black" />
-            <Text style={styles.textFormat}>Fecha:</Text>
+            <Text style={styles.textFormat}>Fecha: 17/05/2024</Text>
           </View>
 
           <View style={styles.card}>
           <Ionicons name="time-outline" size={24} color="black" />
-            <Text style={styles.textFormat}>Hora:</Text>
+            <Text style={styles.textFormat}>Hora: 17:00</Text>
           </View>
 
 
@@ -61,12 +61,13 @@ const HomeSection = ({ onPress }: HomeSectionProps) => {
         <View style={{ padding: 5, paddingTop: 20 }}>
         <View style={styles.card}>
             <AntDesign name="medicinebox" size={24} color="black" />
-            <Text style={styles.textFormat}>Medicamento:</Text>
+            <Text style={styles.textFormat}>Medicamento: Lorantadina</Text>
           </View>
           <View style={styles.card}>
           <Ionicons name="timer" size={24} color="black" />
             <Text style={styles.textFormat}>Se reprogramará para la siguiente hora:</Text>
           </View>
+          <Text style={[styles.textFormat, {textAlign: "center"}]}>14:00</Text>
         </View>
       </View>
     </View>

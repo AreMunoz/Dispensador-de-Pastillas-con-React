@@ -39,7 +39,7 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
 
       <View style={styles.buttonContainer}>
         <Text style={styles.textFormat}>
-          Ingrese el ID de la cabina a vincular
+          Ingrese la IP de la cabina
         </Text>
         <Controller
           control={control}
@@ -49,7 +49,7 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              placeholder="ID de la cabina"
+              placeholder="IP de la cabina"
             />
           )}
           name="IDcabina"

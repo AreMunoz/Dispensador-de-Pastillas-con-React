@@ -24,7 +24,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const [password, setPassword] = useState("");
 
   const onSubmit = (data: FormData) => {
-    /* if (email === "") {
+     if (email === "dev") {
         Alert.alert("Error", "El correo electrónico es requerido");
         return;
       }
@@ -34,16 +34,16 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
         return;
       }
   
-      if (password !== "123456") {
+      if (password !== "123") {
         Alert.alert("Error", "La contraseña es incorrecta");
         return;
       }
   
-      if (email.includes("@") === false) {
+      if (email.includes("@gmail.com") === false) {
         Alert.alert("Error", "El correo electrónico es inválido");
         return;
       }
-   */
+   
     navigation.navigate("HomeScreen");
     // Aquí son las acciones con los datos del formulario, como autenticar al usuario, etc.
     //

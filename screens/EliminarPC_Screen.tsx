@@ -1,6 +1,6 @@
 import { StackScreenProps } from "@react-navigation/stack";
-import React from "react";
-import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Animated } from "react-native";
 import { RootStackParamList } from "../routes";
 import { Feather } from "@expo/vector-icons";
 import colors from "./src/colors";
@@ -13,10 +13,31 @@ type EliminarPCScreenProps = StackScreenProps<
 >;
 
 const EliminarPC_Screen = ({ navigation }: EliminarPCScreenProps) => {
+  const translateY = useRef(new Animated.Value(500)).current;
+  const opacity = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(translateY, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(opacity, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, []);
+
   return (
     <TouchableWithoutFeedback onPress={navigation.goBack}>
-      <View style={styles.modalBackground}>
-        <View style={styles.modalContainer}>
+      <View style={styles.container}>
+        <Animated.View style={[styles.modalBackground, { opacity }]}>
+          {/* Fondo transparente */}
+        </Animated.View>
+        <Animated.View style={[styles.modalContainer, { transform: [{ translateY }] }]}>
           <View style={styles.modalOrder}>
             <Feather name="alert-triangle" size={48} color="#273abe" />
             <Text
@@ -46,24 +67,27 @@ const EliminarPC_Screen = ({ navigation }: EliminarPCScreenProps) => {
               onPress={() => deletePlanDeConsumo}
             />
           </View>
-        </View>
+        </Animated.View>
       </View>
     </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
-  modalBackground: {
-    flexGrow: 1,
-    backgroundColor: "rgba(0,0,0,0.45)",
-    justifyContent: "center",
+  container: {
+    flex: 1,
+    justifyContent: "flex-end",
     alignItems: "center",
   },
+  modalBackground: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.1)",
+  },
   modalContainer: {
-    backgroundColor: "#fff",
+    backgroundColor: "white",
     padding: 16,
     borderRadius: 12,
-    width: "85%",
+    width: "100%",
     columnGap: 8,
   },
   modalOrder: {

@@ -66,9 +66,9 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
           fechaInicio: data.fechaInicio,
         });
         Alert.alert(
-          "Plan de consumo creado correctamente en el servidor SDDSDSDSD",
+          "Plan de consumo creado correctamente en el servidor",
           "",
-          [{ text: "OK", onPress: () => navigation.navigate("ExpressPC_Screen" as never) }],
+          [{ text: "OK", onPress: () => navigation.navigate("PlanDeConsumoTab" as never) }],
           { cancelable: false }
         );
       } catch (error) {

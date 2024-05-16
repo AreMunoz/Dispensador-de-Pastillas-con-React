@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -10,34 +11,25 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import colors from "./src/colors";
-
-//<Button title="HomeTab" onPress={() => handleAction('HomeScreen')} />
-//<Button title='HistorialTab' onPress={() => handleAction('HistorialTab')}/>
+import { API } from "./services/const";
+import { PlanDeConsumoProgramadoResponse } from "./metodosService";
 
 type ExpressPC_Props = StackScreenProps<RootStackParamList, "ExpressPC_Screen">;
 
 const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
-  // Función para manejar la acción
-  const handleAction = (action: string) => {
-    if (action === "crear") {
-      // Realizar la lógica para crear un plan de consumo
-    } else if (action === "modificar") {
-      // Realizar la lógica para modificar un plan de consumo
-      navigation.navigate("ModificarPC_Screen");
-    } else if (action === "consultar") {
-      // Realizar la lógica para consultar un plan de consumo
-      navigation.navigate("ConsultarPC_Screen");
-    } else if (action === "eliminar") {
-      // Realizar la lógica para eliminar un plan de consumo
-      navigation.navigate("EliminarPC_Screen");
-    } else if (action === "HistorialTab") {
-      // Realizar la lógica para ir a la pantalla de HistorialTab
-      navigation.navigate("AccionesHardwareScreen");
-    } else if (action === "express") {
-      // Realizar la lógica para ir a la pantalla de HistorialTab
-      navigation.navigate("ExpressPC_Screen");
-    }
-  };
+
+  const [data, setData] = useState<PlanDeConsumoProgramadoResponse[]>([]);
+
+  useEffect(() => {
+    // Usando Axios
+    API.get<PlanDeConsumoProgramadoResponse[]>("/planesDeConsumoProgramados/todos")
+      .then((response) => {
+        console.log({ data: response.data });
+        setData(response.data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
 
   return (
     <View style={styles.container}>
@@ -59,20 +51,23 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={[styles.buttonManual, styles.color1Button]}
-          onPress={() => navigation.navigate("DispensarPC_BajoDemanda" as never)}
-        >
-          <MaterialIcons name="crisis-alert" size={24} color="white" />
-          <Text style={styles.buttonText}>Plan de consumo 1</Text>
-        </TouchableOpacity>
 
+      {data.map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[styles.buttonManual, styles.color1Button]}
+            onPress={() => navigation.navigate("DispensarPC_BajoDemanda" as never)}
+          >
+            <MaterialIcons name="crisis-alert" size={24} color="white" />
+            <Text style={styles.buttonText}>Paracetamol</Text>
+          </TouchableOpacity>
+        ))}
         <TouchableOpacity
           style={[styles.buttonManual, styles.color2Button]}
           onPress={() => navigation.navigate("DispensarPC_BajoDemanda" as never)}
         >
           <MaterialIcons name="crisis-alert" size={24} color="white" />
-          <Text style={styles.buttonText}>Plan de Consumo 2</Text>
+          <Text style={styles.buttonText}>Paracetamol</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -82,7 +77,7 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
           }
         >
           <MaterialIcons name="crisis-alert" size={24} color="white" />
-          <Text style={styles.buttonText}>Plan de consumo 3</Text>
+          <Text style={styles.buttonText}>Omeprazol</Text>
         </TouchableOpacity>
       </View>
     </View>

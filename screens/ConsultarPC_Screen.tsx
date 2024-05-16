@@ -8,7 +8,7 @@ import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import { CustomButton } from "./components/CustomButton";
 import { API } from "./services/const";
-import { PlanDeConsumoResponse } from "./metodosService";
+import { PlanDeConsumoResponse, useDeletePlanConsumo } from "./metodosService";
 import { ScrollView } from "react-native-gesture-handler";
 /**
  type GetConsultarPlanDeConsumoResponse = {
@@ -31,6 +31,8 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
   const [data, setData] = useState<PlanDeConsumoResponse[]>([]);
   const [selected, setSelected] = useState<PlanDeConsumoResponse>();
   const [selectedValue, setSelectedValue] = useState<string|null>(null);
+
+  const deletePC = useDeletePlanConsumo();
   /*
   const [data, setData] = useState<GetConsultarPlanDeConsumoResponse[]>([]);
   const [selected, setSelected] = useState<GetConsultarPlanDeConsumoResponse>();
@@ -90,38 +92,30 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
 
   useEffect(() => {
     console.log({ selectedValue });
-    // Js hay false y falsy
-    // hay true y truthy
-
-    // JS null -> false
     if (selectedValue) {
       console.log({ selectedValue, tipo: typeof selectedValue });
-
       const selected = data.find((item) => item.idPlanDeConsumo == selectedValue);
-
       console.log(selected);
-
       if (selected) setSelected(selected);
     }
   }, [selectedValue]);
 
-  const handleEliminarPlan = async () => {
-    if (selectedValue) {
-      try {
-        // Realizar la solicitud DELETE a la ruta de eliminación
-        const response = await axios.delete(`/planesDeConsumo/eliminar/$idPlan=${selectedValue}`);
 
-        // Verificar si la solicitud fue exitosa (código de estado 200)
-        if (response.status === 200) {
+
+
+  const handleEliminarPlan = async () => {
+    
+    if (selectedValue) {
+      deletePC.mutateAsync(selectedValue).then((resultado)=>{
+
+        if (resultado?.status === 200) {
           Alert.alert("Éxito", "Plan de consumo eliminado exitosamente");
         } else {
           Alert.alert("Error", "Hubo un error al eliminar el plan de consumo");
         }
-      } catch (error) {
-        // Manejar errores de red o del servidor
-        console.error("Error al eliminar el plan de consumo:", error);
-        Alert.alert("Error", "Hubo un error al eliminar el plan de consumo");
-      }
+      }).catch(resultado => {
+        Alert.alert("error de servicio");
+      })
     } else {
       Alert.alert("Error", "Debe seleccionar un Plan de Consumo antes de eliminar");
     }

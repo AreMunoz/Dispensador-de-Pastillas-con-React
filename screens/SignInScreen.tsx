@@ -80,11 +80,6 @@ const SignInScreen = ({ navigation }: SignInScreenProps) => {
           <TouchableOpacity style={[styles.button, styles.color1Button]} onPress={handleSubmit(onSubmit)}>
             <Text style={styles.buttonText}>Registrarse</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity style={[styles.button, styles.color2Button]} onPress={handleSubmit(onSubmit)}>
-            <AntDesign name="google" size={24} color="white" />
-            <Text style={styles.buttonText}>Iniciar sesión con Google</Text>
-          </TouchableOpacity>
         </View>
 
 
@@ -102,12 +97,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white', 
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 20,
   },
   formContainer: {
-    width: '80%', // Ancho del contenedor del formulario
+    width: '80%',
     margin: 10,
   },
   input: {
@@ -117,23 +112,22 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 20,
     paddingHorizontal: 10,
-    width: '100%', // Ancho del campo de entrada de texto
+    width: '100%', 
   },
   buttonText: {
-    color: 'white',
+    color: 'black',
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 20,
+    fontFamily: "Montserrat-Regular",
   },
   button: {
     padding: 10,
-    margin: 10,
-    marginBottom: 40,
+    margin: 5,
     borderRadius: 10,
     width: 'auto',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    fontSize: 16,
     gap: 12,
   },
   color1Button: {

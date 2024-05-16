@@ -153,9 +153,13 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
           </View>
           <View style={[styles.column, { flex: 1 }]}>
             <TextInput style={[styles.Subtitle]}>Dosis:</TextInput>
-            <TextInput style={[styles.respuestaCard, styles.respuestaText]}>
-              {selected?.dosis} comprimido(s)
+            <View style={[{ flexDirection: "column"}]}>
+            <TextInput style={[styles.respuestaCard, styles.respuestaText, {width:"auto"}]}>
+              {selected?.dosis} 
             </TextInput>
+            <Text>comprimido(s)</Text>
+            </View>
+            
           </View>
         </View>
 

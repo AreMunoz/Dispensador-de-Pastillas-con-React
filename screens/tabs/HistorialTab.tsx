@@ -28,29 +28,60 @@ type HistorialSectionProps = {
 
 const HistorialSection = ({ onPress }: HistorialSectionProps) => {
   const navigation = useNavigation(); // Obtiene el objeto navigation para navegar entre pantallas
+  const data = [
+    {
+      nombre: "Paracetamol",
+      fecha: "12/05/2024",
+      hora: "12:00",
+      dosificado: true,
+    },
+    {
+      nombre: "Ibuprofeno",
+      fecha: "12/05/2024",
+      hora: "11:00",
+      dosificado: true,
+    },
+    {
+      nombre: "Amoxicilina",
+      fecha: "06/05/2024",
+      hora: "12:00",
+      dosificado: false,
+    },
+    {
+      nombre: "Omeprazol",
+      fecha: "06/05/2024",
+      hora: "11:50",
+      dosificado: true,
+    },
+    
+  ];
 
   const renderItem = ({ item }) => {
+    const textColor = item.dosificado ? "green" : "red";
     return (
       <View style={styles.boxAlertContainer}>
         <View>
           <View style={styles.card}>
             <AntDesign name="medicinebox" size={24} color="black" />
-            <Text style={styles.textFormat}>Medicamento:</Text>
+            <Text style={styles.textFormat}>Medicamento: {item.nombre}</Text>
           </View>
 
           <View style={styles.card}>
             <Fontisto name="date" size={24} color="black" />
-            <Text style={styles.textFormat}>Fecha:</Text>
+            <Text style={styles.textFormat}>Fecha: {item.fecha}</Text>
           </View>
 
           <View style={styles.card}>
             <Ionicons name="time-outline" size={24} color="black" />
-            <Text style={styles.textFormat}>Hora:</Text>
+            <Text style={styles.textFormat}>Hora: {item.hora}</Text>
           </View>
 
           <View style={styles.card}>
             <Ionicons name="alert-circle-outline" size={24} color="black" />
             <Text style={styles.textFormat}>Estado:</Text>
+            <Text style={[styles.textFormat, { color: textColor }]}>
+              {item.dosificado ? "Dosificado" : "No dosificado"}
+            </Text>
           </View>
         </View>
       </View>
@@ -61,28 +92,22 @@ const HistorialSection = ({ onPress }: HistorialSectionProps) => {
       <View>
         <Text style={styles.title}>Historial de Consumo</Text>
       </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log("Aqui debe de exportar en PDF")}
-      >
-        <AntDesign name="download" size={24} color="white" />
-        <Text style={styles.buttonText}>Exportar en PDF</Text>
-      </TouchableOpacity>
 
       <View>
         <Text style={styles.subtitle}>Último medicamento consumido:</Text>
       </View>
-
-      <FlatList
-        data={["medicamento1", "medicamento 1"]}
-        renderItem={renderItem}
-        contentContainerStyle={{
-          flexGrow: 1,
-          justifyContent: "flex-start",
-          flex: 1,
-        }}
-        style={[styles.lista]}
-      />
+      <ScrollView style={{ width: "100%" }}>
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: "flex-start",
+            flex: 1,
+          }}
+          style={[styles.lista]}
+        />
+      </ScrollView>
     </View>
   );
 };
@@ -135,6 +160,8 @@ const styles = StyleSheet.create({
   },
   lista: {
     width: "90%",
+    alignSelf: "center",
+    marginBottom: 20,
   },
   card: { flexDirection: "row", gap: 16, marginBottom: 4 },
 });
