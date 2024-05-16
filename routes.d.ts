@@ -14,6 +14,7 @@ export type RootStackParamList = {
     ExpressPC_Screen: undefined;
     DispensarPC_BajoDemanda: undefined;
     VaciarCabina: undefined;
+    Dispensar2: undefined;
     
 };
 

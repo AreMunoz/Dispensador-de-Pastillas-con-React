@@ -30,15 +30,9 @@ const HistorialSection = ({ onPress }: HistorialSectionProps) => {
   const navigation = useNavigation(); // Obtiene el objeto navigation para navegar entre pantallas
   const data = [
     {
-      nombre: "Paracetamol",
+      nombre: "Amoxicilina",
       fecha: "12/05/2024",
-      hora: "12:00",
-      dosificado: true,
-    },
-    {
-      nombre: "Ibuprofeno",
-      fecha: "12/05/2024",
-      hora: "11:00",
+      hora: "12:12",
       dosificado: true,
     },
     {
@@ -48,7 +42,13 @@ const HistorialSection = ({ onPress }: HistorialSectionProps) => {
       dosificado: false,
     },
     {
-      nombre: "Omeprazol",
+      nombre: "Paracetamol",
+      fecha: "12/05/2024",
+      hora: "11:58",
+      dosificado: true,
+    },
+    {
+      nombre: "Paracetamol",
       fecha: "06/05/2024",
       hora: "11:50",
       dosificado: true,

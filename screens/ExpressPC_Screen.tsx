@@ -73,11 +73,11 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
         <TouchableOpacity
           style={[styles.buttonManual, styles.color4Button]}
           onPress={() =>
-            navigation.navigate("DispensarPC_BajoDemanda" as never)
+            navigation.navigate("Dispensar2" as never)
           }
         >
           <MaterialIcons name="crisis-alert" size={24} color="white" />
-          <Text style={styles.buttonText}>Omeprazol</Text>
+          <Text style={styles.buttonText}>Amoxicilina</Text>
         </TouchableOpacity>
       </View>
     </View>

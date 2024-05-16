@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -94,6 +95,7 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
 
         <TouchableOpacity
           style={[styles.buttonManual, styles.color1Button]}
+          onPress={() => Alert.alert("Error", "No se ha podido establecer conexion con el dispensador")}
         >
           <MaterialCommunityIcons
             name="hand-coin-outline"
@@ -107,7 +109,17 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
 
         <TouchableOpacity
           style={[styles.buttonManual, styles.color2Button]}
-          onPress={() => console.log("llenar cabina...")}
+          onPress={() => {
+            Alert.alert(
+              "Estableciendo conexión con el dispensador",
+              "",
+              [],
+              { cancelable: false }
+            );
+            setTimeout(() => {
+              Alert.alert("Error", "No se ha podido establecer conexión con el dispensador");
+            }, 2000); // Aquí puedes ajustar el tiempo de espera entre las alertas en milisegundos
+          }}
         >
           <MaterialCommunityIcons name="basket-fill" size={30} color="white" />
           <Text style={[styles.textFormat, styles.buttonText]}>

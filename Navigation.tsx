@@ -5,8 +5,6 @@ import LoginScreen from './screens/LoginScreen';
 import { RootStackParamList } from './routes';
 import GestionarPlanConsumo from './screens/GestionarPlanConsumo';
 import FormScreenCrearPM from './screens/FormScreenCrearPM';
-
-import VincularDispScreen from './screens/VincularDispScreen';
 import ConsultarPC_Screen from './screens/ConsultarPC_Screen';
 import SignInScreen from './screens/SignInScreen'
 import ModificarPC_Screen from './screens/ModificarPC_Screen';
@@ -15,6 +13,8 @@ import BottomTab from './screens/BottomTab';
 import ExpressPC_Screen from './screens/ExpressPC_Screen';
 import DispensarPC_BajoDemanda from './screens/DispensarPC_BajoDemanda';
 import VaciarCabina from './screens/VaciarCabina';
+import Dispensar2 from './screens/Dispensar2';
+
 const Stack = createStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
@@ -25,7 +25,6 @@ const Navigation = () => {
         <Stack.Screen name="HomeScreen" component={BottomTab} />
         <Stack.Screen name="GestionarPlanConsumo" component={GestionarPlanConsumo} />
         <Stack.Screen name="FormScreenCrearPM" component={FormScreenCrearPM} />
-        <Stack.Screen name="VincularDispScreen" component={VincularDispScreen} />
         <Stack.Screen name="ConsultarPC_Screen" component={ConsultarPC_Screen} />
         <Stack.Screen name="EliminarPC_Screen" component={EliminarPC_Screen} />
         <Stack.Screen name="SignInScreen" component={SignInScreen} />
@@ -33,8 +32,10 @@ const Navigation = () => {
         <Stack.Screen name="ExpressPC_Screen" component={ExpressPC_Screen} />
         <Stack.Screen name="DispensarPC_BajoDemanda" component={DispensarPC_BajoDemanda}/>
         <Stack.Screen name="VaciarCabina" component={VaciarCabina}/>
+        <Stack.Screen name="Dispensar2" component={Dispensar2}/>
 
       </Stack.Navigator>
+
       
     </NavigationContainer>
   );
