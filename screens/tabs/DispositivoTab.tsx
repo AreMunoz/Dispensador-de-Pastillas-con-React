@@ -17,6 +17,7 @@ import {
   MaterialIcons,
   MaterialCommunityIcons,
   Feather,
+  FontAwesome5,
 } from "@expo/vector-icons";
 
 import { Ionicons } from "@expo/vector-icons";
@@ -39,9 +40,7 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <Text style={styles.textFormat}>
-          Ingrese la IP de la cabina
-        </Text>
+        <Text style={styles.textFormat}>Ingrese la IP de la cabina</Text>
         <Controller
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
@@ -64,16 +63,15 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
               styles.buttonManual,
               { marginBottom: 50 },
             ]}
-
             onPress={() => {
-              Alert.alert(
-                "Estableciendo conexión con el dispensador",
-                "",
-                [],
-                { cancelable: false }
-              );
+              Alert.alert("Estableciendo conexión con el dispensador", "", [], {
+                cancelable: false,
+              });
               setTimeout(() => {
-                Alert.alert("Error", "No se ha podido establecer conexión con el dispensador");
+                Alert.alert(
+                  "Error",
+                  "No se ha podido establecer conexión con el dispensador"
+                );
               }, 2000); // Aquí puedes ajustar el tiempo de espera entre las alertas en milisegundos
             }}
           >
@@ -108,7 +106,12 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
 
         <TouchableOpacity
           style={[styles.buttonManual, styles.color1Button]}
-          onPress={() => Alert.alert("Error", "No se ha podido establecer conexion con el dispensador")}
+          onPress={() =>
+            Alert.alert(
+              "Error",
+              "No se ha podido establecer conexion con el dispensador"
+            )
+          }
         >
           <MaterialCommunityIcons
             name="hand-coin-outline"
@@ -123,20 +126,42 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
         <TouchableOpacity
           style={[styles.buttonManual, styles.color2Button]}
           onPress={() => {
-            Alert.alert(
-              "Estableciendo conexión con el dispensador",
-              "",
-              [],
-              { cancelable: false }
-            );
+            Alert.alert("Estableciendo conexión con el dispensador", "", [], {
+              cancelable: false,
+            });
             setTimeout(() => {
-              Alert.alert("Error", "No se ha podido establecer conexión con el dispensador");
+              Alert.alert(
+                "Error",
+                "No se ha podido establecer conexión con el dispensador"
+              );
             }, 2000); // Aquí puedes ajustar el tiempo de espera entre las alertas en milisegundos
           }}
         >
           <MaterialCommunityIcons name="basket-fill" size={30} color="white" />
           <Text style={[styles.textFormat, styles.buttonText]}>
             Llenar cabina
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.buttonManual,
+            { backgroundColor: "#fba834", paddingHorizontal: 20 },
+          ]}
+          onPress={() => {
+            Alert.alert("Estableciendo conexión con el dispensador", "", [], {
+              cancelable: false,
+            });
+            setTimeout(() => {
+              Alert.alert(
+                "Error",
+                "No se ha podido establecer conexión con el dispensador"
+              );
+            }, 2000); // Aquí puedes ajustar el tiempo de espera entre las alertas en milisegundos
+          }}
+        >
+          <FontAwesome5 name="fan" size={24} color="white" />
+          <Text style={[styles.textFormat, styles.buttonText]}>
+            Desatascar cabina
           </Text>
         </TouchableOpacity>
       </View>
@@ -173,8 +198,8 @@ const styles = StyleSheet.create({
   buttonManual: {
     padding: 10,
     width: "auto",
-    paddingHorizontal: 30,
     margin: 10,
+    paddingHorizontal: 40,
     borderRadius: 10,
     flexDirection: "row",
     alignItems: "center",
@@ -218,10 +243,10 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat-Bold",
   },
   color1Button: {
-    backgroundColor: colors.Orange.dark,
+    backgroundColor: colors.Red.light,
   },
   color2Button: {
-    backgroundColor: colors.Blue.dark,
+    backgroundColor: colors.Green.light,
   },
   color3Button: {
     backgroundColor: colors.Lila.main,

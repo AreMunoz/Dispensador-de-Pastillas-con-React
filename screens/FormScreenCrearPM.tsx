@@ -18,6 +18,7 @@ import colors from "./src/colors";
 import { CustomButton } from "./components/CustomButton";
 import { useCreatePlanConsumo } from "./metodosService";
 import { ScrollView } from "react-native-gesture-handler";
+import DatePickerForm from "./components/DatePickerForm";
 //stackScreenProps es un tipo de react-navigation que nos permite acceder a las propiedades de la navegación
 type FormScreenCrearPMProps = StackScreenProps<
   RootStackParamList,
@@ -190,6 +191,7 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
             defaultValue=""
           />
         </View>
+        <DatePickerForm />
 
         <TouchableOpacity
           style={[styles.button, styles.buttonCrearPC]}
@@ -209,6 +211,7 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
             onPress={navigation.goBack}
           />
         </View>
+        
       </ScrollView>
     </KeyboardAvoidingView>
   );
