@@ -46,7 +46,7 @@ const DispensarPC_BajoDemanda = ({ navigation }: DispensarBajoDemandaProps) => {
           <View style={[styles.column, { flex: 1 }]}>
             <Text style={[styles.Subtitle]}>Fecha de Fin:</Text>
             <Text style={[styles.respuestaCard, styles.respuestaText]}>
-            20/05/2024
+            
             </Text>
           </View>
         </View>

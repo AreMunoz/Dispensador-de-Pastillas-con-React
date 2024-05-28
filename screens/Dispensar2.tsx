@@ -46,7 +46,7 @@ const Dispensar2 = ({ navigation }: DispensarBajoDemandaProps) => {
           <View style={[styles.column, { flex: 1 }]}>
             <Text style={[styles.Subtitle]}>Fecha de Fin:</Text>
             <Text style={[styles.respuestaCard, styles.respuestaText]}>
-            30/05/2024
+            
             </Text>
           </View>
         </View>

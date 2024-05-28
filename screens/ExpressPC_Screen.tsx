@@ -12,12 +12,12 @@ import {
 } from "@expo/vector-icons";
 import colors from "./src/colors";
 import { API } from "./services/const";
-import { PlanDeConsumoProgramadoResponse } from "./metodosService";
+//import { PlanDeConsumoProgramadoResponse } from "./metodosService";
 
 type ExpressPC_Props = StackScreenProps<RootStackParamList, "ExpressPC_Screen">;
 
 const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
-
+/*
   const [data, setData] = useState<PlanDeConsumoProgramadoResponse[]>([]);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
       .catch((error) => console.error(error));
   }, []);
 
-
+*/
   return (
     <View style={styles.container}>
       <View>
@@ -52,16 +52,6 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
       </View>
       <View style={styles.buttonContainer}>
 
-      {data.map((item, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[styles.buttonManual, styles.color1Button]}
-            onPress={() => navigation.navigate("DispensarPC_BajoDemanda" as never)}
-          >
-            <MaterialIcons name="crisis-alert" size={24} color="white" />
-            <Text style={styles.buttonText}>Paracetamol</Text>
-          </TouchableOpacity>
-        ))}
         <TouchableOpacity
           style={[styles.buttonManual, styles.color2Button]}
           onPress={() => navigation.navigate("DispensarPC_BajoDemanda" as never)}

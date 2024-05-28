@@ -51,6 +51,7 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
               onChangeText={onChange}
               value={value}
               placeholder="IP de la cabina"
+              keyboardType="numeric"
             />
           )}
           name="IDcabina"
@@ -63,6 +64,18 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
               styles.buttonManual,
               { marginBottom: 50 },
             ]}
+
+            onPress={() => {
+              Alert.alert(
+                "Estableciendo conexión con el dispensador",
+                "",
+                [],
+                { cancelable: false }
+              );
+              setTimeout(() => {
+                Alert.alert("Error", "No se ha podido establecer conexión con el dispensador");
+              }, 2000); // Aquí puedes ajustar el tiempo de espera entre las alertas en milisegundos
+            }}
           >
             <MaterialIcons name="on-device-training" size={32} color="white" />
             <Text style={[styles.textFormat, styles.buttonText]}>
