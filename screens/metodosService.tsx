@@ -122,7 +122,7 @@ export const useDeletePlanConsumo = () => {
 
 
 
-
+/** 
 //plan de consumo programado
 //plan de consumo bajo Demanda GET
 export type PlanDeConsumoProgramadoResponse = {
@@ -219,3 +219,4 @@ export const useGetDispensadores = () => {
     initialData: [],
   });
 }
+*/

@@ -190,8 +190,30 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
             name="fechaInicio"
             defaultValue=""
           />
+          <Text>Fecha de fin:</Text>
+          <Controller
+            control={control}
+            rules={{ required: { value: true, message: "Campo requerido" } }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <>
+                <TextInput
+                  style={styles.input}
+                  value={value}
+                  onBlur={() => { onBlur(); handleFieldTouched('fechaFin') }}
+                  onChangeText={onChange}
+                  placeholder="Fecha en la que termina el plan de consumo"
+                  keyboardType="numeric"
+                />
+                {touchedFields.fechaInicio && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
+              </>
+
+            )}
+            name="fechaInicio"
+            defaultValue=""
+          />
         </View>
-        <DatePickerForm />
+
+        
 
         <TouchableOpacity
           style={[styles.button, styles.buttonCrearPC]}
