@@ -9,29 +9,35 @@ import {
   Alert,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList, RootTapParamList } from "../../routes";
-import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import { MaterialIcons, MaterialCommunityIcons, Feather, FontAwesome5 } from "@expo/vector-icons";
 import colors from "../src/colors";
-import {
-  MaterialIcons,
-  MaterialCommunityIcons,
-  Feather,
-  FontAwesome5,
-} from "@expo/vector-icons";
-
-import { Ionicons } from "@expo/vector-icons";
-import VaciarCabina from "../VaciarCabina";
-type DispositivoTabProps = {
-  onPress: () => void;
-};
 
 interface FormData {
   IDcabina: string;
 }
 
-const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
-  const { control } = useForm<FormData>();
+const IP = "192.168.80.123";
+
+const DispositivoTab = () => {
+  const { control, getValues } = useForm<FormData>();
+  const [connectedCabins, setConnectedCabins] = useState<string[]>([]);
+
+  const handlePress = () => {
+    const ip = getValues("IDcabina");
+    if (ip === IP) {
+      Alert.alert("Estableciendo conexión con el dispensador", "", [], {
+        cancelable: false,
+      });
+      setTimeout(() => {
+        Alert.alert("Éxito", `Conexión exitosa con la IP ${IP}`);
+        setConnectedCabins([...connectedCabins, ip]);
+      }, 2000);
+    } else {
+      setTimeout(() => {
+        Alert.alert("Error", `No se puede establecer conexión con la IP ${ip}`);
+      }, 2000);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -63,17 +69,7 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
               styles.buttonManual,
               { marginBottom: 50 },
             ]}
-            onPress={() => {
-              Alert.alert("Estableciendo conexión con el dispensador", "", [], {
-                cancelable: false,
-              });
-              setTimeout(() => {
-                Alert.alert(
-                  "Error",
-                  "No se ha podido establecer conexión con el dispensador"
-                );
-              }, 2000); // Aquí puedes ajustar el tiempo de espera entre las alertas en milisegundos
-            }}
+            onPress={handlePress}
           >
             <MaterialIcons name="on-device-training" size={32} color="white" />
             <Text style={[styles.textFormat, styles.buttonText]}>
@@ -89,17 +85,23 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
           <View>
             <View style={styles.card}>
               <Feather name="inbox" size={24} color="black" />
-              <Text style={styles.textFormat}>Cabina 1:</Text>
+              <Text style={styles.textFormat}>
+                Cabina 1: {connectedCabins.includes(IP) && <Text style={{ color: 'green' }}>conectada</Text>}
+              </Text>
             </View>
 
             <View style={styles.card}>
               <Feather name="inbox" size={24} color="black" />
-              <Text style={styles.textFormat}>Cabina 2:</Text>
+              <Text style={styles.textFormat}>
+                Cabina 2: {connectedCabins.includes(IP) && <Text style={{ color: 'green' }}>conectada</Text>}
+              </Text>
             </View>
 
             <View style={styles.card}>
               <Feather name="inbox" size={24} color="black" />
-              <Text style={styles.textFormat}>Cabina 3:</Text>
+              <Text style={styles.textFormat}>
+                Cabina 3: {connectedCabins.includes(IP) && <Text style={{ color: 'green' }}>conectada</Text>}
+              </Text>
             </View>
           </View>
         </View>
@@ -109,7 +111,7 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
           onPress={() =>
             Alert.alert(
               "Error",
-              "No se ha podido establecer conexion con el dispensador"
+              "No se ha podido establecer conexión con el dispensador"
             )
           }
         >
@@ -134,7 +136,7 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
                 "Error",
                 "No se ha podido establecer conexión con el dispensador"
               );
-            }, 2000); // Aquí puedes ajustar el tiempo de espera entre las alertas en milisegundos
+            }, 2000);
           }}
         >
           <MaterialCommunityIcons name="basket-fill" size={30} color="white" />
@@ -142,6 +144,7 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
             Llenar cabina
           </Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={[
             styles.buttonManual,
@@ -156,7 +159,7 @@ const DispositivoTab = ({ onPress }: DispositivoTabProps) => {
                 "Error",
                 "No se ha podido establecer conexión con el dispensador"
               );
-            }, 2000); // Aquí puedes ajustar el tiempo de espera entre las alertas en milisegundos
+            }, 2000);
           }}
         >
           <FontAwesome5 name="fan" size={24} color="white" />
@@ -257,4 +260,5 @@ const styles = StyleSheet.create({
   },
   card: { flexDirection: "row", gap: 16, marginBottom: 4 },
 });
+
 export default DispositivoTab;
