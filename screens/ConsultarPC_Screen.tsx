@@ -8,7 +8,7 @@ import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import { CustomButton } from "./components/CustomButton";
 import { API } from "./services/const";
-import { PlanDeConsumoResponse, useDeletePlanConsumo } from "./metodosService";
+import { PlanDeConsumoResponse } from "./metodos/serviceAPI";
 import { ScrollView } from "react-native-gesture-handler";
 /**
  type GetConsultarPlanDeConsumoResponse = {
@@ -32,7 +32,7 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
   const [selected, setSelected] = useState<PlanDeConsumoResponse>();
   const [selectedValue, setSelectedValue] = useState<string|null>(null);
 
-  const deletePC = useDeletePlanConsumo();
+  //const deletePC = useDeletePlanConsumo();
   /*
   const [data, setData] = useState<GetConsultarPlanDeConsumoResponse[]>([]);
   const [selected, setSelected] = useState<GetConsultarPlanDeConsumoResponse>();
@@ -69,7 +69,7 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
             .catch((error) => console.error(error)) */
 
     // Usando Axios
-    API.get<PlanDeConsumoResponse[]>("/planesDeConsumo/todos")
+    API.get<PlanDeConsumoResponse[]>("/planDeConsumoProgramado/obtenerPlanes")
       .then((response) => {
         console.log({ data: response.data });
         setData(response.data);
@@ -87,21 +87,29 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
         }).then((response) => {
             // Status 400 - 500 se hace el throw automatico
             console.log(response.data)
-        }).catch((error) => console.error(error)) */
+        }).catch((error) => console.error(error))
+        
+        // Usando Axios
+    API.get<PlanDeConsumoResponse[]>("/planDeConsumoProgramado/obtenerPlanes")
+      .then((response) => {
+        console.log({ data: response.data });
+        setData(response.data);
+      })
+      .catch((error) => console.error(error));*/
   }, []);
 
   useEffect(() => {
     console.log({ selectedValue });
     if (selectedValue) {
       console.log({ selectedValue, tipo: typeof selectedValue });
-      const selected = data.find((item) => item.idPlanDeConsumo == selectedValue);
+      const selected = data.find((item) => item.id == Number(selectedValue));
       console.log(selected);
       if (selected) setSelected(selected);
     }
   }, [selectedValue]);
 
 
-
+/*
 
   const handleEliminarPlan = async () => {
     
@@ -119,7 +127,7 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
     } else {
       Alert.alert("Error", "Debe seleccionar un Plan de Consumo antes de eliminar");
     }
-  };
+  };*/
   
   return (
     <View style={styles.container}>
@@ -139,31 +147,26 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
           <Picker.Item label="Seleccione un Plan de Consumo" value={null} />
           {data.map((item) => (
             <Picker.Item
-              key={`PC-${item.idPlanDeConsumo}`}
-              label={item.nombreMedicamento}
-              value={item.idPlanDeConsumo}
+              key={item.id}
+              label={item.nombreDeMedicamento }
+              value={item.id}
             />
           ))}
         </Picker>
       </View>
-
-      <TouchableOpacity style={[styles.formatoButton, styles.buttonConsultar]}>
-        <FontAwesome5 name="eye" size={28} color={"white"} />
-        <Text style={styles.buttonText}>Consultar</Text>
-      </TouchableOpacity>
 
       <View style={[styles.infoConteiner]}>
         <Text style={[styles.SubtitleH3]}>Detalles del plan de consumo:</Text>
         <View style={[styles.info]}>
           <Text style={[styles.Subtitle]}>ID Plan de Consumo:</Text>
           <Text style={[styles.respuestaCard, styles.respuestaText]}>
-            {selected?.idPlanDeConsumo}
+            {selected?.id}
           </Text>
         </View>
         <View style={[styles.info]}>
           <Text style={[styles.Subtitle]}>Nombre del medicamento:</Text>
           <Text style={[styles.respuestaCard, styles.respuestaText]}>
-            {selected?.nombreMedicamento}
+            {selected?.nombreDeMedicamento}
           </Text>
         </View>
         <View style={styles.box}>
@@ -176,7 +179,7 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
           <View style={[styles.column, { flex: 1 }]}>
             <Text style={[styles.Subtitle]}>Dosis:</Text>
             <Text style={[styles.respuestaCard, styles.respuestaText]}>
-              {selected?.dosis} comprimido(s)
+              {selected?.dosisEnPastillas} comprimido(s)
             </Text>
           </View>
         </View>
@@ -185,13 +188,13 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
           <View style={[styles.column, { flex: 1 }]}>
             <Text style={[styles.Subtitle]}>Fecha de Inicio:</Text>
             <Text style={[styles.respuestaCard, styles.respuestaText]}>
-              {selected?.fechaInicio}
+              {selected?.siguienteDosis}
             </Text>
           </View>
           <View style={[styles.column, { flex: 1 }]}>
             <Text style={[styles.Subtitle]}>Fecha de Fin:</Text>
             <Text style={[styles.respuestaCard, styles.respuestaText]}>
-              {selected?.fechaFin}
+              {selected?.ultimaDosis}
             </Text>
           </View>
         </View>
@@ -206,7 +209,8 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.styleButton, { backgroundColor: "#E72929" }]}
-            onPress={handleEliminarPlan} 
+            
+              onPress = {() => {"onPress={handleEliminarPlan} "}}
           >
             <FontAwesome5 name="trash" size={20} color={"white"} />
             <Text style={styles.buttonText}>Eliminar</Text>

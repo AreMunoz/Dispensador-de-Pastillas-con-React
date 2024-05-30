@@ -1,26 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   Button,
   StyleSheet,
-  TouchableOpacity,
   ScrollView,
   FlatList,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList, RootTapParamList } from "../../routes";
-import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import colors from "../src/colors";
-import CustomText from "../src/ui/Text";
-import {
-  FontAwesome5,
-  MaterialCommunityIcons,
-  Fontisto,
-  AntDesign,
-  Ionicons,
-} from "@expo/vector-icons";
+import axios from "axios";
+import { Fontisto, AntDesign, Ionicons, Feather } from "@expo/vector-icons";
+import { HistorialConsumoRespose } from "../metodos/serviceAPI";
+import { API } from "../services/const";
 
 type HistorialSectionProps = {
   onPress: () => void;
@@ -28,60 +20,46 @@ type HistorialSectionProps = {
 
 const HistorialSection = ({ onPress }: HistorialSectionProps) => {
   const navigation = useNavigation(); // Obtiene el objeto navigation para navegar entre pantallas
-  const data = [
-    {
-      nombre: "Amoxicilina",
-      fecha: "12/05/2024",
-      hora: "12:12",
-      dosificado: true,
-    },
-    {
-      nombre: "Amoxicilina",
-      fecha: "06/05/2024",
-      hora: "12:00",
-      dosificado: false,
-    },
-    {
-      nombre: "Paracetamol",
-      fecha: "12/05/2024",
-      hora: "11:58",
-      dosificado: true,
-    },
-    {
-      nombre: "Paracetamol",
-      fecha: "06/05/2024",
-      hora: "11:50",
-      dosificado: true,
-    },
-    
-  ];
+  const [data, setData] = useState<HistorialConsumoRespose[]>([]);
 
-  const renderItem = ({ item }) => {
-    const textColor = item.dosificado ? "green" : "red";
+  useEffect(() => {
+    API.get<HistorialConsumoRespose[]>("/planDeConsumoDispensado/obtenerPlanes")
+      .then((response) => {
+        console.log({ data: response.data });
+        const { data } = response;
+        setData(data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  const renderItem = ({ item }: { item: HistorialConsumoRespose }) => {
+    //const textColor = item.dosificado ? "green" : "red";
+    // {item.dosificado ? "Dosificado" : "No dosificado"}
+    const textColor = "green";
     return (
       <View style={styles.boxAlertContainer}>
         <View>
           <View style={styles.card}>
             <AntDesign name="medicinebox" size={24} color="black" />
-            <Text style={styles.textFormat}>Medicamento: {item.nombre}</Text>
+            <Text style={styles.textFormat}>
+              Medicamento: {item.nombreDeMedicamento}
+            </Text>
           </View>
 
           <View style={styles.card}>
             <Fontisto name="date" size={24} color="black" />
-            <Text style={styles.textFormat}>Fecha: {item.fecha}</Text>
+            <Text style={styles.textFormat}>Fecha: {item.fechaDispensada}</Text>
           </View>
 
           <View style={styles.card}>
-            <Ionicons name="time-outline" size={24} color="black" />
-            <Text style={styles.textFormat}>Hora: {item.hora}</Text>
+            <Feather name="inbox" size={24} color="black" />
+            <Text style={styles.textFormat}>Cabina: {item.numCabina}</Text>
           </View>
 
           <View style={styles.card}>
             <Ionicons name="alert-circle-outline" size={24} color="black" />
             <Text style={styles.textFormat}>Estado:</Text>
-            <Text style={[styles.textFormat, { color: textColor }]}>
-              {item.dosificado ? "Dosificado" : "No dosificado"}
-            </Text>
+            <Text style={[styles.textFormat, { color: textColor }]}></Text>
           </View>
         </View>
       </View>
@@ -96,18 +74,17 @@ const HistorialSection = ({ onPress }: HistorialSectionProps) => {
       <View>
         <Text style={styles.subtitle}>Último medicamento consumido:</Text>
       </View>
-      <ScrollView style={{ width: "100%" }}>
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          contentContainerStyle={{
-            flexGrow: 1,
-            justifyContent: "flex-start",
-            flex: 1,
-          }}
-          style={[styles.lista]}
-        />
-      </ScrollView>
+
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        contentContainerStyle={{
+          flexGrow: 1,
+          // justifyContent: "flex-start",
+          // flex: 1,
+        }}
+        style={[styles.lista]}
+      />
     </View>
   );
 };
@@ -162,6 +139,7 @@ const styles = StyleSheet.create({
     width: "90%",
     alignSelf: "center",
     marginBottom: 20,
+    flex: 1,
   },
   card: { flexDirection: "row", gap: 16, marginBottom: 4 },
 });

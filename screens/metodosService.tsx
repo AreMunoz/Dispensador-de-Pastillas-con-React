@@ -1,17 +1,17 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { API } from "./services/const";
 //POST Plan de Consumo
-export type planesDeConsumo = {
+export type planesDeConsumo1 = {
   nombreMedicamento: string;
   frecuencia: string;
   dosis: string;
   fechaInicio: string;
 };
 
-export const postPlanConsumo = async (CreatePlanConsumo: planesDeConsumo) => {
+export const postPlanConsumo = async (CreatePlanConsumo: planesDeConsumo1) => {
   try {
     const { data } = await API.post(
-      "/planesDeConsumo/registrar",
+      "/planesDeConsumo1/registrar",
       CreatePlanConsumo
     );
     return data;
@@ -220,3 +220,41 @@ export const useGetDispensadores = () => {
   });
 }
 */
+
+/*
+//aca filtra desde el servicio por IdleDeadline//GET Plan de Consumo
+export type PlanDeConsumoResponse = {
+  idPlanDeConsumo: number;
+  siguienteDosis: string; //fecha de inicio
+  ultimaDosis: string; //fecha de fin
+  dosisEnPastillas: string;
+  nombreDeMedicamento: string;
+  frecuencia: string;
+  numCabina: string;
+};
+
+export const getPlanesDeConsumo = async () => {
+  try {
+    const { data } = await API.get<PlanDeConsumoResponse[]>(
+      "/planesDeConsumoProgramado/obtenerPlanes",
+    );
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const useGetPlanesDeConsumo = (id: number) => {
+  return useQuery({
+    queryKey: ["planesDeConsumoProgramado", id],
+    queryFn: async () => {
+      if (id) {
+        const datos = await getPlanesDeConsumo();
+        const filtrados = datos?.filter((plan) => plan.idPlanDeConsumo === id);
+
+        return filtrados;
+      }
+    },
+    initialData: [],
+  });
+};*/

@@ -3,8 +3,10 @@ import { View, Text, StyleSheet, TouchableWithoutFeedback, KeyboardAvoidingView,
 import { RootStackParamList } from "../routes";
 import colors from "./src/colors";
 import { CustomButton } from "./components/CustomButton";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, TextInput } from "react-native";
+import { API } from "./services/const";
+import { PlanDeConsumoResponse } from "./metodos/serviceAPI";
 
 type DispensarBajoDemandaProps = StackScreenProps<
   RootStackParamList,
@@ -22,6 +24,31 @@ const DispensarPC_BajoDemanda = ({ navigation }: DispensarBajoDemandaProps) => {
     Alert.alert("Texto ingresado:", text);
   };
 
+  const [data, setData] = useState<PlanDeConsumoResponse[]>([]);
+  const [selected, setSelected] = useState<PlanDeConsumoResponse>();
+  const [selectedValue, setSelectedValue] = useState<string|null>(null);
+
+  useEffect(() => {
+    API.get<PlanDeConsumoResponse[]>("/planDeConsumoProgramado/obtenerPlanes")
+      .then((response) => {
+        console.log({ data: response.data });
+        setData(response.data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  useEffect(() => {
+    console.log({ selectedValue });
+    if(selectedValue){
+      console.log({ selectedValue, tipo: typeof selectedValue });
+      const selectedPlan = data.find((plan) => plan.id === parseInt(selectedValue));
+      console.log(selectedPlan );
+      if(selected) setSelected(selectedPlan);
+    }
+  }, [selectedValue]);
+
+
+
   return (
     <KeyboardAvoidingView style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -34,7 +61,7 @@ const DispensarPC_BajoDemanda = ({ navigation }: DispensarBajoDemandaProps) => {
         <Text style={[styles.title, { textAlign: "center" }]}>Datos</Text>
         <Text style={styles.Subtitle}>Medicamento:</Text>
         <Text style={[styles.respuestaCard, styles.respuestaText]}>
-          Paracetamol
+          Paracetamol{item.nombreDeMedicamento}
         </Text>
         <View style={styles.box}>
           <View style={[styles.column, { flex: 1 }]}>

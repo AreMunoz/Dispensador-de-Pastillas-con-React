@@ -12,17 +12,19 @@ import {
 } from "@expo/vector-icons";
 import colors from "./src/colors";
 import { API } from "./services/const";
+import { PlanDeConsumoResponse } from "./metodos/serviceAPI";
+import { FlatList, ScrollView } from "react-native-gesture-handler";
 //import { PlanDeConsumoProgramadoResponse } from "./metodosService";
 
 type ExpressPC_Props = StackScreenProps<RootStackParamList, "ExpressPC_Screen">;
 
 const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
-/*
-  const [data, setData] = useState<PlanDeConsumoProgramadoResponse[]>([]);
+
+  const [data, setData] = useState<PlanDeConsumoResponse[]>([]);
 
   useEffect(() => {
     // Usando Axios
-    API.get<PlanDeConsumoProgramadoResponse[]>("/planesDeConsumoProgramados/todos")
+    API.get<PlanDeConsumoResponse[]>("/planDeConsumoProgramado/obtenerPlanes")
       .then((response) => {
         console.log({ data: response.data });
         setData(response.data);
@@ -30,7 +32,22 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
       .catch((error) => console.error(error));
   }, []);
 
-*/
+    const renderItem = ({ item }: { item: PlanDeConsumoResponse }) => {
+      return(
+        <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={[styles.buttonManual, styles.color2Button]}
+          onPress={() => navigation.navigate("DispensarPC_BajoDemanda" as never)}
+        >
+          <MaterialIcons name="crisis-alert" size={24} color="white" />
+          <Text style={styles.buttonText}>PC: {item.nombreDeMedicamento}</Text>
+        </TouchableOpacity>
+      </View>
+      );
+      
+
+    };
+
   return (
     <View style={styles.container}>
       <View>
@@ -49,27 +66,17 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
             de emergencia
           </Text>
         </View>
-      </View>
-      <View style={styles.buttonContainer}>
 
-        <TouchableOpacity
-          style={[styles.buttonManual, styles.color2Button]}
-          onPress={() => navigation.navigate("DispensarPC_BajoDemanda" as never)}
-        >
-          <MaterialIcons name="crisis-alert" size={24} color="white" />
-          <Text style={styles.buttonText}>Paracetamol</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.buttonManual, styles.color4Button]}
-          onPress={() =>
-            navigation.navigate("Dispensar2" as never)
-          }
-        >
-          <MaterialIcons name="crisis-alert" size={24} color="white" />
-          <Text style={styles.buttonText}>Amoxicilina</Text>
-        </TouchableOpacity>
       </View>
+
+    
+        <Text>Planes de consumo activos:</Text>
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+        />
+     
+      
     </View>
   );
 };

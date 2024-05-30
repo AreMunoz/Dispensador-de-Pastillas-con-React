@@ -6,13 +6,13 @@ import { StackScreenProps } from "@react-navigation/stack";
 import colors from "./src/colors";
 import { useCreateUsuario } from "./metodos/serviceAPI";
 
+type SignInScreenProps = StackScreenProps<RootStackParamList, "SignInScreen">;
+
 type FormData = {
   correo: string;
   nombreUsuario: string;
   password: string;
 };
-
-type SignInScreenProps = StackScreenProps<RootStackParamList, "SignInScreen">;
 
 const SignInScreen = ({ navigation }: SignInScreenProps) => {
   const { mutateAsync} = useCreateUsuario();

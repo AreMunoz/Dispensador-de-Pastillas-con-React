@@ -16,7 +16,7 @@ import { RootStackParamList } from "../routes";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import colors from "./src/colors";
 import { CustomButton } from "./components/CustomButton";
-import { useCreatePlanConsumo } from "./metodosService";
+import { useCreatePlanConsumo } from "./metodos/serviceAPI"
 import { ScrollView } from "react-native-gesture-handler";
 import DatePickerForm from "./components/DatePickerForm";
 //stackScreenProps es un tipo de react-navigation que nos permite acceder a las propiedades de la navegación
@@ -26,20 +26,24 @@ type FormScreenCrearPMProps = StackScreenProps<
 >;
 
 type Formulario = {
-  medicamento: string;
-  dosis: string;
+  nombreDeMedicamento: string;
+  dosisEnPastillas: string;
   frecuencia: string;
-  fechaInicio: string;
+  siguienteDosis: string;
+  ultimaDosis: string;
+  numCabina: string;
 };
 
 const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
   const { mutateAsync, isPending } = useCreatePlanConsumo();
   const { control, handleSubmit, getValues, formState: { errors }, trigger  } = useForm<Formulario>({
     defaultValues: {
-      medicamento: "",
-      dosis: "",
+      nombreDeMedicamento: "",
+      dosisEnPastillas: "",
       frecuencia: "",
-      fechaInicio: "",
+      siguienteDosis: "",
+      ultimaDosis: "",
+      numCabina: "",
     },
   });
 
@@ -48,6 +52,8 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
     dosis: false,
     frecuencia: false,
     fechaInicio: false,
+    fechaFin: false,
+    numCabina: false,
   });
   const handleFieldTouched = (fieldName: string) => {
     setTouchedFields({
@@ -61,10 +67,14 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
     if (isValid) {
       try {
         await mutateAsync({
-          nombreMedicamento: data.medicamento,
-          dosis: data.dosis,
+          id: "1",
+          nombreDeMedicamento: data.nombreDeMedicamento,
+          dosisEnPastillas: data.dosisEnPastillas,
           frecuencia: data.frecuencia,
-          fechaInicio: data.fechaInicio,
+          siguienteDosis: data.siguienteDosis,
+          ultimaDosis: data.ultimaDosis,
+          numCabina: data.numCabina,
+
         });
         Alert.alert(
           "Plan de consumo creado correctamente en el servidor",
@@ -119,14 +129,14 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
                   style={styles.input}
                   placeholder="Ingrese el nombre del Medicamento"
                   keyboardType="default"
-                  onBlur={() => { onBlur(); handleFieldTouched('medicamento') }}
+                  onBlur={() => { onBlur(); handleFieldTouched('nombreDeMedicamento') }}
                   onChangeText={onChange}
                   value={value}
                 />
-                {touchedFields.medicamento && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
+                {touchedFields.nombreDeMedicamento && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
               </>
             )}
-            name="medicamento"
+            name="nombreDeMedicamento"
             defaultValue=""
           />
           <Text>Dosis:</Text>
@@ -138,15 +148,15 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
               <TextInput
                 style={styles.input}
                 value={value}
-                onBlur={() => { onBlur(); handleFieldTouched('dosis') }}
+                onBlur={() => { onBlur(); handleFieldTouched('dosisEnPastillas') }}
                 onChangeText={onChange}
                 placeholder="Número de comprimidos a despachar"
                 keyboardType="numeric"
               />
-              {touchedFields.frecuencia && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
+              {touchedFields.dosisEnPastillas && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
             </>
             )}
-            name="dosis"
+            name="dosisEnPastillas"
             defaultValue=""
           />
           <Text>Frecuencia:</Text>
@@ -178,16 +188,16 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
                 <TextInput
                   style={styles.input}
                   value={value}
-                  onBlur={() => { onBlur(); handleFieldTouched('fechaInicio') }}
+                  onBlur={() => { onBlur(); handleFieldTouched('siguienteDosis') }}
                   onChangeText={onChange}
                   placeholder="Ingrese partir de qué día"
                   keyboardType="numeric"
                 />
-                {touchedFields.fechaInicio && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
+                {touchedFields.siguienteDosis && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
               </>
 
             )}
-            name="fechaInicio"
+            name="siguienteDosis"
             defaultValue=""
           />
           <Text>Fecha de fin:</Text>
@@ -199,16 +209,37 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
                 <TextInput
                   style={styles.input}
                   value={value}
-                  onBlur={() => { onBlur(); handleFieldTouched('fechaFin') }}
+                  onBlur={() => { onBlur(); handleFieldTouched('ultimaDosis') }}
                   onChangeText={onChange}
                   placeholder="Fecha en la que termina el plan de consumo"
-                  keyboardType="numeric"
+                  keyboardType="default"
                 />
-                {touchedFields.fechaInicio && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
+                {touchedFields.ultimaDosis && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
               </>
 
             )}
-            name="fechaInicio"
+            name="ultimaDosis"
+            defaultValue=""
+          />
+          <Text>Cabina:</Text>
+          <Controller
+            control={control}
+            rules={{ required: { value: true, message: "Campo requerido" } }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <>
+                <TextInput
+                  style={styles.input}
+                  value={value}
+                  onBlur={() => { onBlur(); handleFieldTouched('numCabina') }}
+                  onChangeText={onChange}
+                  placeholder="Cabina en la se asigna el PC"
+                  keyboardType="numeric"
+                />
+                {touchedFields.numCabina && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
+              </>
+
+            )}
+            name="numCabina"
             defaultValue=""
           />
         </View>
