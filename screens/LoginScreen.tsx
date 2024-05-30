@@ -24,7 +24,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const [password, setPassword] = useState("");
 
   const onSubmit = (data: FormData) => {
-     if (email === "dev") {
+     if (email === "dev2") {
         Alert.alert("Error", "El correo electrónico es requerido");
         return;
       }
