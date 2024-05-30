@@ -166,7 +166,7 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
       <View>
         <TextInput style={styles.title}>Consultar Plan de Consumo</TextInput>
       </View>
-      <ScrollView>
+      <ScrollView style={{width:"95%"}}>
         <View>
           <TextInput style={[styles.Subtitle]}>
             Seleccione el Plan de Consumo:
@@ -271,7 +271,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    width: "100%",
     alignItems: "center",
     justifyContent: "flex-start",
     backgroundColor: "white",
@@ -294,7 +293,6 @@ const styles = StyleSheet.create({
   },
   infoConteiner: {
     padding: 10,
-    width: "95%",
     height: "auto",
     margin: 10,
     marginTop: 20,

@@ -5,7 +5,6 @@ import { RootStackParamList } from "../routes";
 import { Feather } from "@expo/vector-icons";
 import colors from "./src/colors";
 import { CustomButton } from "./components/CustomButton";
-import { deletePlanDeConsumo } from "./metodosService";
 
 type EliminarPCScreenProps = StackScreenProps<
   RootStackParamList,

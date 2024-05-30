@@ -190,7 +190,7 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
                   value={value}
                   onBlur={() => { onBlur(); handleFieldTouched('siguienteDosis') }}
                   onChangeText={onChange}
-                  placeholder="Ingrese partir de qué día"
+                  placeholder="YYYY-MM-DD HH:MM"
                   keyboardType="numeric"
                 />
                 {touchedFields.siguienteDosis && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
@@ -211,9 +211,8 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
                   value={value}
                   onBlur={() => { onBlur(); handleFieldTouched('ultimaDosis') }}
                   onChangeText={onChange}
-                  placeholder="Fecha en la que termina el plan de consumo"
-                  keyboardType="default"
-                />
+                  placeholder="YYYY-MM-DD HH:MM"
+                  keyboardType="numeric"                />
                 {touchedFields.ultimaDosis && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
               </>
 

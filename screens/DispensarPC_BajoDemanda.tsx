@@ -29,7 +29,7 @@ const DispensarPC_BajoDemanda = ({ navigation }: DispensarBajoDemandaProps) => {
   const [selectedValue, setSelectedValue] = useState<string|null>(null);
 
   useEffect(() => {
-    API.get<PlanDeConsumoResponse[]>("/planDeConsumoProgramado/obtenerPlanes")
+    API.get<PlanDeConsumoResponse[]>("/planDeConsumoDispensado/obtenerPlanes")
       .then((response) => {
         console.log({ data: response.data });
         setData(response.data);

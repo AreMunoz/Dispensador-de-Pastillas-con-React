@@ -139,7 +139,7 @@ export const useDeletePlanConsumo = () => {
    
 
 
-//GET Plan de Consumo
+//GET Plan de Consumo Programado
 export type PlanDeConsumoResponse = {
   id: number;
   siguienteDosis: string; //fecha de inicio
@@ -172,9 +172,6 @@ export const useGetPlanesDeConsumo = (id: string) => {
     initialData: [],
   });
 };
-
-
-
 
 //historial de consumo de medicamentos
 export type HistorialConsumoRespose = {

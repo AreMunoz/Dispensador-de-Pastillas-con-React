@@ -134,7 +134,7 @@ function BottomTab() {
           tabBarIcon: ({ size, color }) => (
             <Entypo name="dots-three-horizontal" size={size} color={color} />
           ),
-          title: "Mas Información",
+          title: "Más Información",
         }}
       />
     </Tab.Navigator>

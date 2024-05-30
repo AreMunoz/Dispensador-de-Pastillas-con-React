@@ -40,14 +40,8 @@ const HomeSection = ({ onPress }: HomeSectionProps) => {
           
           <View style={styles.card}>
           <Fontisto name="date" size={24} color="black" />
-            <Text style={styles.textFormat}>Fecha: 17/05/2024</Text>
+            <Text style={styles.textFormat}>Fecha: 2024-06-30 12:00</Text>
           </View>
-
-          <View style={styles.card}>
-          <Ionicons name="time-outline" size={24} color="black" />
-            <Text style={styles.textFormat}>Hora: 17:00</Text>
-          </View>
-
 
         </View>
       </View>
@@ -61,13 +55,13 @@ const HomeSection = ({ onPress }: HomeSectionProps) => {
         <View style={{ padding: 5, paddingTop: 20 }}>
         <View style={styles.card}>
             <AntDesign name="medicinebox" size={24} color="black" />
-            <Text style={styles.textFormat}>Medicamento: Lorantadina</Text>
+            <Text style={styles.textFormat}>Medicamento: Paracetamol</Text>
           </View>
           <View style={styles.card}>
           <Ionicons name="timer" size={24} color="black" />
             <Text style={styles.textFormat}>Se reprogramará para la siguiente hora:</Text>
           </View>
-          <Text style={[styles.textFormat, {textAlign: "center"}]}>14:00</Text>
+          <Text style={[styles.textFormat, {textAlign: "center"}]}>11:00</Text>
         </View>
       </View>
     </View>
