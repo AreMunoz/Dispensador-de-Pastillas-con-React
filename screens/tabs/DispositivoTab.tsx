@@ -11,16 +11,18 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { MaterialIcons, MaterialCommunityIcons, Feather, FontAwesome5 } from "@expo/vector-icons";
 import colors from "../src/colors";
+import { useNavigation } from "@react-navigation/native";
 
 interface FormData {
   IDcabina: string;
 }
 
-const IP = "192.168.80.123";
+const IP = "20.83.162.105";
 
 const DispositivoTab = () => {
   const { control, getValues } = useForm<FormData>();
   const [connectedCabins, setConnectedCabins] = useState<string[]>([]);
+  const navigation = useNavigation();
 
   const handlePress = () => {
     const ip = getValues("IDcabina");
@@ -108,12 +110,8 @@ const DispositivoTab = () => {
 
         <TouchableOpacity
           style={[styles.buttonManual, styles.color1Button]}
-          onPress={() =>
-            Alert.alert(
-              "Error",
-              "No se ha podido establecer conexión con el dispensador"
-            )
-          }
+          
+        onPress={() => navigation.navigate("VaciarCabinaSelect" as never)}
         >
           <MaterialCommunityIcons
             name="hand-coin-outline"
@@ -148,7 +146,7 @@ const DispositivoTab = () => {
         <TouchableOpacity
           style={[
             styles.buttonManual,
-            { backgroundColor: "#fba834", paddingHorizontal: 20 },
+            { backgroundColor: "white", paddingHorizontal: 20 },
           ]}
           onPress={() => {
             Alert.alert("Estableciendo conexión con el dispensador", "", [], {
@@ -246,10 +244,10 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat-Bold",
   },
   color1Button: {
-    backgroundColor: colors.Red.light,
+    backgroundColor: "white",
   },
   color2Button: {
-    backgroundColor: colors.Green.light,
+    backgroundColor: "white",
   },
   color3Button: {
     backgroundColor: colors.Lila.main,

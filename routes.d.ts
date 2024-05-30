@@ -15,6 +15,7 @@ export type RootStackParamList = {
     DispensarPC_BajoDemanda: undefined;
     VaciarCabina: undefined;
     Dispensar2: undefined;
+    VaciarCabinaSelect: undefined;
     
 };
 
