@@ -55,12 +55,6 @@ const HistorialSection = ({ onPress }: HistorialSectionProps) => {
             <Feather name="inbox" size={24} color="black" />
             <Text style={styles.textFormat}>Cabina: {item.numCabina}</Text>
           </View>
-
-          <View style={styles.card}>
-            <Ionicons name="alert-circle-outline" size={24} color="black" />
-            <Text style={styles.textFormat}>Estado:</Text>
-            <Text style={[styles.textFormat, { color: textColor }]}></Text>
-          </View>
         </View>
       </View>
     );

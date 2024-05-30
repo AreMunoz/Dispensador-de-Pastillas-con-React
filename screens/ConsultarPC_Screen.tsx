@@ -8,66 +8,26 @@ import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import { CustomButton } from "./components/CustomButton";
 import { API } from "./services/const";
-import { PlanDeConsumoResponse } from "./metodos/serviceAPI";
+import {
+  PlanDeConsumoResponse,
+  useDeletePlanConsumo,
+} from "./metodos/serviceAPI";
 import { ScrollView } from "react-native-gesture-handler";
-/**
- type GetConsultarPlanDeConsumoResponse = {
-  id: number;
-  dosis: number;
-  fechaDeFin: string;
-  fechaDeInicio: string;
-  frecuencia: number;
-  nombreMedicamento: string;
-};
- */
+import { useQueryClient } from "@tanstack/react-query";
 
 type ConsultarPCScreenProps = StackScreenProps<
   RootStackParamList,
   "ConsultarPC_Screen"
 >;
-//StackScreenProps es un tipo proporcionado por la biblioteca de navegación React Navigation
-//StackScreenProps que propiedades de navegacion espera recibir una pantalla
+
 const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
   const [data, setData] = useState<PlanDeConsumoResponse[]>([]);
   const [selected, setSelected] = useState<PlanDeConsumoResponse>();
-  const [selectedValue, setSelectedValue] = useState<string|null>(null);
+  const [selectedValue, setSelectedValue] = useState<string | null>(null);
+  const deletePC = useDeletePlanConsumo();
+  const queryClient = useQueryClient();
 
-  //const deletePC = useDeletePlanConsumo();
-  /*
-  const [data, setData] = useState<GetConsultarPlanDeConsumoResponse[]>([]);
-  const [selected, setSelected] = useState<GetConsultarPlanDeConsumoResponse>();
-  const [selectedValue, setSelectedValue] = useState<number>();
-*/
   useEffect(() => {
-    // Usando Fetch
-    /* fetch("http://localhost:8080/api/planesDeConsumo")
-            .then((response) => {
-                return response.json()
-            })
-            .then((json) => {
-                setData(json)
-            })
-            .catch((error) => console.error(error)) */
-    // Ejemplo POST con Fetch
-    /* fetch('http://localhost:8080/api/planesDeConsumo', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id: 1, nombre: 'Plan de Consumo 1', dosis: '2 pastillas', frecuencia: 'cada 8 horas', fechaInicio: '2021-10-01', fechaTermino: '2021-10-15' })
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Error en la peticion')
-                }
-
-                return response.json()
-            })
-            .then((json) => {
-                console.log(json)
-            })
-            .catch((error) => console.error(error)) */
-
     // Usando Axios
     API.get<PlanDeConsumoResponse[]>("/planDeConsumoProgramado/obtenerPlanes")
       .then((response) => {
@@ -75,27 +35,6 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
         setData(response.data);
       })
       .catch((error) => console.error(error));
-
-    // Ejejmplo POST con Axios
-    /* axios.post('http://localhost:8080/api/planesDeConsumo', {
-            id: 1,
-            nombre: 'Plan de Consumo 1',
-            dosis: '2 pastillas',
-            frecuencia: 'cada 8 horas',
-            fechaInicio: '2021-10-01',
-            fechaTermino: '2021-10-15'
-        }).then((response) => {
-            // Status 400 - 500 se hace el throw automatico
-            console.log(response.data)
-        }).catch((error) => console.error(error))
-        
-        // Usando Axios
-    API.get<PlanDeConsumoResponse[]>("/planDeConsumoProgramado/obtenerPlanes")
-      .then((response) => {
-        console.log({ data: response.data });
-        setData(response.data);
-      })
-      .catch((error) => console.error(error));*/
   }, []);
 
   useEffect(() => {
@@ -108,124 +47,133 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
     }
   }, [selectedValue]);
 
-
-/*
-
   const handleEliminarPlan = async () => {
-    
     if (selectedValue) {
-      deletePC.mutateAsync(selectedValue).then((resultado)=>{
+      const resultado = await deletePC.mutateAsync(Number(selectedValue))
 
-        if (resultado?.status === 200) {
-          Alert.alert("Éxito", "Plan de consumo eliminado exitosamente");
-        } else {
-          Alert.alert("Error", "Hubo un error al eliminar el plan de consumo");
-        }
-      }).catch(resultado => {
-        Alert.alert("error de servicio");
-      })
+      if (resultado?.status === 200) {
+        Alert.alert("Éxito", "Plan de consumo eliminado exitosamente");
+        console.log("Plan de consumo eliminado exitosamente");
+        const planes = await API.get<PlanDeConsumoResponse[]>("/planDeConsumoProgramado/obtenerPlanes")
+        setData(planes.data);
+
+        // Set SelectedValue, Selected
+        setSelectedValue(null);
+        setSelected(undefined);
+      } else {
+        Alert.alert(
+          "Error",
+          "Hubo un error al eliminar el plan de consumo"
+        );
+        console.log("Hubo un error al eliminar el plan de consumo");
+      }
+
+
+          // Alert.alert("error de servicio");
+          
     } else {
-      Alert.alert("Error", "Debe seleccionar un Plan de Consumo antes de eliminar");
+      Alert.alert(
+        "Error",
+        "Debe seleccionar un Plan de Consumo antes de eliminar"
+      );
     }
-  };*/
-  
+  };
+
   return (
     <View style={styles.container}>
       <View>
         <Text style={styles.title}>Consultar Plan de Consumo</Text>
       </View>
       <ScrollView>
-      <View>
-        <Text style={[styles.Subtitle]}>Seleccione el Plan de Consumo:</Text>
-        <Picker
-          selectedValue={selectedValue}
-          onValueChange={(itemValue) => {
-            console.log({ itemValue });
-            setSelectedValue(itemValue)
-          }}
-        >
-          <Picker.Item label="Seleccione un Plan de Consumo" value={null} />
-          {data.map((item) => (
-            <Picker.Item
-              key={item.id}
-              label={item.nombreDeMedicamento }
-              value={item.id}
-            />
-          ))}
-        </Picker>
-      </View>
-
-      <View style={[styles.infoConteiner]}>
-        <Text style={[styles.SubtitleH3]}>Detalles del plan de consumo:</Text>
-        <View style={[styles.info]}>
-          <Text style={[styles.Subtitle]}>ID Plan de Consumo:</Text>
-          <Text style={[styles.respuestaCard, styles.respuestaText]}>
-            {selected?.id}
-          </Text>
-        </View>
-        <View style={[styles.info]}>
-          <Text style={[styles.Subtitle]}>Nombre del medicamento:</Text>
-          <Text style={[styles.respuestaCard, styles.respuestaText]}>
-            {selected?.nombreDeMedicamento}
-          </Text>
-        </View>
-        <View style={styles.box}>
-          <View style={[styles.column, { flex: 1 }]}>
-            <Text style={[styles.Subtitle]}>Frecuencia:</Text>
-            <Text style={[styles.respuestaCard, styles.respuestaText]}>
-              {selected?.frecuencia}
-            </Text>
-          </View>
-          <View style={[styles.column, { flex: 1 }]}>
-            <Text style={[styles.Subtitle]}>Dosis:</Text>
-            <Text style={[styles.respuestaCard, styles.respuestaText]}>
-              {selected?.dosisEnPastillas} comprimido(s)
-            </Text>
-          </View>
-        </View>
-
-        <View style={styles.box}>
-          <View style={[styles.column, { flex: 1 }]}>
-            <Text style={[styles.Subtitle]}>Fecha de Inicio:</Text>
-            <Text style={[styles.respuestaCard, styles.respuestaText]}>
-              {selected?.siguienteDosis}
-            </Text>
-          </View>
-          <View style={[styles.column, { flex: 1 }]}>
-            <Text style={[styles.Subtitle]}>Fecha de Fin:</Text>
-            <Text style={[styles.respuestaCard, styles.respuestaText]}>
-              {selected?.ultimaDosis}
-            </Text>
-          </View>
-        </View>
-
-        <View style={[styles.boxButtons]}>
-          <TouchableOpacity
-            style={[styles.styleButton, { backgroundColor: "#354F92" }]}
-            onPress={() => navigation.navigate("ModificarPC_Screen" as never)}
+        <View>
+          <Text style={[styles.Subtitle]}>Seleccione el Plan de Consumo:</Text>
+          <Picker
+            selectedValue={selectedValue}
+            onValueChange={(itemValue) => {
+              console.log({ itemValue });
+              setSelectedValue(itemValue);
+            }}
           >
-            <FontAwesome name="edit" size={24} color="white" />
-            <Text style={styles.buttonText}>Modificar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.styleButton, { backgroundColor: "#E72929" }]}
-            
-              onPress = {() => {"onPress={handleEliminarPlan} "}}
-          >
-            <FontAwesome5 name="trash" size={20} color={"white"} />
-            <Text style={styles.buttonText}>Eliminar</Text>
-          </TouchableOpacity>
+            <Picker.Item label="Seleccione un Plan de Consumo" value={null} />
+            {data.map((item) => (
+              <Picker.Item
+                key={item.id}
+                label={item.nombreDeMedicamento}
+                value={item.id}
+              />
+            ))}
+          </Picker>
         </View>
-      </View>
 
-      <CustomButton
-        theme="outline"
-        text="Regresar"
-        icono={<Ionicons name="return-up-back" size={28} color={"#354F92"} />}
-        onPress={navigation.goBack}
-      />
+        <View style={[styles.infoConteiner]}>
+          <Text style={[styles.SubtitleH3]}>Detalles del plan de consumo:</Text>
+          <View style={[styles.info]}>
+            <Text style={[styles.Subtitle]}>ID Plan de Consumo:</Text>
+            <Text style={[styles.respuestaCard, styles.respuestaText]}>
+              {selected?.id}
+            </Text>
+          </View>
+          <View style={[styles.info]}>
+            <Text style={[styles.Subtitle]}>Nombre del medicamento:</Text>
+            <Text style={[styles.respuestaCard, styles.respuestaText]}>
+              {selected?.nombreDeMedicamento}
+            </Text>
+          </View>
+          <View style={styles.box}>
+            <View style={[styles.column, { flex: 1 }]}>
+              <Text style={[styles.Subtitle]}>Frecuencia:</Text>
+              <Text style={[styles.respuestaCard, styles.respuestaText]}>
+                {selected?.frecuencia}
+              </Text>
+            </View>
+            <View style={[styles.column, { flex: 1 }]}>
+              <Text style={[styles.Subtitle]}>Dosis:</Text>
+              <Text style={[styles.respuestaCard, styles.respuestaText]}>
+                {selected?.dosisEnPastillas} comprimido(s)
+              </Text>
+            </View>
+          </View>
 
-</ScrollView>
+          <View style={styles.box}>
+            <View style={[styles.column, { flex: 1 }]}>
+              <Text style={[styles.Subtitle]}>Fecha de Inicio:</Text>
+              <Text style={[styles.respuestaCard, styles.respuestaText]}>
+                {selected?.siguienteDosis}
+              </Text>
+            </View>
+            <View style={[styles.column, { flex: 1 }]}>
+              <Text style={[styles.Subtitle]}>Fecha de Fin:</Text>
+              <Text style={[styles.respuestaCard, styles.respuestaText]}>
+                {selected?.ultimaDosis}
+              </Text>
+            </View>
+          </View>
+
+          <View style={[styles.boxButtons]}>
+            <TouchableOpacity
+              style={[styles.styleButton, { backgroundColor: "#354F92" }]}
+              onPress={() => navigation.navigate("ModificarPC_Screen" as never)}
+            >
+              <FontAwesome name="edit" size={24} color="white" />
+              <Text style={styles.buttonText}>Modificar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.styleButton, { backgroundColor: "#E72929" }]}
+              onPress={handleEliminarPlan}
+            >
+              <FontAwesome5 name="trash" size={20} color={"white"} />
+              <Text style={styles.buttonText}>Eliminar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <CustomButton
+          theme="outline"
+          text="Regresar"
+          icono={<Ionicons name="return-up-back" size={28} color={"#354F92"} />}
+          onPress={navigation.goBack}
+        />
+      </ScrollView>
     </View>
   );
 };

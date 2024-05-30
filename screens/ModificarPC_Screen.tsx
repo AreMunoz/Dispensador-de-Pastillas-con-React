@@ -24,7 +24,7 @@ import {
 } from "./metodos/serviceAPI";
 //import { PlanDeConsumoResponse, planesDeConsumo, useUpdatePlanConsumo } from "./metodosService";
 import { API } from "./services/const";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 
 type ModificarProps = StackScreenProps<
   RootStackParamList,
@@ -66,6 +66,7 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
         console.error(error)});
   }, []);
 
+  // Actualizar el plan de consumo seleccionado
   useEffect(() => {
     console.log({ selectedValue });
     if (selectedValue) {
@@ -73,6 +74,16 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
       const selected = data.find((item) => item.id === Number(selectedValue));
       console.log(selected);
       if (selected) setSelected(selected);
+      setUpdatedPlan({
+        idUsuario: 1, // Asume que este es el ID de usuario correcto
+        id: selected?.id ?? 0,
+        siguienteDosis: selected?.siguienteDosis ?? '',
+        ultimaDosis: selected?.ultimaDosis ?? '',
+        dosisEnPastillas: selected?.dosisEnPastillas ?? '',
+        nombreDeMedicamento: selected?.nombreDeMedicamento ?? '',
+        frecuencia: selected?.frecuencia ?? '',
+        numCabina: selected?.numCabina ?? ''
+      });
     }
   }, [selectedValue]);
 
@@ -82,12 +93,12 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
         await updatePlanMutation.mutateAsync({
           idUsuario: 1,
           id: Number(selectedValue),
-          siguienteDosis: "",
-          ultimaDosis: "",
-          dosisEnPastillas: "",
-          nombreDeMedicamento: "",
-          frecuencia: "",
-          numCabina: ""
+          siguienteDosis: updatedPlan.siguienteDosis,
+        ultimaDosis: updatedPlan.ultimaDosis,
+        dosisEnPastillas: updatedPlan.dosisEnPastillas,
+        nombreDeMedicamento: updatedPlan.nombreDeMedicamento,
+        frecuencia: updatedPlan.frecuencia,
+        numCabina: updatedPlan.numCabina
         });
         Alert.alert("Éxito", "Plan de consumo actualizado correctamente");
       } catch (error) {
@@ -107,14 +118,24 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
       try {
         // Construir el cuerpo de la solicitud con los datos actualizados
         const requestBody = {
-          id: selectedValue,
-          updatedPlanConsumo: updatedPlan,
+          //id: selectedValue,
+          //updatedPlanConsumo: updatedPlan,
+          idUsuario: 1, // Actualiza con el idUsuario correcto
+        id: Number(selectedValue),
+        siguienteDosis: updatedPlan.siguienteDosis,
+        ultimaDosis: updatedPlan.ultimaDosis,
+        dosisEnPastillas: updatedPlan.dosisEnPastillas,
+        nombreDeMedicamento: updatedPlan.nombreDeMedicamento,
+        frecuencia: updatedPlan.frecuencia,
+        numCabina: updatedPlan.numCabina
         };
+        console.log({ "RequestBody":requestBody });
+        // Realizar la solicitud POST a la ruta de modificación
+        const response = await API.post(
+          `planDeConsumoProgramado/modificar`,
 
-        // Realizar la solicitud PUT a la ruta de modificación
-        const response = await axios.put(
-          `/registrar/$idPlan=${selectedValue}`,
           requestBody,
+          {params: {idUsuario: 1}}
         );
 
         // Verificar si la solicitud fue exitosa (código de estado 200)
@@ -126,6 +147,10 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
       } catch (error) {
         // Manejar errores de red o del servidor
         console.error("Error al modificar el plan de consumo:", error);
+        if (isAxiosError(error)) {
+          console.error(error.response?.status);
+          console.error(error.response?.status)
+        }
         Alert.alert("Error", "Hubo un error al modificar el plan de consumo");
       }
     } else {
@@ -227,13 +252,6 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
             >
               <FontAwesome name="edit" size={24} color="white" />
               <Text style={styles.buttonText}>Modificar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.styleButton, { backgroundColor: "#E72929" }]}
-              onPress={() => navigation.navigate("EliminarPC_Screen" as never)}
-            >
-              <FontAwesome name="trash" size={20} color={"white"} />
-              <Text style={styles.buttonText}>Eliminar</Text>
             </TouchableOpacity>
           </View>
         </View>

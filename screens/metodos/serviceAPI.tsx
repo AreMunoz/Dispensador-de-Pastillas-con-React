@@ -42,7 +42,7 @@ export type CreatePlanConsumoRequest = {
 export const postPlanConsumo = async (payload: CreatePlanConsumoRequest) => {
   try {
     const { data } = await API.post(
-      "/planesDeConsumoProgramado/crearPlan",
+      "/planDeConsumoProgramado/crearPlan",
       payload,
       { params: { idUsuario: payload.id } },
     );
@@ -68,7 +68,7 @@ export type UpdatePlanConsumoRequest = {
   idUsuario: number;
 } & UpdatePlanConsumoBody;
 
-type UpdatePlanConsumoBody = {
+export type UpdatePlanConsumoBody = {
   id: number;
   siguienteDosis: string; //fecha de inicio
   ultimaDosis: string; //fecha de fin
@@ -109,7 +109,7 @@ export const useUpdatePlanConsumo = () => {
 };
 //DELETE Plan de Consumo
 export type PlanDeConsumoDelete = {
-    id: number;
+  id: number;
   siguienteDosis: string; //fecha de inicio
   ultimaDosis: string; //fecha de fin
   dosisEnPastillas: string;
@@ -121,7 +121,8 @@ export type PlanDeConsumoDelete = {
  export const deletePlanDeConsumoProgramado = async (id: number) => {
     try {
         const data = await API.delete(
-        `/planesDeConsumoProgramado/eliminarPlan/${id}`,
+        `/planDeConsumoProgramado/eliminar`,
+        { params: { idPlan: id } },
         );
         return data;
     } catch (error) {
@@ -129,6 +130,12 @@ export type PlanDeConsumoDelete = {
     }
 }
 
+export const useDeletePlanConsumo = () => {
+  return useMutation({
+    mutationKey: ["planesDeConsumoProgramado"],
+    mutationFn: deletePlanDeConsumoProgramado,
+  });
+};
    
 
 
