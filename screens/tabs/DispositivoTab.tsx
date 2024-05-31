@@ -146,7 +146,7 @@ const DispositivoTab = () => {
         <TouchableOpacity
           style={[
             styles.buttonManual,
-            { backgroundColor: "white", paddingHorizontal: 20 },
+            { backgroundColor: colors.Lila.main, paddingHorizontal: 20 },
           ]}
           onPress={() => {
             Alert.alert("Estableciendo conexión con el dispensador", "", [], {
@@ -244,10 +244,10 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat-Bold",
   },
   color1Button: {
-    backgroundColor: "white",
+    backgroundColor: colors.Blue.medium,
   },
   color2Button: {
-    backgroundColor: "white",
+    backgroundColor: colors.Green.light,
   },
   color3Button: {
     backgroundColor: colors.Lila.main,
