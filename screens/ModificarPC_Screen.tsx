@@ -45,7 +45,7 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const [updatedPlan, setUpdatedPlan] = useState<UpdatePlanConsumoRequest>({
     idUsuario: 1,
-    id: 0,
+    id: 2,
     nombreDeMedicamento: "",
     frecuencia: "",
     dosisEnPastillas: "",
@@ -76,7 +76,7 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
       if (selected) setSelected(selected);
       setUpdatedPlan({
         idUsuario: 1, // Asume que este es el ID de usuario correcto
-        id: selected?.id ?? 0,
+        id: selected?.id ?? 2,
         siguienteDosis: selected?.siguienteDosis ?? '',
         ultimaDosis: selected?.ultimaDosis ?? '',
         dosisEnPastillas: selected?.dosisEnPastillas ?? '',
@@ -141,6 +141,7 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
         // Verificar si la solicitud fue exitosa (código de estado 200)
         if (response.status === 200) {
           Alert.alert("Éxito", "Plan de consumo modificado exitosamente");
+          console.log("Se mando al servidor", requestBody);
         } else {
           Alert.alert("Error", "Hubo un error al modificar el plan de consumo");
         }
