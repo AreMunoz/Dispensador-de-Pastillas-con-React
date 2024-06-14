@@ -16,6 +16,7 @@ export type RootStackParamList = {
     VaciarCabina: undefined;
     Dispensar2: undefined;
     VaciarCabinaSelect: undefined;
+    DesatascarCabina: undefined;
     
 };
 

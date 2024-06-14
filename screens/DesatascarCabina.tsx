@@ -3,20 +3,23 @@ import { View, Text, Button, StyleSheet, TouchableOpacity, ActivityIndicator } f
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../routes";
 import {
-  MaterialCommunityIcons
+  AntDesign,
+  FontAwesome,
+  FontAwesome5,
+  MaterialIcons,
 } from "@expo/vector-icons";
 import colors from "./src/colors";
-import { postVaciarCabina } from "./metodos/dispositivoAPI";
+import { postDesatascarCabina, postVaciarCabina } from "./metodos/dispositivoAPI";
 
-type VaciarCabinaSelectProps = StackScreenProps<
+type DesatascarCabinaSelectProps = StackScreenProps<
   RootStackParamList,
-  "VaciarCabinaSelect"
+  "DesatascarCabina"
 >;
 
-const VaciarCabinaSelect = ({
+const DesatascarCabina = ({
   navigation,
   route,
-}: VaciarCabinaSelectProps) => {
+}: DesatascarCabinaSelectProps) => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -38,9 +41,9 @@ const VaciarCabinaSelect = ({
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.title}>Vaciar Cabina</Text>
+        <Text style={styles.title}>Desatascar Cabina</Text>
       </View>
-      <Text>Seleccione la cabina a vaciar</Text>
+      <Text>Seleccione la cabina a desatascar</Text>
       {error && <Text style={styles.errorText}>{error}</Text>}
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -48,8 +51,8 @@ const VaciarCabinaSelect = ({
           onPress={() => {handleAction("1"), console.log("Vaciar Cabina 1")}}
           disabled={loading}
         >
-        <MaterialCommunityIcons
-            name="hand-coin-outline"
+          <FontAwesome5
+            name="fan"
             size={30}
             color="white"
           />
@@ -61,8 +64,8 @@ const VaciarCabinaSelect = ({
           onPress={() => {handleAction("2"), console.log("Vaciar Cabina 2")}}
           disabled={loading}
         >
-          <MaterialCommunityIcons
-            name="hand-coin-outline"
+         <FontAwesome5
+            name="fan"
             size={30}
             color="white"
           />
@@ -74,8 +77,8 @@ const VaciarCabinaSelect = ({
           onPress={() => {handleAction("3"), console.log("Vaciar Cabina 3")}}
           disabled={loading}
         >
-          <MaterialCommunityIcons
-            name="hand-coin-outline"
+          <FontAwesome5
+            name="fan"
             size={30}
             color="white"
           />
@@ -138,4 +141,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default VaciarCabinaSelect;
+export default DesatascarCabina;

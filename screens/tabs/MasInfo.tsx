@@ -1,18 +1,19 @@
 import React from "react";
-import { View, Text, Button, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Linking } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList, RootTapParamList } from "../../routes";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import colors from "../src/colors";
 import { Ionicons, MaterialIcons, Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+
 type MasInfoSectionProps = {
   onPress: () => void;
 };
 
-
 const MasInfoSection = ({ onPress }: MasInfoSectionProps) => {
   const navigation = useNavigation(); 
+
   const handleLogout = () => {
     Alert.alert(
       "¿Desea cerrar sesión?",
@@ -28,6 +29,11 @@ const MasInfoSection = ({ onPress }: MasInfoSectionProps) => {
       { cancelable: false }
     );
   };
+
+  const openManual = () => {
+    Linking.openURL("https://drive.google.com/file/d/18-0LASM1FONPFO61-J-Iq6EP_8T1u1Ju/view?usp=sharing");
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer} >
@@ -50,7 +56,7 @@ const MasInfoSection = ({ onPress }: MasInfoSectionProps) => {
         <Text style={[styles.buttonText, styles.textFormat]}>Salir</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={[styles.button, styles.buttonManual]}>
+      <TouchableOpacity style={[styles.button, styles.buttonManual]} onPress={openManual}>
         <Entypo name="open-book" size={24} color="white" />
         <Text style={[styles.buttonText, styles.textFormat]}>
           Manual de Usuario

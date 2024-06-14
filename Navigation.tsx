@@ -15,6 +15,7 @@ import DispensarPC_BajoDemanda from './screens/DispensarPC_BajoDemanda';
 import VaciarCabina from './screens/VaciarCabina';
 import Dispensar2 from './screens/Dispensar2';
 import VaciarCabinaSelect from './screens/VaciarCabinaSelect';
+import DesatascarCabina from './screens/DesatascarCabina';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -35,7 +36,7 @@ const Navigation = () => {
         <Stack.Screen name="VaciarCabina" component={VaciarCabina}/>
         <Stack.Screen name="Dispensar2" component={Dispensar2}/>
         <Stack.Screen name="VaciarCabinaSelect" component={VaciarCabinaSelect}/>
-
+        <Stack.Screen name="DesatascarCabina" component={DesatascarCabina}/>
       </Stack.Navigator>
 
       

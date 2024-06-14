@@ -125,42 +125,14 @@ const DispositivoTab = () => {
 
         <TouchableOpacity
           style={[styles.buttonManual, styles.color2Button]}
-          onPress={() => {
-            Alert.alert("Estableciendo conexión con el dispensador", "", [], {
-              cancelable: false,
-            });
-            setTimeout(() => {
-              Alert.alert(
-                "Error",
-                "No se ha podido establecer conexión con el dispensador"
-              );
-            }, 2000);
-          }}
+          
+        onPress={() => navigation.navigate("DesatascarCabina" as never)}
         >
-          <MaterialCommunityIcons name="basket-fill" size={30} color="white" />
-          <Text style={[styles.textFormat, styles.buttonText]}>
-            Llenar cabina
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.buttonManual,
-            { backgroundColor: colors.Lila.main, paddingHorizontal: 20 },
-          ]}
-          onPress={() => {
-            Alert.alert("Estableciendo conexión con el dispensador", "", [], {
-              cancelable: false,
-            });
-            setTimeout(() => {
-              Alert.alert(
-                "Error",
-                "No se ha podido establecer conexión con el dispensador"
-              );
-            }, 2000);
-          }}
-        >
-          <FontAwesome5 name="fan" size={24} color="white" />
+          <FontAwesome5
+            name="fan"
+            size={30}
+            color="white"
+          />
           <Text style={[styles.textFormat, styles.buttonText]}>
             Desatascar cabina
           </Text>
@@ -244,7 +216,8 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat-Bold",
   },
   color1Button: {
-    backgroundColor: colors.Blue.medium,
+    backgroundColor: colors.Orange.dark,
+    paddingHorizontal: 60,
   },
   color2Button: {
     backgroundColor: colors.Green.light,
