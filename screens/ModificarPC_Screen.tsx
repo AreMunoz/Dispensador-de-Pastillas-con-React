@@ -46,8 +46,8 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
     idUsuario: 1,
     id: 0,
     nombreDeMedicamento: "",
-    frecuencia: "",
-    dosisEnPastillas: "",
+    frecuencia: 0,
+    dosisEnPastillas: 0,
     siguienteDosis: "",
     ultimaDosis: "",
     numCabina: "",
@@ -74,9 +74,9 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
           id: selected.id,
           siguienteDosis: selected.siguienteDosis,
           ultimaDosis: selected.ultimaDosis,
-          dosisEnPastillas: selected.dosisEnPastillas,
+          dosisEnPastillas: parseInt(selected.dosisEnPastillas),
           nombreDeMedicamento: selected.nombreDeMedicamento,
-          frecuencia: selected.frecuencia,
+          frecuencia: parseInt(selected.frecuencia), // Parse frecuencia as an integer
           numCabina: selected.numCabina,
         });
       }
@@ -109,7 +109,7 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.title}>Consultar Plan de Consumo</Text>
+        <Text style={styles.title}>Modificar Plan de Consumo</Text>
       </View>
       <ScrollView style={{ width: "95%" }}>
         <View>
@@ -155,7 +155,7 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
               <Text style={[styles.Subtitle]}>Frecuencia:</Text>
               <TextInput
                 style={[styles.respuestaCard, styles.respuestaText]}
-                value={updatedPlan.frecuencia}
+                value={updatedPlan.frecuencia.toString()} // Convert the value to a string
                 onChangeText={(value) => handleInputChange("frecuencia", value)}
               />
             </View>
@@ -168,7 +168,7 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
                     styles.respuestaText,
                     { width: "auto" },
                   ]}
-                  value={updatedPlan.dosisEnPastillas}
+                  value={updatedPlan.dosisEnPastillas.toString()} // Convert the value to a string
                   onChangeText={(value) => handleInputChange("dosisEnPastillas", value)}
                 />
                 <Text>comprimido(s)</Text>

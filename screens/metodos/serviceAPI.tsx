@@ -72,9 +72,9 @@ export type UpdatePlanConsumoBody = {
   id: number;
   siguienteDosis: string; //fecha de inicio
   ultimaDosis: string; //fecha de fin
-  dosisEnPastillas: string;
+  dosisEnPastillas: number;
   nombreDeMedicamento: string;
-  frecuencia: string;
+  frecuencia: number;
   numCabina: string;
 };
 export const postUpdatePlanConsumo = async (

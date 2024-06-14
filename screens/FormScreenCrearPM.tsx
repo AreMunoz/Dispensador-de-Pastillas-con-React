@@ -61,6 +61,14 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
       [fieldName]: true,
     });
   };
+
+   // Función de validación personalizada para numCabina
+   const validateNumCabina = (value: string) => {
+    if (["1", "2", "3"].includes(value)) {
+      return true;  // Valor válido
+    }
+    return "Solo se permite 1, 2 o 3";
+  };
   
   const onSubmit: SubmitHandler<Formulario> = async (data) => {
     const isValid = await trigger();
@@ -90,7 +98,6 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
     }
   };
   
-    
   
 
   return (
@@ -191,7 +198,7 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
                   onBlur={() => { onBlur(); handleFieldTouched('siguienteDosis') }}
                   onChangeText={onChange}
                   placeholder="YYYY-MM-DD HH:MM"
-                  keyboardType="numeric"
+                  keyboardType="default"
                 />
                 {touchedFields.siguienteDosis && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
               </>
@@ -212,7 +219,7 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
                   onBlur={() => { onBlur(); handleFieldTouched('ultimaDosis') }}
                   onChangeText={onChange}
                   placeholder="YYYY-MM-DD HH:MM"
-                  keyboardType="numeric"                />
+                  keyboardType="default"                />
                 {touchedFields.ultimaDosis && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
               </>
 
@@ -234,7 +241,9 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
                   placeholder="Cabina en la se asigna el PC"
                   keyboardType="numeric"
                 />
+                 {errors.numCabina && <Text style={styles.errorText}>{errors.numCabina.message}</Text>}
                 {touchedFields.numCabina && !value && <Text style={styles.errorText}>Campo incompleto</Text>}
+               
               </>
 
             )}
