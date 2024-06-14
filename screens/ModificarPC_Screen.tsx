@@ -41,11 +41,10 @@ type Formulario = {
 
 export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
   const [data, setData] = useState<PlanDeConsumoResponse[]>([]);
-  const [selected, setSelected] = useState<PlanDeConsumoResponse>();
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const [updatedPlan, setUpdatedPlan] = useState<UpdatePlanConsumoRequest>({
     idUsuario: 1,
-    id: 2,
+    id: 0,
     nombreDeMedicamento: "",
     frecuencia: "",
     dosisEnPastillas: "",
@@ -53,53 +52,48 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
     ultimaDosis: "",
     numCabina: "",
   });
-  const updatePlanMutation = useUpdatePlanConsumo(); // Utilizar el hook useUpdatePlanConsumo
+
+  const updatePlanMutation = useUpdatePlanConsumo();
 
   useEffect(() => {
     API.get<PlanDeConsumoResponse[]>("/planDeConsumoProgramado/obtenerPlanes")
       .then((response) => {
-        console.log({ data: response.data });
         setData(response.data);
       })
       .catch((error) => {
-        console.error("Error al obtener los planes de consumo:");
-        console.error(error)});
+        console.error("Error al obtener los planes de consumo:", error);
+      });
   }, []);
 
-  // Actualizar el plan de consumo seleccionado
   useEffect(() => {
-    console.log({ selectedValue });
     if (selectedValue) {
-      console.log({ selectedValue, tipo: typeof selectedValue });
       const selected = data.find((item) => item.id === Number(selectedValue));
-      console.log(selected);
-      if (selected) setSelected(selected);
-      setUpdatedPlan({
-        idUsuario: 1, // Asume que este es el ID de usuario correcto
-        id: selected?.id ?? 2,
-        siguienteDosis: selected?.siguienteDosis ?? '',
-        ultimaDosis: selected?.ultimaDosis ?? '',
-        dosisEnPastillas: selected?.dosisEnPastillas ?? '',
-        nombreDeMedicamento: selected?.nombreDeMedicamento ?? '',
-        frecuencia: selected?.frecuencia ?? '',
-        numCabina: selected?.numCabina ?? ''
-      });
+      if (selected) {
+        setUpdatedPlan({
+          idUsuario: 1, // Asume que este es el ID de usuario correcto
+          id: selected.id,
+          siguienteDosis: selected.siguienteDosis,
+          ultimaDosis: selected.ultimaDosis,
+          dosisEnPastillas: selected.dosisEnPastillas,
+          nombreDeMedicamento: selected.nombreDeMedicamento,
+          frecuencia: selected.frecuencia,
+          numCabina: selected.numCabina,
+        });
+      }
     }
-  }, [selectedValue]);
+  }, [selectedValue, data]);
+
+  const handleInputChange = (name: string, value: string) => {
+    setUpdatedPlan({
+      ...updatedPlan,
+      [name]: value,
+    });
+  };
 
   const handleUpdatePlan = async () => {
     if (selectedValue) {
       try {
-        await updatePlanMutation.mutateAsync({
-          idUsuario: 1,
-          id: Number(selectedValue),
-          siguienteDosis: updatedPlan.siguienteDosis,
-        ultimaDosis: updatedPlan.ultimaDosis,
-        dosisEnPastillas: updatedPlan.dosisEnPastillas,
-        nombreDeMedicamento: updatedPlan.nombreDeMedicamento,
-        frecuencia: updatedPlan.frecuencia,
-        numCabina: updatedPlan.numCabina
-        });
+        await updatePlanMutation.mutateAsync(updatedPlan);
         Alert.alert("Éxito", "Plan de consumo actualizado correctamente");
       } catch (error) {
         Alert.alert("Error", "Hubo un error al actualizar el plan de consumo");
@@ -112,110 +106,61 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
     }
   };
 
-  // Función para manejar la modificación del plan de consumo
-  const handleModificarPlan = async () => {
-    if (selectedValue) {
-      try {
-        // Construir el cuerpo de la solicitud con los datos actualizados
-        const requestBody = {
-          //id: selectedValue,
-          //updatedPlanConsumo: updatedPlan,
-          idUsuario: 1, // Actualiza con el idUsuario correcto
-        id: Number(selectedValue),
-        siguienteDosis: updatedPlan.siguienteDosis,
-        ultimaDosis: updatedPlan.ultimaDosis,
-        dosisEnPastillas: updatedPlan.dosisEnPastillas,
-        nombreDeMedicamento: updatedPlan.nombreDeMedicamento,
-        frecuencia: updatedPlan.frecuencia,
-        numCabina: updatedPlan.numCabina
-        };
-        console.log({ "RequestBody":requestBody });
-        // Realizar la solicitud POST a la ruta de modificación
-        const response = await API.post(
-          `planDeConsumoProgramado/modificar`,
-
-          requestBody,
-          {params: {idUsuario: 1}}
-        );
-
-        // Verificar si la solicitud fue exitosa (código de estado 200)
-        if (response.status === 200) {
-          Alert.alert("Éxito", "Plan de consumo modificado exitosamente");
-          console.log("Se mando al servidor", requestBody);
-        } else {
-          Alert.alert("Error", "Hubo un error al modificar el plan de consumo");
-        }
-      } catch (error) {
-        // Manejar errores de red o del servidor
-        console.error("Error al modificar el plan de consumo:", error);
-        if (isAxiosError(error)) {
-          console.error(error.response?.status);
-          console.error(error.response?.status)
-        }
-        Alert.alert("Error", "Hubo un error al modificar el plan de consumo");
-      }
-    } else {
-      Alert.alert(
-        "Error",
-        "Debe seleccionar un Plan de Consumo antes de modificar",
-      );
-    }
-  };
-
   return (
     <View style={styles.container}>
       <View>
-        <TextInput style={styles.title}>Consultar Plan de Consumo</TextInput>
+        <Text style={styles.title}>Consultar Plan de Consumo</Text>
       </View>
-      <ScrollView style={{width:"95%"}}>
+      <ScrollView style={{ width: "95%" }}>
         <View>
-          <TextInput style={[styles.Subtitle]}>
+          <Text style={[styles.Subtitle]}>
             Seleccione el Plan de Consumo:
-          </TextInput>
+          </Text>
           <Picker
             selectedValue={selectedValue}
-            onValueChange={(itemValue) => {
-              console.log({ itemValue });
-              setSelectedValue(itemValue);
-            }}
+            onValueChange={(itemValue) => setSelectedValue(itemValue)}
           >
             <Picker.Item label="Seleccione un Plan de Consumo" value={null} />
             {data.map((item) => (
               <Picker.Item
                 key={`PC-${item.id}`}
                 label={item.nombreDeMedicamento}
-                value={item.id}
+                value={item.id.toString()}
               />
             ))}
           </Picker>
         </View>
         <View style={[styles.infoConteiner]}>
-          <TextInput style={[styles.SubtitleH3]}>
+          <Text style={[styles.SubtitleH3]}>
             Detalles del plan de consumo:
-          </TextInput>
+          </Text>
           <View style={[styles.info]}>
-            <TextInput style={[styles.Subtitle]}>ID Plan de Consumo:</TextInput>
-            <TextInput style={[styles.respuestaCard, styles.respuestaText]}>
-              {selected?.id}
-            </TextInput>
+            <Text style={[styles.Subtitle]}>ID Plan de Consumo:</Text>
+            <Text style={[styles.respuestaCard, styles.respuestaText]}>
+              {updatedPlan.id}
+            </Text>
           </View>
           <View style={[styles.info]}>
-            <TextInput style={[styles.Subtitle]}>
+            <Text style={[styles.Subtitle]}>
               Nombre del medicamento:
-            </TextInput>
-            <TextInput style={[styles.respuestaCard, styles.respuestaText]}>
-              {selected?.nombreDeMedicamento}
-            </TextInput>
+            </Text>
+            <TextInput
+              style={[styles.respuestaCard, styles.respuestaText]}
+              value={updatedPlan.nombreDeMedicamento}
+              onChangeText={(value) => handleInputChange("nombreDeMedicamento", value)}
+            />
           </View>
           <View style={styles.box}>
             <View style={[styles.column, { flex: 1 }]}>
-              <TextInput style={[styles.Subtitle]}>Frecuencia:</TextInput>
-              <TextInput style={[styles.respuestaCard, styles.respuestaText]}>
-                {selected?.frecuencia}
-              </TextInput>
+              <Text style={[styles.Subtitle]}>Frecuencia:</Text>
+              <TextInput
+                style={[styles.respuestaCard, styles.respuestaText]}
+                value={updatedPlan.frecuencia}
+                onChangeText={(value) => handleInputChange("frecuencia", value)}
+              />
             </View>
             <View style={[styles.column, { flex: 1 }]}>
-              <TextInput style={[styles.Subtitle]}>Dosis:</TextInput>
+              <Text style={[styles.Subtitle]}>Dosis:</Text>
               <View style={[{ flexDirection: "column" }]}>
                 <TextInput
                   style={[
@@ -223,9 +168,9 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
                     styles.respuestaText,
                     { width: "auto" },
                   ]}
-                >
-                  {selected?.dosisEnPastillas}
-                </TextInput>
+                  value={updatedPlan.dosisEnPastillas}
+                  onChangeText={(value) => handleInputChange("dosisEnPastillas", value)}
+                />
                 <Text>comprimido(s)</Text>
               </View>
             </View>
@@ -233,23 +178,27 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
 
           <View style={styles.box}>
             <View style={[styles.column, { flex: 1 }]}>
-              <TextInput style={[styles.Subtitle]}>Fecha de Inicio:</TextInput>
-              <TextInput style={[styles.respuestaCard, styles.respuestaText]}>
-                {selected?.siguienteDosis}
-              </TextInput>
+              <Text style={[styles.Subtitle]}>Fecha de Inicio:</Text>
+              <TextInput
+                style={[styles.respuestaCard, styles.respuestaText]}
+                value={updatedPlan.siguienteDosis}
+                onChangeText={(value) => handleInputChange("siguienteDosis", value)}
+              />
             </View>
             <View style={[styles.column, { flex: 1 }]}>
-              <TextInput style={[styles.Subtitle]}>Fecha de Fin:</TextInput>
-              <TextInput style={[styles.respuestaCard, styles.respuestaText]}>
-                {selected?.ultimaDosis}
-              </TextInput>
+              <Text style={[styles.Subtitle]}>Fecha de Fin:</Text>
+              <TextInput
+                style={[styles.respuestaCard, styles.respuestaText]}
+                value={updatedPlan.ultimaDosis}
+                onChangeText={(value) => handleInputChange("ultimaDosis", value)}
+              />
             </View>
           </View>
 
           <View style={[styles.boxButtons]}>
             <TouchableOpacity
               style={[styles.styleButton, { backgroundColor: "#354F92" }]}
-              onPress={handleModificarPlan}
+              onPress={handleUpdatePlan}
             >
               <FontAwesome name="edit" size={24} color="white" />
               <Text style={styles.buttonText}>Modificar</Text>
