@@ -7,6 +7,7 @@ import { RootStackParamList } from '../routes';
 import CustomText from './src/ui/Text';
 import colors from './src/colors';
 import { customStyles } from './src/ui/Text';
+import { getUsuarios } from './metodos/serviceAPI';
 
 
 interface FormData {
@@ -23,31 +24,22 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onSubmit = (data: FormData) => {
-    /*
-     if (email === "dev2") {
-        Alert.alert("Error", "El correo electrónico es requerido");
-        return;
+  const handleLogin = async () => {
+    try {
+      const user = await getUsuarios(2); // Obtener los datos del usuario con id=1 (ejemplo)
+
+      // Verificar las credenciales
+      if (email === user.correo && password === user.password) {
+        // Credenciales válidas, redirigir a la siguiente pantalla
+        navigation.navigate('HomeScreen'); // Nombre de la pantalla a la que se redirige después del inicio de sesión
+      } else {
+        // Credenciales inválidas, mostrar mensaje de error
+        Alert.alert('Error', 'Correo electrónico o contraseña incorrectos');
       }
-  
-      if (password === "") {
-        Alert.alert("Error", "La contraseña es requerida");
-        return;
-      }
-  
-      if (password !== "123") {
-        Alert.alert("Error", "La contraseña es incorrecta");
-        return;
-      }
-  
-      if (email.includes("@gmail.com") === false) {
-        Alert.alert("Error", "El correo electrónico es inválido");
-        return;
-      }
-   */
-    navigation.navigate("HomeScreen");
-    // Aquí son las acciones con los datos del formulario, como autenticar al usuario, etc.
-    //
+    } catch (error) {
+      console.error('Error al obtener los datos del usuario:', error);
+      Alert.alert('Error', 'No se pudo iniciar sesión, inténtelo de nuevo más tarde');
+    }
   };
 
   return (
@@ -94,7 +86,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
         name="password"
         defaultValue=""
       />
-      <TouchableOpacity style={[styles.button, styles.buttonLogin]} onPress={handleSubmit(onSubmit)}>
+      <TouchableOpacity style={[styles.button, styles.buttonLogin]} onPress={handleLogin} >
         <CustomText>Iniciar Sesión</CustomText>
       </TouchableOpacity>
       <CustomText>¿No tienes cuenta?</CustomText>
