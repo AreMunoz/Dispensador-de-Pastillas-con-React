@@ -1,9 +1,6 @@
 import React from "react";
-import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList, RootTapParamList } from "../../routes";
-import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import colors from "../src/colors";
 import { Ionicons, AntDesign, Fontisto } from "@expo/vector-icons";
 
@@ -11,8 +8,48 @@ type HomeSectionProps = {
   onPress: () => void;
 };
 
+type AlertItem = {
+  id: string;
+  type: string;
+  message: string;
+  date: string;
+};
+
+const alertData: AlertItem[] = [
+  { id: '1', type: 'medicine', message: 'Medicamento: Paracetamol', date: '2024-06-30 12:00' },
+  { id: '2', type: 'reminder', message: 'Recordatorio: Tomar agua', date: '2024-06-30 14:00' },
+  // Agrega más alertas según sea necesario
+];
+
 const HomeSection = ({ onPress }: HomeSectionProps) => {
   const navigation = useNavigation(); // Obtiene el objeto navigation para navegar entre pantallas
+
+  const renderItem = ({ item }: { item: AlertItem }) => (
+    <View>
+
+<View style={styles.boxAlertContainer}>
+      <View style={[styles.tituloContainer, styles.titleNextMedicine]}>
+        <Text style={styles.tituloTexto}>{item.type === 'medicine' ? 'Próximo medicamento:' : 'Recordatorio:'}</Text>
+      </View>
+      <View style={{ padding: 5, paddingTop: 20 }}>
+        <View style={styles.card}>
+          {item.type === 'medicine' ? (
+            <AntDesign name="medicinebox" size={24} color="black" />
+          ) : (
+            <Ionicons name="water" size={24} color="black" />
+          )}
+          <Text style={styles.textFormat}>{item.message}</Text>
+        </View>
+        <View style={styles.card}>
+          <Fontisto name="date" size={24} color="black" />
+          <Text style={styles.textFormat}>{item.date}</Text>
+        </View>
+      </View>
+     
+    </View>
+    <View style={styles.line}></View>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
@@ -28,42 +65,17 @@ const HomeSection = ({ onPress }: HomeSectionProps) => {
         <Text style={styles.subtitle}>Alertas:</Text>
       </View>
 
-      <View style={[styles.boxAlertContainer, styles.boxNextMedicine]}>
-        <View style={[styles.tituloContainer, styles.titleNextMedicine]}>
-          <Text style={styles.tituloTexto}>Próximo medicamento: </Text>
-        </View>
-        <View style={{ padding: 5, paddingTop: 20 }}>
-          <View style={styles.card}>
-            <AntDesign name="medicinebox" size={24} color="black" />
-            <Text style={styles.textFormat}>Medicamento: Paracetamol </Text>
-          </View>
-          
-          <View style={styles.card}>
-          <Fontisto name="date" size={24} color="black" />
-            <Text style={styles.textFormat}>Fecha: 2024-06-30 12:00</Text>
-          </View>
-
-        </View>
-      </View>
-
-      <View style={styles.line}></View>
-
-      <View style={[styles.boxAlertContainer, styles.boxNewTime]}>
-        <View style={[styles.tituloContainer, styles.titleNewTime]}>
-          <Text adjustsFontSizeToFit style={styles.tituloTexto}>Medicamento No Consumido:</Text>
-        </View>
-        <View style={{ padding: 5, paddingTop: 20 }}>
-        <View style={styles.card}>
-            <AntDesign name="medicinebox" size={24} color="black" />
-            <Text style={styles.textFormat}>Medicamento: Paracetamol</Text>
-          </View>
-          <View style={styles.card}>
-          <Ionicons name="timer" size={24} color="black" />
-            <Text style={styles.textFormat}>Se reprogramará para la siguiente hora:</Text>
-          </View>
-          <Text style={[styles.textFormat, {textAlign: "center"}]}>11:00</Text>
-        </View>
-      </View>
+      <FlatList
+        data={alertData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={{
+          flexGrow: 1,
+          // justifyContent: "flex-start",
+          // flex: 1,
+        }}
+        style={[styles.lista]}
+      />
     </View>
   );
 };
@@ -76,6 +88,13 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "white",
   },
+  lista: {
+    width: "90%",
+    alignSelf: "center",
+    alignContent: "center",
+    marginBottom: 20,
+    flex: 1,
+  },
   button: {
     backgroundColor: colors.Orange.dark,
     padding: 10,
@@ -85,18 +104,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
+    marginTop: 60,
   },
   buttonText: {
     color: "white",
     marginLeft: 20,
     fontSize: 22,
   },
-
   subtitle: {
     fontFamily: "Montserrat-Bold",
     fontSize: 18,
     marginTop: 20,
-    marginBottom: 50,
+    marginBottom: 20,
   },
   line: {
     borderBlockColor: colors.Red.light,
@@ -105,7 +124,6 @@ const styles = StyleSheet.create({
     height: 5,
     marginTop: 10,
   },
-
   tituloContainer: {
     borderWidth: 1,
     padding: 10,
@@ -120,19 +138,20 @@ const styles = StyleSheet.create({
     backgroundColor: colors.Alert.green,
     borderColor: colors.Alert.green,
   },
-
   titleNewTime: {
     backgroundColor: colors.Alert.red,
     borderColor: colors.Alert.red,
   },
   boxAlertContainer: {
+    
     borderWidth: 3,
-    padding: 10,
+    borderColor: colors.Alert.green,
+  padding:10,
     margin: 5,
-    marginTop: 10,
-    marginBottom: 25,
+    marginTop:40,
+    gap: 10,
     height: "auto",
-    width: "90%",
+    width: "95%",
     borderRadius: 10,
     backgroundColor: "white",
   },
@@ -143,7 +162,6 @@ const styles = StyleSheet.create({
     borderColor: colors.Alert.red,
     marginTop: 60,
   },
-
   tituloTexto: {
     color: "white",
     fontWeight: "bold",

@@ -25,6 +25,25 @@ export const useCreateUsuario = () => {
   });
 };
 
+//get usuarios
+export type UsuarioResponse = {
+  id: number;
+  correo: string;
+  nombreUsuario: string;
+  password: string;
+};
+
+export const getUsuarios = async (id:number) => {
+  try {
+    const { data } = await API.get(`/usuarios/obtener`, {
+      params: { id },
+    });
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 //POST Plan de Consumo
 export type planesDeConsumo = {
   siguienteDosis: string; //fecha de inicio

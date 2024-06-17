@@ -1,5 +1,6 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { API } from "../services/const";
+import axios from "axios";
 
 //POST cabinas/vaciar
 export type vaciarCabina = {
@@ -33,5 +34,22 @@ export const postDesatascarCabina = async (payload: desatascarCabina) => {
     return data;
   } catch (error) {
     console.error(error);
+  }
+};
+
+const health_URL = 'http://20.55.48.15:8080/planDeConsumoDispensado/health';
+
+//GET cabinas/obtenerEstado
+export const getHealthStatus = async () => {
+  try {
+    const response = await axios.get(health_URL);
+    console.log("HTTP Status servicio:", response.status); // Imprimir el estado HTTP
+    console.log("Response Data:", response.data);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log("HTTP Status:", error.response?.status); // Imprimir el estado HTTP en caso de error
+    }
+    throw error;
   }
 };

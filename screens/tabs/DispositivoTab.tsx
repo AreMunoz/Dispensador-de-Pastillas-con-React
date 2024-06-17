@@ -12,32 +12,43 @@ import { useForm, Controller } from "react-hook-form";
 import { MaterialIcons, MaterialCommunityIcons, Feather, FontAwesome5 } from "@expo/vector-icons";
 import colors from "../src/colors";
 import { useNavigation } from "@react-navigation/native";
+import { getHealthStatus } from "../metodos/dispositivoAPI";
 
 interface FormData {
   IDcabina: string;
 }
 
 const IP = "20.83.162.105";
+type CabinStatus = "Conectado" | "Desconectado" | null;
 
 const DispositivoTab = () => {
   const { control, getValues } = useForm<FormData>();
   const [connectedCabins, setConnectedCabins] = useState<string[]>([]);
+ 
+  const [cabinStatus, setCabinStatus] = useState<{
+    cabina1: CabinStatus;
+    cabina2: CabinStatus;
+    cabina3: CabinStatus;
+  }>({
+    cabina1: null,
+    cabina2: null,
+    cabina3: null,
+  });
   const navigation = useNavigation();
 
-  const handlePress = () => {
-    const ip = getValues("IDcabina");
-    if (ip === IP) {
-      Alert.alert("Estableciendo conexión con el dispensador", "", [], {
-        cancelable: false,
+  const handlePress = async () => {
+    try {
+      const data = await getHealthStatus();
+      console.log("Received data pulsando boton:", data);
+      setCabinStatus({
+        cabina1: data.cabina1 ? "Desconectado" : "Conectado",
+        cabina2: data.cabina2 ? "Desconectado" : "Conectado",
+        cabina3: data.cabina3 ? "Desconectado" : "Conectado",
       });
-      setTimeout(() => {
-        Alert.alert("Éxito", `Conexión exitosa con la IP ${IP}`);
-        setConnectedCabins([...connectedCabins, ip]);
-      }, 2000);
-    } else {
-      setTimeout(() => {
-        Alert.alert("Error", `No se puede establecer conexión con la IP ${ip}`);
-      }, 2000);
+      console.log("HTTP Status: 200"); // Confirm successful status
+    } catch (error) {
+      console.log("HTTP Status: 500"); // Confirm error status
+      Alert.alert("Error", "No se pudo obtener el estado de las cabinas");
     }
   };
 
@@ -45,25 +56,11 @@ const DispositivoTab = () => {
     <View style={styles.container}>
       <View>
         <Text style={styles.title}>Vincular Dispositivo</Text>
+        <Text style={styles.textFormat}>Presione para validar el estado de la cabina</Text>
       </View>
 
       <View style={styles.buttonContainer}>
-        <Text style={styles.textFormat}>Ingrese la IP de la cabina</Text>
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.input}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholder="IP de la cabina"
-              keyboardType="numeric"
-            />
-          )}
-          name="IDcabina"
-          defaultValue=""
-        />
+
         <View>
           <TouchableOpacity
             style={[
@@ -75,39 +72,54 @@ const DispositivoTab = () => {
           >
             <MaterialIcons name="on-device-training" size={32} color="white" />
             <Text style={[styles.textFormat, styles.buttonText]}>
-              Vincular Cabina
+              Estado de la cabina
             </Text>
           </TouchableOpacity>
         </View>
 
+
         <View style={styles.alertContainer}>
           <View style={styles.tituloContainer}>
-            <Text style={styles.tituloTexto}>Estado del Dispensador</Text>
+            <Text style={styles.tituloTexto}>Estado de la cabina</Text>
           </View>
           <View>
             <View style={styles.card}>
               <Feather name="inbox" size={24} color="black" />
-              <Text style={styles.textFormat}>
-                Cabina 1: {connectedCabins.includes(IP) && <Text style={{ color: 'green' }}>conectada</Text>}
+              <Text style={styles.textFormat}>Cabina 1:</Text>
+              <Text style={[
+                  styles.textFormat,
+                  { color: cabinStatus.cabina1 === "Conectado" ? "green" : "red" },
+                ]}>
+                {cabinStatus.cabina1 || "Desconocido"}
               </Text>
             </View>
 
             <View style={styles.card}>
               <Feather name="inbox" size={24} color="black" />
-              <Text style={styles.textFormat}>
-                Cabina 2: {connectedCabins.includes(IP) && <Text style={{ color: 'green' }}>conectada</Text>}
+              <Text style={styles.textFormat}>Cabina 2:</Text>
+              <Text style={[
+                  styles.textFormat,
+                  { color: cabinStatus.cabina2 === "Conectado" ? "green" : "red" },
+                ]}>
+                {cabinStatus.cabina2 || "Desconocido"}
               </Text>
             </View>
 
             <View style={styles.card}>
               <Feather name="inbox" size={24} color="black" />
-              <Text style={styles.textFormat}>
-                Cabina 3: {connectedCabins.includes(IP) && <Text style={{ color: 'green' }}>conectada</Text>}
+              <Text style={styles.textFormat}>Cabina 3:</Text>
+              <Text style={[
+                  styles.textFormat,
+                  { color: cabinStatus.cabina3 === "Conectado" ? "green" : "red" },
+                ]}>
+                 {cabinStatus.cabina3 || "Desconocido"} 
               </Text>
             </View>
           </View>
         </View>
 
+
+        <Text style={styles.textFormat}>Acciones manuales para las cabinas del dispensador</Text>
         <TouchableOpacity
           style={[styles.buttonManual, styles.color1Button]}
           
@@ -149,6 +161,9 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     backgroundColor: "white",
+    alignContent: "center",
+    justifyContent: "center",
+
   },
   title: {
     fontFamily: "Montserrat-Bold",

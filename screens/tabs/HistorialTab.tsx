@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
-  Button,
   StyleSheet,
-  ScrollView,
   FlatList,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import colors from "../src/colors";
 import axios from "axios";
 import { Fontisto, AntDesign, Ionicons, Feather } from "@expo/vector-icons";
@@ -21,16 +19,39 @@ type HistorialSectionProps = {
 const HistorialSection = ({ onPress }: HistorialSectionProps) => {
   const navigation = useNavigation(); // Obtiene el objeto navigation para navegar entre pantallas
   const [data, setData] = useState<HistorialConsumoRespose[]>([]);
+  const flatListRef = useRef<FlatList>(null);
+  
+  const fetchHistorialData = async () => {
+    try {
+      const response = await API.get<HistorialConsumoRespose[]>("/planDeConsumoDispensado/obtenerPlanes");
+      console.log({ data: response.data });
+      setData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchHistorialData();
+    }, [])
+  );
 
   useEffect(() => {
-    API.get<HistorialConsumoRespose[]>("/planDeConsumoDispensado/obtenerPlanes")
-      .then((response) => {
-        console.log({ data: response.data });
-        const { data } = response;
-        setData(data);
-      })
-      .catch((error) => console.error(error));
-  }, []);
+    if (data.length > 0 && flatListRef.current) {
+      flatListRef.current.scrollToEnd({ animated: true });
+    }
+  }, [data]);
+
+  // useEffect(() => {
+  //   API.get<HistorialConsumoRespose[]>("/planDeConsumoDispensado/obtenerPlanes")
+  //     .then((response) => {
+  //       console.log({ data: response.data });
+  //       const { data } = response;
+  //       setData(data);
+  //     })
+  //     .catch((error) => console.error(error));
+  // }, []);
 
   const renderItem = ({ item }: { item: HistorialConsumoRespose }) => {
     //const textColor = item.dosificado ? "green" : "red";
