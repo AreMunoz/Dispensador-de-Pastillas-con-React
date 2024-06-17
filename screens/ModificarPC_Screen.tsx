@@ -50,9 +50,12 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
     dosisEnPastillas: 0,
     siguienteDosis: "",
     ultimaDosis: "",
-    numCabina: "",
+    numCabina: 0,
+    estado: false,
   });
 
+
+  const [selectedEstado, setSelectedEstado] = useState<boolean>(false);
   const updatePlanMutation = useUpdatePlanConsumo();
 
   useEffect(() => {
@@ -77,8 +80,10 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
           dosisEnPastillas: parseInt(selected.dosisEnPastillas),
           nombreDeMedicamento: selected.nombreDeMedicamento,
           frecuencia: parseInt(selected.frecuencia), // Parse frecuencia as an integer
-          numCabina: selected.numCabina,
+          numCabina: parseInt(selected.numCabina), // Convert numCabina to a number
+          estado: selected.estado,
         });
+        setSelectedEstado(selected.estado); 
       }
     }
   }, [selectedValue, data]);
@@ -89,6 +94,15 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
       [name]: value,
     });
   };
+
+  const handleEstadoChange = (estado: boolean) => {
+    setSelectedEstado(estado);
+    setUpdatedPlan({
+      ...updatedPlan,
+      estado: estado,
+    });
+  };
+
 
   const handleUpdatePlan = async () => {
     if (selectedValue) {
@@ -157,6 +171,7 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
                 style={[styles.respuestaCard, styles.respuestaText]}
                 value={updatedPlan.frecuencia.toString()} // Convert the value to a string
                 onChangeText={(value) => handleInputChange("frecuencia", value)}
+                keyboardType="numeric"
               />
             </View>
             <View style={[styles.column, { flex: 1 }]}>
@@ -170,6 +185,7 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
                   ]}
                   value={updatedPlan.dosisEnPastillas.toString()} // Convert the value to a string
                   onChangeText={(value) => handleInputChange("dosisEnPastillas", value)}
+                  keyboardType="numeric"
                 />
                 <Text>comprimido(s)</Text>
               </View>
@@ -183,6 +199,7 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
                 style={[styles.respuestaCard, styles.respuestaText]}
                 value={updatedPlan.siguienteDosis}
                 onChangeText={(value) => handleInputChange("siguienteDosis", value)}
+         
               />
             </View>
             <View style={[styles.column, { flex: 1 }]}>
@@ -191,7 +208,31 @@ export const ModificarPC_Screen = ({ navigation, route }: ModificarProps) => {
                 style={[styles.respuestaCard, styles.respuestaText]}
                 value={updatedPlan.ultimaDosis}
                 onChangeText={(value) => handleInputChange("ultimaDosis", value)}
+            
               />
+            </View>
+          </View>
+
+          <View style={styles.box}>
+            <View style={[styles.column, { flex: 1 }]}>
+              <Text style={[styles.Subtitle]}>Cabina:</Text>
+              <TextInput
+                style={[styles.respuestaCard, styles.respuestaText]}
+                value={updatedPlan.numCabina.toString()} // Convert the value to a string
+                onChangeText={(value) => handleInputChange("numCabina", value)}
+                keyboardType="numeric"
+              />
+            </View>
+            <View style={[styles.column, { flex: 1 }]}>
+              <Text style={[styles.Subtitle]}>Estado:</Text>
+              <Picker
+                selectedValue={selectedEstado}
+                onValueChange={(itemValue) => handleEstadoChange(itemValue)}
+                style={[styles.respuestaCard, styles.respuestaText]}
+              >
+                <Picker.Item label="Activo" value={true} />
+                <Picker.Item label="Inactivo" value={false} />
+              </Picker>
             </View>
           </View>
 

@@ -26,7 +26,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
 
   const handleLogin = async () => {
     try {
-      const user = await getUsuarios(2); // Obtener los datos del usuario con id=1 (ejemplo)
+      const user = await getUsuarios(1); // Obtener los datos del usuario con id=1 (ejemplo)
 
       // Verificar las credenciales
       if (email === user.correo && password === user.password) {

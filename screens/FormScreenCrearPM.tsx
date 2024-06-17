@@ -36,7 +36,7 @@ type Formulario = {
 
 const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
   const { mutateAsync, isPending } = useCreatePlanConsumo();
-  const { control, handleSubmit, getValues, formState: { errors }, trigger  } = useForm<Formulario>({
+  const { control, handleSubmit, getValues, setValue, formState: { errors }, trigger  } = useForm<Formulario>({
     defaultValues: {
       nombreDeMedicamento: "",
       dosisEnPastillas: "",
@@ -72,6 +72,8 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
   
   const onSubmit: SubmitHandler<Formulario> = async (data) => {
     const isValid = await trigger();
+    console.log("Datos enviados al servidor:", data);
+
     if (isValid) {
       try {
         await mutateAsync({
@@ -84,6 +86,7 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
           numCabina: data.numCabina,
 
         });
+        console.log("Datos enviados al servidor ANUNCIO:", data);
         Alert.alert(
           "Plan de consumo creado correctamente en el servidor",
           "",
@@ -92,13 +95,21 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
         );
       } catch (error) {
         console.error(error);
+        console.log("Datos enviados al servidor ERROR:", data);
+
       }
     } else {
       Alert.alert("Por favor, complete todos los campos del formulario.");
     }
   };
   
-  
+  const handleSiguienteDosisChange = (selectedDate: string) => {
+    setValue("siguienteDosis", selectedDate);
+  };
+
+  const handleUltimaDosisChange = (selectedDate: string) => {
+    setValue("ultimaDosis", selectedDate);
+  };
 
   return (
     <KeyboardAvoidingView
@@ -207,6 +218,7 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
             name="siguienteDosis"
             defaultValue=""
           />
+              <DatePickerForm onDateChange={handleSiguienteDosisChange} />
           <Text>Fecha de fin:</Text>
           <Controller
             control={control}
@@ -227,6 +239,7 @@ const FormScreenCrearPM = ({ navigation, route }: FormScreenCrearPMProps) => {
             name="ultimaDosis"
             defaultValue=""
           />
+         <DatePickerForm onDateChange={handleUltimaDosisChange} />
           <Text>Cabina:</Text>
           <Controller
             control={control}

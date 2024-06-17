@@ -2,7 +2,12 @@ import { useState } from "react";
 import { View, Button, Platform, StyleSheet, Text } from "react-native";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 
-export default function DatePickerForm() {
+
+type DatePickerFormProps = {
+  onDateChange: (date: string) => void;
+};
+
+export default function DatePickerForm({ onDateChange }: DatePickerFormProps)  {
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [mode, setMode] = useState<"date" | "time">("date");
@@ -13,10 +18,24 @@ export default function DatePickerForm() {
     setShow(Platform.OS === "ios");
     setDate(currentDate);
 
-    let tempDate = new Date(currentDate);
-    let fdate = tempDate.getDate() + "/" + (tempDate.getMonth() + 1) + "/" + tempDate.getFullYear();
-    let ftime = tempDate.getHours() + ":" + tempDate.getMinutes() + ":" + tempDate.getSeconds();
-    setText(fdate + " " + ftime);
+    const formattedDate = formatDate(currentDate);
+    setText(formattedDate);
+    onDateChange(formattedDate);
+  };
+
+  const formatDate = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+
+    const formattedDate = `${year}-${padZero(month)}-${padZero(day)} ${padZero(hours)}:${padZero(minutes)}`;
+    return formattedDate;
+  };
+
+  const padZero = (num: number): string => {
+    return num < 10 ? `0${num}` : num.toString();
   };
 
   const showMode = (currentMode: "date" | "time") => {
@@ -26,10 +45,10 @@ export default function DatePickerForm() {
 
   return (
     <View>
-      <View>
+      <View style={styles.bottons}>
         <Text>{text}</Text>
         <Button onPress={() => showMode("date")} title="Fecha" />
-        <Button onPress={() => showMode("time")} title="tiempo" />
+        <Button onPress={() => showMode("time")} title="Hora" />
       </View>
       {show && (
         <DateTimePicker
@@ -46,5 +65,9 @@ export default function DatePickerForm() {
 }
 
 const styles = StyleSheet.create({
-  // Puedes agregar estilos aquí si los necesitas
+  bottons:{
+    flexDirection: "row",
+    justifyContent: "space-between",
+    margin: 10,
+  },
 });

@@ -94,7 +94,8 @@ export type UpdatePlanConsumoBody = {
   dosisEnPastillas: number;
   nombreDeMedicamento: string;
   frecuencia: number;
-  numCabina: string;
+  numCabina: number;
+  estado: boolean;
 };
 export const postUpdatePlanConsumo = async (
   payload: UpdatePlanConsumoRequest,
@@ -167,6 +168,7 @@ export type PlanDeConsumoResponse = {
   nombreDeMedicamento: string;
   frecuencia: string;
   numCabina: string;
+  estado: boolean;
 };
 
 export const getPlanesDeConsumo = async (idPlanDeConsumo: string) => {

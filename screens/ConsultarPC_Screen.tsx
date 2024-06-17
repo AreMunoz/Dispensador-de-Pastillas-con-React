@@ -5,7 +5,6 @@ import { RootStackParamList } from "../routes";
 import { Ionicons, FontAwesome5, FontAwesome } from "@expo/vector-icons";
 import colors from "./src/colors";
 import { Picker } from "@react-native-picker/picker";
-import axios from "axios";
 import { CustomButton } from "./components/CustomButton";
 import { API } from "./services/const";
 import {
@@ -123,7 +122,7 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
             <View style={[styles.column, { flex: 1 }]}>
               <Text style={[styles.Subtitle]}>Frecuencia:</Text>
               <Text style={[styles.respuestaCard, styles.respuestaText]}>
-                {selected?.frecuencia}
+                {selected?.frecuencia} min.
               </Text>
             </View>
             <View style={[styles.column, { flex: 1 }]}>
@@ -145,6 +144,21 @@ const ConsultarPC_Screen = ({ navigation }: ConsultarPCScreenProps) => {
               <Text style={[styles.Subtitle]}>Fecha de Fin:</Text>
               <Text style={[styles.respuestaCard, styles.respuestaText]}>
                 {selected?.ultimaDosis}
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.box}>
+            <View style={[styles.column, { flex: 1 }]}>
+              <Text style={[styles.Subtitle]}>Cabina:</Text>
+              <Text style={[styles.respuestaCard, styles.respuestaText]}>
+                {selected?.numCabina}
+              </Text>
+            </View>
+            <View style={[styles.column, { flex: 1 }]}>
+              <Text style={[styles.Subtitle]}>Estado:</Text>
+              <Text style={[styles.respuestaCard, styles.respuestaText]}>
+              {selected?.estado ? "true" : "false"}
               </Text>
             </View>
           </View>
