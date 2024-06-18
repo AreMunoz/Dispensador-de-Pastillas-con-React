@@ -249,3 +249,20 @@ export const getAlertas = async (id: number) => {
     console.error(error);
   }
 }
+
+//post demandaPorCabina solo numCabina es requerido
+export type demandaPorCabina = {
+  numCabina: string;
+};
+
+export const postDemandaPorCabina = async (payload: demandaPorCabina) => {
+  try {
+    const { data } = await API.post("/cabinas/demandaPorCabina", payload, {
+      params: { numCabina: payload.numCabina },
+    })
+    ;
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};

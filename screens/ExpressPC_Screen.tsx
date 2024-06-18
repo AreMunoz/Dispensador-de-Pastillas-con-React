@@ -22,7 +22,7 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
 
   const [data, setData] = useState<PlanDeConsumoResponse[]>([]);
   const [selectedItem, setSelectedItem] = useState<PlanDeConsumoResponse | null>(null);
-  const [quantity, setQuantity] = useState<string>("");
+
 
   useEffect(() => {
     // Usando Axios
@@ -35,23 +35,17 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
   }, []);
 
 
-  const handleItemPress = (item: PlanDeConsumoResponse) => {
-    setSelectedItem(item);
-    setQuantity(""); // Reset quantity input
-  };
+
     // Filtrar solo los planes de consumo que tienen estado true
     const filteredData = data.filter((item) => item.estado);
 
-    const handleDespachar = () => {
-      if (selectedItem && quantity.trim() !== "") {
-        // Aquí podrías realizar la lógica para despachar
-        console.log(`Despachando ${quantity} unidades de ${selectedItem.nombreDeMedicamento}`);
-        // Reiniciar el estado después de despachar
-        setSelectedItem(null);
-        setQuantity("");
-      } else {
-        console.warn("Debe seleccionar un medicamento y especificar la cantidad.");
-      }
+    const handleDemandaPorCabina = (numCabina: number) => {
+      API.post(`/cabinas/demandaPorCabina?numCabina=${numCabina}`)
+        .then((response) => {
+          console.log("Post response:", response.data);
+          // Manejar la respuesta de la petición POST aquí si es necesario
+        })
+        .catch((error) => console.error("Error en el POST:", error));
     };
 
     const renderItem = ({ item }: { item: PlanDeConsumoResponse }) => {
@@ -59,7 +53,7 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={[styles.buttonManual, styles.color2Button]}
-            onPress={() => handleItemPress(item)}
+            onPress={() => handleDemandaPorCabina(Number(item.numCabina))}
           >
             <MaterialIcons name="crisis-alert" size={24} color="white" />
             <Text style={styles.buttonText}>PC: {item.nombreDeMedicamento}</Text>
@@ -98,23 +92,7 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
         />
      
 
-     {selectedItem && (
-        <View style={styles.despacharContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Cantidad"
-            value={quantity}
-            onChangeText={setQuantity}
-            keyboardType="numeric"
-          />
-          <TouchableOpacity
-            style={[styles.buttonDespachar, styles.color2Button]}
-            onPress={handleDespachar}
-          >
-            <Text style={styles.buttonText}>Despachar</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+   
       
     </View>
   );

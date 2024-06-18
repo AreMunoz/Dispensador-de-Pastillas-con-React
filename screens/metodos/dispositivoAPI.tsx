@@ -53,3 +53,4 @@ export const getHealthStatus = async () => {
     throw error;
   }
 };
+
