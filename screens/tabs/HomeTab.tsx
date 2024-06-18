@@ -1,53 +1,57 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../src/colors";
 import { Ionicons, AntDesign, Fontisto } from "@expo/vector-icons";
+import { AlertasResponse } from "../metodos/serviceAPI";
+import { API } from "../services/const";
 
 type HomeSectionProps = {
   onPress: () => void;
 };
 
-type AlertItem = {
-  id: string;
-  type: string;
-  message: string;
-  date: string;
-};
-
-const alertData: AlertItem[] = [
-  { id: '1', type: 'medicine', message: 'Medicamento: Paracetamol', date: '2024-06-30 12:00' },
-  { id: '2', type: 'reminder', message: 'Recordatorio: Tomar agua', date: '2024-06-30 14:00' },
-  // Agrega más alertas según sea necesario
-];
-
 const HomeSection = ({ onPress }: HomeSectionProps) => {
   const navigation = useNavigation(); // Obtiene el objeto navigation para navegar entre pantallas
+  const [data, setData] = useState<AlertasResponse[]>([]);
 
-  const renderItem = ({ item }: { item: AlertItem }) => (
-    <View>
+  const fetchAlertData = async () => {
+    try {
+      const response = await API.get<AlertasResponse[]>("/planDeConsumoProgramado/alertasProximos");
+      console.log({ data: response.data });
+      setData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-<View style={styles.boxAlertContainer}>
-      <View style={[styles.tituloContainer, styles.titleNextMedicine]}>
-        <Text style={styles.tituloTexto}>{item.type === 'medicine' ? 'Próximo medicamento:' : 'Recordatorio:'}</Text>
-      </View>
-      <View style={{ padding: 5, paddingTop: 20 }}>
-        <View style={styles.card}>
-          {item.type === 'medicine' ? (
+  useEffect(() => {
+    fetchAlertData();
+  }, []);
+
+  const renderItem = ({ item }: { item: AlertasResponse }) => {
+    return (
+      <View style={styles.boxAlertContainer}>
+        <View style={[styles.tituloContainer, styles.titleNextMedicine]}>
+          <Text style={styles.tituloTexto}>Próximo medicamento:</Text>
+        </View>
+        <View style={{ padding: 5, paddingTop: 20 }}>
+          <View style={styles.card}>
             <AntDesign name="medicinebox" size={24} color="black" />
-          ) : (
-            <Ionicons name="water" size={24} color="black" />
-          )}
-          <Text style={styles.textFormat}>{item.message}</Text>
+            <Text style={styles.textFormat}>{item.nombreDeMedicamento}</Text>
+          </View>
+          <View style={styles.card}>
+            <Fontisto name="date" size={24} color="black" />
+            <Text style={styles.textFormat}>{item.siguienteDosis}</Text>
+          </View>
         </View>
-        <View style={styles.card}>
-          <Fontisto name="date" size={24} color="black" />
-          <Text style={styles.textFormat}>{item.date}</Text>
-        </View>
+        <View style={styles.line}></View>
       </View>
-     
-    </View>
-    <View style={styles.line}></View>
+    );
+  };
+
+  const renderEmptyComponent = () => (
+    <View style={styles.emptyContainer}>
+      <Text style={styles.emptyText}>No tienes alertas próximas</Text>
     </View>
   );
 
@@ -66,15 +70,14 @@ const HomeSection = ({ onPress }: HomeSectionProps) => {
       </View>
 
       <FlatList
-        data={alertData}
+        data={data}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        ListEmptyComponent={renderEmptyComponent}
+        keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={{
           flexGrow: 1,
-          // justifyContent: "flex-start",
-          // flex: 1,
         }}
-        style={[styles.lista]}
+        style={styles.lista}
       />
     </View>
   );
@@ -173,6 +176,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   card: { flexDirection: "row", gap: 16, marginBottom: 4 },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  emptyText: {
+    fontSize: 18,
+    color: "gray",
+    textAlign: "center",
+  },
 });
 
 export default HomeSection;

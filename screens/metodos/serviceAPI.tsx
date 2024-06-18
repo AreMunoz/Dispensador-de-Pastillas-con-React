@@ -226,3 +226,26 @@ export const useGetHistorialConsumo = (id: number) => {
     initialData: [],
   });
 };
+
+export type AlertasResponse = {
+  id: number;
+  siguienteDosis: string;
+  ultimaDosis: string;
+  dosisEnPastillas: string;
+  nombreDeMedicamento: string;
+  frecuencia: string;
+  numCabina: string;
+  estado: boolean;
+};
+
+//GET ALERTAS
+export const getAlertas = async (id: number) => {
+  try {
+    const { data } = await API.get<AlertasResponse[]>(
+      "/planDeConsumoProgramado/alertasProximos",
+    );
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}

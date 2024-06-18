@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Button, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../routes";
@@ -21,6 +21,8 @@ type ExpressPC_Props = StackScreenProps<RootStackParamList, "ExpressPC_Screen">;
 const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
 
   const [data, setData] = useState<PlanDeConsumoResponse[]>([]);
+  const [selectedItem, setSelectedItem] = useState<PlanDeConsumoResponse | null>(null);
+  const [quantity, setQuantity] = useState<string>("");
 
   useEffect(() => {
     // Usando Axios
@@ -32,20 +34,38 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
       .catch((error) => console.error(error));
   }, []);
 
-    const renderItem = ({ item }: { item: PlanDeConsumoResponse }) => {
-      return(
-        <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={[styles.buttonManual, styles.color2Button]}
-          onPress={() => navigation.navigate("DispensarPC_BajoDemanda" as never)}
-        >
-          <MaterialIcons name="crisis-alert" size={24} color="white" />
-          <Text style={styles.buttonText}>PC: {item.nombreDeMedicamento}</Text>
-        </TouchableOpacity>
-      </View>
-      );
-      
 
+  const handleItemPress = (item: PlanDeConsumoResponse) => {
+    setSelectedItem(item);
+    setQuantity(""); // Reset quantity input
+  };
+    // Filtrar solo los planes de consumo que tienen estado true
+    const filteredData = data.filter((item) => item.estado);
+
+    const handleDespachar = () => {
+      if (selectedItem && quantity.trim() !== "") {
+        // Aquí podrías realizar la lógica para despachar
+        console.log(`Despachando ${quantity} unidades de ${selectedItem.nombreDeMedicamento}`);
+        // Reiniciar el estado después de despachar
+        setSelectedItem(null);
+        setQuantity("");
+      } else {
+        console.warn("Debe seleccionar un medicamento y especificar la cantidad.");
+      }
+    };
+
+    const renderItem = ({ item }: { item: PlanDeConsumoResponse }) => {
+      return (
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={[styles.buttonManual, styles.color2Button]}
+            onPress={() => handleItemPress(item)}
+          >
+            <MaterialIcons name="crisis-alert" size={24} color="white" />
+            <Text style={styles.buttonText}>PC: {item.nombreDeMedicamento}</Text>
+          </TouchableOpacity>
+        </View>
+      );
     };
 
   return (
@@ -72,10 +92,29 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
     
         <Text>Planes de consumo activos:</Text>
         <FlatList
-          data={data}
-          renderItem={renderItem}
+        data={filteredData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
         />
      
+
+     {selectedItem && (
+        <View style={styles.despacharContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Cantidad"
+            value={quantity}
+            onChangeText={setQuantity}
+            keyboardType="numeric"
+          />
+          <TouchableOpacity
+            style={[styles.buttonDespachar, styles.color2Button]}
+            onPress={handleDespachar}
+          >
+            <Text style={styles.buttonText}>Despachar</Text>
+          </TouchableOpacity>
+        </View>
+      )}
       
     </View>
   );
@@ -144,6 +183,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
+  },
+  despacharContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 20,
+  },
+  input: {
+    height: 40,
+    width: 100,
+    borderColor: "gray",
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    marginRight: 10,
+  },
+  buttonDespachar: {
+    backgroundColor: colors.Blue.dark,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 10,
   },
 });
 
