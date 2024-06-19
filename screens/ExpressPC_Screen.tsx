@@ -56,7 +56,8 @@ const ExpressPC = ({ navigation, route }: ExpressPC_Props) => {
             onPress={() => handleDemandaPorCabina(Number(item.numCabina))}
           >
             <MaterialIcons name="crisis-alert" size={24} color="white" />
-            <Text style={styles.buttonText}>PC: {item.nombreDeMedicamento}</Text>
+            <Text style={styles.buttonText}>PC: {item.nombreDeMedicamento} Cabina: {item.numCabina}</Text>
+            
           </TouchableOpacity>
         </View>
       );

@@ -1,8 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../src/colors";
-import { Ionicons, AntDesign, Fontisto } from "@expo/vector-icons";
+import {
+  Ionicons,
+  AntDesign,
+  Fontisto,
+  FontAwesome5,
+} from "@expo/vector-icons";
 import { AlertasResponse } from "../metodos/serviceAPI";
 import { API } from "../services/const";
 
@@ -16,7 +27,9 @@ const HomeSection = ({ onPress }: HomeSectionProps) => {
 
   const fetchAlertData = async () => {
     try {
-      const response = await API.get<AlertasResponse[]>("/planDeConsumoProgramado/alertasProximos");
+      const response = await API.get<AlertasResponse[]>(
+        "/planDeConsumoProgramado/alertasProximos"
+      );
       console.log({ data: response.data });
       setData(response.data);
     } catch (error) {
@@ -25,7 +38,13 @@ const HomeSection = ({ onPress }: HomeSectionProps) => {
   };
 
   useEffect(() => {
-    fetchAlertData();
+    fetchAlertData(); // Fetch data on component mount
+
+    const intervalId = setInterval(() => {
+      fetchAlertData(); // Fetch data every 30 seconds
+    }, 30000);
+
+    return () => clearInterval(intervalId); // Clear interval on component unmount
   }, []);
 
   const renderItem = ({ item }: { item: AlertasResponse }) => {
@@ -43,8 +62,19 @@ const HomeSection = ({ onPress }: HomeSectionProps) => {
             <Fontisto name="date" size={24} color="black" />
             <Text style={styles.textFormat}>{item.siguienteDosis}</Text>
           </View>
+          <View style={styles.card}>
+            <FontAwesome5 name="tablets" size={24} color="black" />
+            <Text style={styles.textFormat}>
+              Dosis: {item.dosisEnPastillas}
+            </Text>
+          </View>
+          <View style={styles.card}>
+          <AntDesign name="inbox" size={24} color="black" />
+            <Text style={styles.textFormat}>
+              Número de cabina: {item.numCabina}
+            </Text>
+          </View>
         </View>
-        <View style={styles.line}></View>
       </View>
     );
   };
@@ -146,12 +176,11 @@ const styles = StyleSheet.create({
     borderColor: colors.Alert.red,
   },
   boxAlertContainer: {
-    
     borderWidth: 3,
     borderColor: colors.Alert.green,
-  padding:10,
+    padding: 10,
     margin: 5,
-    marginTop:40,
+    marginTop: 40,
     gap: 10,
     height: "auto",
     width: "95%",
